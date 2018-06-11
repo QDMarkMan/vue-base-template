@@ -15,7 +15,7 @@ module.exports = {
   plugins: [
     'vue'
   ],
-  // add your custom rules here
+  // add your custom rules here  ：0-pass；1-warning；2-error
   rules: {
     // allow different quotes
     "quotes": 0,
