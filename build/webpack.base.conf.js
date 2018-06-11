@@ -3,26 +3,34 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+const webpack = require('webpack')
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
+const pkg = require('../package.json')
+const happypackPlugin = require('./webpack.happypack')
 
-function resolve (dir) {
-  return path.join(__dirname, '..', dir)
+let resolve = dir => path.join(__dirname, '..', dir)
+// 处理版本号
+let dealVersion = str => str.indexOf('^') === -1 ? str : str.replace('^','')
+console.log(`当前vue版本 ${dealVersion(pkg.dependencies.vue)}`)
+// 需要排除的库 依赖包
+const externals = {}
+// 优化打包选项
+if(process.env.NODE_ENV === 'production'){
+  // 核心依赖包
+  externals['vue'] = 'Vue'
+  externals['jquery'] = 'jQuery'
 }
-
-const createLintingRule = () => ({
-  test: /\.(js|vue)$/,
-  loader: 'eslint-loader',
-  enforce: 'pre',
-  include: [resolve('src'), resolve('test')],
-  options: {
-    formatter: require('eslint-friendly-formatter'),
-    emitWarning: !config.dev.showEslintErrorsInOverlay
-  }
-})
-
+// 需要注入的cdn 引用的一些外部的样式
+const assets = (process.env.NODE_ENV === 'production' ? [
+  { path: `https://cdn.bootcss.com/vue/${dealVersion(pkg.dependencies.vue)}/vue.min.js`, type: 'js' },
+  { path: `https://cdn.bootcss.com/jquery/${dealVersion(pkg.dependencies.jquery)}/jquery.min.js`,type: 'js'},
+] : []).concat([
+  {path: `https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css`, type: 'css'}
+])
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    app: ["babel-polyfill", "./src/main.js"], // 垫片
   },
   output: {
     path: config.build.assetsRoot,
@@ -31,16 +39,62 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  // 不需要打包的部分
+  externals,
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
+      'jquery': 'jquery',
       '@': resolve('src'),
+      'src': path.resolve(__dirname, '../src'),
+      'assets': path.resolve(__dirname, '../src/assets'),
+      'components': path.resolve(__dirname, '../src/components'),
+      'views': path.resolve(__dirname, '../src/views'),
+      'styles': path.resolve(__dirname, '../src/styles'),
+      'api': path.resolve(__dirname, '../src/api'),
+      'utils': path.resolve(__dirname, '../src/utils'),
+      'store': path.resolve(__dirname, '../src/store'),
+      'router': path.resolve(__dirname, '../src/router'),
+      'vendor': path.resolve(__dirname, '../src/vendor'),
+      'static': path.resolve(__dirname, '../static')
     }
   },
+  plugins: [
+    //配置全局使用 jquery
+    new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery",
+        jquery: "jquery",
+        "window.jQuery": "jquery"
+    }),
+    // 插入文件
+    new HtmlWebpackIncludeAssetsPlugin({
+      assets,
+      append: process.env.NODE_ENV !== 'production',
+      publicPath: '',
+    }),
+    // 添加DllReferencePlugin插件
+    new webpack.DllReferencePlugin({
+        context: path.resolve(__dirname, '..'),
+        manifest: require('./vendor-manifest.json')
+    }),
+    // happypack配置
+    ...happypackPlugin
+  ],
   module: {
+    noParse: /node_modules\/(element-ui\.js)/,
     rules: [
-      ...(config.dev.useEslint ? [createLintingRule()] : []),
+      ...(config.dev.useEslint? [{
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        enforce: 'pre',
+        include: [resolve('src'), resolve('test')],
+        options: {
+          formatter: require('eslint-friendly-formatter'),
+          emitWarning: !config.dev.showEslintErrorsInOverlay
+        }
+      }] : []),
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -48,8 +102,8 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+        loader: ['happypack/loader?id=babel'],
+        include: [resolve('src'), resolve('test')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -76,17 +130,5 @@ module.exports = {
         }
       }
     ]
-  },
-  node: {
-    // prevent webpack from injecting useless setImmediate polyfill because Vue
-    // source contains it (although only uses it if it's native).
-    setImmediate: false,
-    // prevent webpack from injecting mocks to Node native modules
-    // that does not make sense for the client
-    dgram: 'empty',
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-    child_process: 'empty'
   }
 }
