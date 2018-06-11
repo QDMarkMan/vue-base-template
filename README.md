@@ -1,6 +1,6 @@
-# vue-base-template
+# 基于vue-cli的开箱即用优化版本
 
-> my base vue-template for developement
+> 基于vue2.5.2 + vue-router3.0.1 vuex3.0.1
 
 ## Build Setup
 
