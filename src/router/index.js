@@ -12,9 +12,8 @@ const routerMap = [
   // 登陆
   ...Login
 ]
-console.log(routerMap)
 export default new Router({
-  mode: 'history',
+  mode: 'history',// 发布正式需要服务器支持
   base: '/base/',
   routes: routerMap
 })
