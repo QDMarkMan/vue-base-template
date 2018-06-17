@@ -1,12 +1,28 @@
 <template>
-  <div>
-    我是登陆
+  <div class="login-wrap">
+    <div class="login-content">
+      Yes I am login
+      <button class="btn btn-login" @click="doLogin">点击登陆</button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'login'
+  name: 'login',
+  data () {
+    return {
+      loginPara:{
+        userName: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    doLogin () {
+      this.$router.push({path: '/'})
+    }
+  }
 }
 </script>
 

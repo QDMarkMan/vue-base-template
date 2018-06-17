@@ -6,7 +6,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-console.log(store)
+import './interception'
 Vue.config.productionTip = false
 
 
