@@ -6,8 +6,8 @@ Vue.use(Router)
 const routerMap = [
   {
     path: '/',
-    name: 'HelloWorld',
-    component: HelloWorld
+    name: 'index',
+    component: () => import('@/views/index/index')
   },
   // 登陆
   ...Login

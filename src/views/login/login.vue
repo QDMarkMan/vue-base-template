@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { writeToken } from '@/utils/cookie'
 export default {
   name: 'login',
   data () {
@@ -20,6 +21,7 @@ export default {
   },
   methods: {
     doLogin () {
+      writeToken(new Date().getDate())
       this.$router.push({path: '/'})
     }
   }

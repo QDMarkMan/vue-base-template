@@ -3,14 +3,25 @@
  */
 import router from './router'
 import { readToken } from './utils/cookie'
+const whiteList = ['/login']
+console.log(router)
 router.beforeEach((to, from, next) => {
-  console.log(readToken())
-  // already get token
-  /* if(readToken()){
+  // user login permission
+  if (readToken()) {
+    if (to.path === '/login') { 
+      next({ path: '/' })
+    } else {
+      next()
+    }
+  } else {
+    if(whiteList.indexOf(to.path) !== -1){
+      next()
+    }else{
+      next({ path: '/login' })
+    }
+  }
+})
 
-  }else{
-    next()
-  } */
+router.afterEach(() => {
 
-  next()
 })
