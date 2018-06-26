@@ -21,7 +21,9 @@ export default {
   },
   methods: {
     doLogin () {
+      // token
       writeToken(new Date().getDate())
+      // redirect
       this.$router.push({path: '/'})
     }
   }

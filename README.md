@@ -9,7 +9,7 @@
 - Vuex完整的真实项目组织结构，一级大型的state怎么组织
 - Vue-Router 登录权限的验证
 - Webpack打包方面的优化(happypack,Dllplugin...)
-- Skeleton骨架屏 这个东西现在比较流行
+
 
 
 ## 技术栈

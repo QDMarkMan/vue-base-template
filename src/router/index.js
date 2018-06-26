@@ -4,10 +4,18 @@ import HelloWorld from '@/components/HelloWorld'
 import Login from './login'
 Vue.use(Router)
 const routerMap = [
+  // router nesting
   {
     path: '/',
     name: 'index',
-    component: () => import('@/views/index/index')
+    redirect: '/index',
+    component: () => import('@/views/frame/Frame'),
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/index/index'),
+      }
+    ]
   },
   // 登陆
   ...Login
