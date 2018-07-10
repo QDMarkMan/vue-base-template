@@ -1,7 +1,6 @@
 <template>
   <div class="login-layer">
-    <canvas id="login-canvas"></canvas>
-    <transition enter-active-class="fadeIn">
+      <canvas id="login-canvas"></canvas>
       <div class="login-content animated">
         <div class="logo-group">
           <img height="120" width="120" src="../../assets/logo.png" alt="">
@@ -9,7 +8,6 @@
         <div class="login-form">
           <div>
             <Input v-model="loginPara.userName" icon="person" placeholder="请输入用户名"/>
-            <!-- <Input v-model="loginPara.password" type="password" icon="key" placeholder="请输入密码"/> -->
           </div>
           <div class="login-item">
             <Input v-model="loginPara.password" type="password" icon="key" placeholder="请输入密码"/>
@@ -20,7 +18,6 @@
           <Button class="btn-login" type="success" long @click="doLogin">登陆</Button>
         </div>
       </div>
-    </transition>
   </div>
 </template>
 
