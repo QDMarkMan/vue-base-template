@@ -13,7 +13,7 @@
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
     "build": "node build/build.js",
     "build:dll": "webpack --config build/webpack.dll.conf.js",
-    "build:analyse": "npm run build --report"
+    "build:report": "npm run build --report"
   },
   "dependencies": {
     "axios": "^0.18.0",

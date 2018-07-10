@@ -8,12 +8,12 @@
 ## 现有功能
 - Vuex完整的真实项目组织结构，一级大型的state怎么组织
 - Vue-Router 登录权限的验证
-- Webpack打包方面的优化(happypack,Dllplugin...)
-
+- Webpack打包速度以及体积方面的优化(CDN,happypack,Dllplugin...)
+- 新增加载屏配置
 
 
 ## 技术栈
-- Vue全家桶 + Axios + webpack
+- Vue全家桶 + axios + webpack
 
 ## Build Setup
 
@@ -28,7 +28,7 @@ npm run dev
 npm run build
 
 # build for production and view the bundle analyzer report
-npm run build:analyse
+npm run build:report
 
 # build dll
 npm run build:dll

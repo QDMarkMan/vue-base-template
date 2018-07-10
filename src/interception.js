@@ -4,7 +4,6 @@
 import router from './router'
 import { readToken } from './utils/cookie'
 const whiteList = ['/login']
-console.log(router)
 router.beforeEach((to, from, next) => {
   // user login permission
   if (readToken()) {
