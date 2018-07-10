@@ -25,7 +25,9 @@ const assets = (process.env.NODE_ENV === 'production' ? [
   { path: `https://cdn.bootcss.com/vue/${dealVersion(pkg.dependencies.vue)}/vue.min.js`, type: 'js' },
   // { path: `https://cdn.bootcss.com/jquery/${dealVersion(pkg.dependencies.jquery)}/jquery.min.js`,type: 'js'},
 ] : []).concat([
-  {path: `https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css`, type: 'css'}
+  {path: `https://cdn.bootcss.com/normalize/8.0.0/normalize.min.css`, type: 'css'},
+  {path: `https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css`, type: 'css'},
+  {path: `https://unpkg.com/iview/dist/styles/iview.css`, type: 'css'},
 ])
 module.exports = {
   context: path.resolve(__dirname, '../'),

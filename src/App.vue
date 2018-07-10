@@ -17,10 +17,11 @@ export default {
     skeleton.style.opacity = '0'
     let flag = true
     if (ieVersion !== 0 && ieVersion <= 9) {
-      console.log('this is IE9');
+      console.log('this is IE9')
       document.body.removeChild(skeleton)
     } else {
       this.$util.addEvent(skeleton, 'transitionend', (e) => {
+        console.log('animated end')
         if (e.target === skeleton && flag) {
           flag = false
           skeleton.style.displpay = 'none'
@@ -34,11 +35,8 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
 }
 </style>
