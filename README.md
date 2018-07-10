@@ -12,7 +12,7 @@
 - 新增加载屏配置
 
 ## 预览地址
-[https://qdmarkman.github.io/vue-base-template/dist/index.html](https://qdmarkman.github.io/vue-base-template/dist/index.html)
+<!-- [https://qdmarkman.github.io/vue-base-template/dist/index.html](https://qdmarkman.github.io/vue-base-template/dist/index.html) -->
 ## 技术栈
 - Vue全家桶 + axios + webpack
 
