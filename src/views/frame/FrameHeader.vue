@@ -1,6 +1,6 @@
 <template>
   <header class="frameHeader">
-    I am header
+    <img src="../../assets/logo.png" alt="" height="50px">
   </header>
 </template>
 
@@ -10,6 +10,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="less" scoped>
+@import url('../../styles/variable.less');
+.frameHeader{
+  height: @header-height;
+  background-color: #f1f1ff;
+}
 </style>
+
