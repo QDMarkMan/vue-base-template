@@ -12,6 +12,13 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="less">
+@import url('../../styles/variable.less');
+.frame-content{
+  height: 100%;
+  width: 100%;
+  padding-top: @header-height;
+  padding-left: @side-width;  
+}
 </style>
+

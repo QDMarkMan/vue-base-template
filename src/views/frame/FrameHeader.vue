@@ -15,6 +15,10 @@ export default {
 .frameHeader{
   height: @header-height;
   background-color: #f1f1ff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 </style>
 

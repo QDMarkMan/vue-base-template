@@ -22,6 +22,14 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="less">
+.frame{
+  height: 100%;
+  width: 100%;
+  .frame-container{
+    height: 100%;
+    width: 100%;
+  }
+}
 </style>
+
