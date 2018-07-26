@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import Login from './login'
+import Welcome from './welcome'
 Vue.use(Router)
 const routerMap = [
   // router nesting
@@ -18,7 +18,9 @@ const routerMap = [
     ]
   },
   // 登陆
-  ...Login
+  ...Login,
+  // 欢迎页
+  ...Welcome
 ]
 export default new Router({
   // mode: 'history',// 发布正式需要服务器支持
