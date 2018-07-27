@@ -17,7 +17,7 @@ router.beforeEach((to, from, next) => {
   // user login permission
   if (readToken()) {
     if (to.path === '/login') { 
-      next({ path: '/' })
+      next({ path: '/welcome' })
     } else {
       next()
     }

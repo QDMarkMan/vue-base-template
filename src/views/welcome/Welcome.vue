@@ -1,22 +1,24 @@
 <template>
   <div class="timeline">
     <Timeline>
-        <TimelineItem color="green">
-          <Icon class="timeline-icon" type="trophy" slot="dot"></Icon>
-          <span class="timeline-font">2018年6月26日</span>
-          <p class="timeline-des">
-            开始了这个这个东西的编写
-          </p>
-          <div class="timeline-link">
-            <router-link to="/">查看列表版本首页</router-link>
+        <TimelineItem v-for="(line, index) in timelines" :key="index" :color="line.color">
+           <i v-if="line.icon" slot="dot" :class="line.icon"></i>
+           <span class="timeline-font">{{line.time}}</span>
+           <p class="timeline-des">{{line.des}}</p>
+           <div v-if="line.imgUrl" class="timeline-img">
+            <img src="" alt="">
           </div>
+           <div class="timeline-link">
+             <router-link :to="line.href">{{line.hrefName}}</router-link>
+           </div>
         </TimelineItem>
-        <TimelineItem color="green">完成开发的搭建</TimelineItem>
+        <!-- <TimelineItem color="green">完成开发的搭建</TimelineItem> -->
     </Timeline>
   </div>
 </template>
 <script>
 import {Timeline, TimelineItem} from 'iview'
+import timelines from './timeline-data.js'
 export default {
   name: 'welcome',
   components: {
@@ -25,7 +27,8 @@ export default {
   },
   data () {
     return {
-      
+      // 时间轴
+      timelines: timelines
     }
   }
 
@@ -41,6 +44,9 @@ export default {
   }
   .timeline-font{
     font-weight: bold;
+  }
+  .timeline-des{
+    padding: 10px 0;
   }
 }
 </style>

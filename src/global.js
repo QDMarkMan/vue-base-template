@@ -6,11 +6,10 @@ import Util from './utils'
 import Vue from 'vue'
 import './styles/theme.less'
 import {Input, Button, Checkbox, Icon} from 'iview'
-Vue.component('Button', Button);
+Vue.component('Button', Button)
 Vue.component('Checkbox', Checkbox)
 Vue.component('Input',Input)
 Vue.component('Icon',Icon)
-
 /**
  * 工具类对象没有选择使用混入，直接注入原型
  */

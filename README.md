@@ -10,9 +10,10 @@
 - Vue-Router 登录权限的验证
 - Webpack打包速度以及体积方面的优化(CDN,happypack,Dllplugin...)
 - 新增加载屏配置
+- 新增欢迎页面
 
 ## 预览地址
-[点我点我](https://qdmarkman.github.io/vue-base-template/dist/index.html)
+[点我](https://qdmarkman.github.io/vue-base-template/dist/index.html)
 ## 技术栈
 - Vue全家桶 + axios + webpack
 

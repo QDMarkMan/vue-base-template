@@ -40,7 +40,7 @@ export default {
       // token 虚拟登陆
       writeToken(new Date().getDate())
       // redirect
-      this.$router.push({path: '/'})
+      this.$router.push({path: '/welcome'})
     }
   },
   created (){
