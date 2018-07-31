@@ -5,11 +5,22 @@
 import Util from './utils'
 import Vue from 'vue'
 import './styles/theme.less'
+/* 
+["import", {
+    "libraryName": "iview",
+    "libraryDirectory": "src/components"
+}],
+
 import {Input, Button, Checkbox, Icon} from 'iview'
 Vue.component('Button', Button)
 Vue.component('Checkbox', Checkbox)
 Vue.component('Input',Input)
-Vue.component('Icon',Icon)
+Vue.component('Icon',Icon) */
+import iview from 'iview'
+Vue.use(iview, {
+  transfer: true,
+  size: 'large'
+})
 /**
  * 工具类对象没有选择使用混入，直接注入原型
  */

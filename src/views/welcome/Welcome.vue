@@ -12,7 +12,7 @@
              <router-link :to="line.href">{{line.hrefName}}</router-link>
            </div>
         </TimelineItem>
-        <!-- <TimelineItem color="green">完成开发的搭建</TimelineItem> -->
+        <TimelineItem color="green">完成开发的搭建</TimelineItem>
     </Timeline>
   </div>
 </template>

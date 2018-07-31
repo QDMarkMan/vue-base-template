@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "iview": "^2.14.2",
+    "iview": "^3.0.0",
     "jquery": "^3.3.1",
     "js-cookie": "^2.2.0",
     "vue": "^2.5.2",

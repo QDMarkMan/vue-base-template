@@ -7,13 +7,13 @@
         </div>
         <div class="login-form">
           <div>
-            <Input v-model="loginPara.userName" icon="person" placeholder="请输入用户名"/>
+            <Input v-model="loginPara.userName" size="default" icon="person" placeholder="请输入用户名"/>
           </div>
           <div class="login-item">
-            <Input v-model="loginPara.password" type="password" icon="key" placeholder="请输入密码"/>
+            <Input v-model="loginPara.password" size="default" type="password" icon="key" placeholder="请输入密码"/>
           </div>
           <div class="login-item">
-            <Checkbox class="remember" v-model="loginPara.remember">记住我</Checkbox>
+            <!-- <Checkbox class="remember" v-model="loginPara.remember">记住我</Checkbox> -->
           </div>
           <Button class="btn-login" type="success" long @click="doLogin">登陆</Button>
         </div>
