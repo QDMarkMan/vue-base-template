@@ -58,7 +58,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       'process.env': env
     }),
     // webpackV4 update
-    new VueLoaderPlugin(),
+    // new VueLoaderPlugin(),
     new UglifyJsPlugin({
       uglifyOptions: {
         compress: {
