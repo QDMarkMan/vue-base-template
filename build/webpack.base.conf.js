@@ -4,10 +4,12 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
+const { VueLoaderPlugin } = require('vue-loader')
+
 const pkg = require('../package.json')
 const happypackPlugin = require('./webpack.happypack')
-
 let resolve = dir => path.join(__dirname, '..', dir)
 // 处理版本号
 let dealVersion = str => str.indexOf('^') === -1 ? str : str.replace('^','')
@@ -18,6 +20,9 @@ const externals = {}
 if(process.env.NODE_ENV === 'production'){
   // 核心依赖包
   externals['vue'] = 'Vue'
+  externals['axios'] = 'Axios'
+  externals['vuex'] = 'Vuex'
+  externals['iview'] = 'iview'
   // externals['jquery'] = 'jQuery'
 }
 // 需要注入的cdn 引用的一些外部的样式
@@ -29,7 +34,15 @@ const assets = (process.env.NODE_ENV === 'production' ? [
   {path: `https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css`, type: 'css'},
   {path: `https://cdn.bootcss.com/iview/2.14.0/styles/iview.css`, type: 'css'},
 ])
+// html plugin minifyConfig
+const minifyConfig = {
+  removeComments: true ,
+  collapseWhitespace: true ,
+  removeAttributeQuotes: true ,
+  removeEmptyAttributes: true 
+}
 module.exports = {
+  // mode: process.env.NODE_ENV,
   context: path.resolve(__dirname, '../'),
   entry: {
     app: ["babel-polyfill", "./src/main.js"], // 垫片
@@ -37,9 +50,7 @@ module.exports = {
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+    publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath
   },
   // 不需要打包的部分
   externals,
@@ -63,12 +74,21 @@ module.exports = {
     }
   },
   plugins: [
-    //配置全局使用 jquery
+    //配置全局使用 jquery 本项目中没有使用
     new webpack.ProvidePlugin({
         $: "jquery",
         jQuery: "jquery",
         jquery: "jquery",
         "window.jQuery": "jquery"
+    }),
+    new VueLoaderPlugin(),
+    // html plugin
+    new HtmlWebpackPlugin({
+      filename: process.env.NODE_ENV  === 'production' ? config.build.index : 'index.html',
+      template: 'index.html',
+      inject: true,
+      minify: process.env.NODE_ENV === 'production' ? minifyConfig : {},
+      chunksSortMode: 'dependency'
     }),
     // 插入文件
     new HtmlWebpackIncludeAssetsPlugin({
@@ -100,11 +120,13 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+        // loader: ['happypack/loader?id=happyVue'],
         options: vueLoaderConfig
       },
       {
         test: /\.js$/,
-        loader: ['happypack/loader?id=babel'],
+        loader: ['happypack/loader?id=happyBabel'],
+        // loader: 'babel-loader',
         include: [resolve('src'), resolve('test')]
       },
       {

@@ -44,11 +44,11 @@ export default {
     }
   },
   created (){
-    
+    console.log('welcome');
   },
   mounted () {
     // 开启登陆动画canvas
-    openCanvas('login-canvas')
+    // openCanvas('login-canvas')
   }
 }
 </script>

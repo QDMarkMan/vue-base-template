@@ -9,22 +9,15 @@ const happyThreadPool = HappyPack.ThreadPool({size:os.cpus().length - 1})
 const happypackPlugin = [
   // js
   new HappyPack({
-    id: 'babel',
+    id: 'happyBabel',
     loaders: ['babel-loader?cacheDirectory'],
     threadPool: happyThreadPool,
-    cache: false,
     verbose: true
   }),
-  // css
+  // file
   new HappyPack({
-    id: 'css',
-    loaders: ['css-loader'],
-    threadPool: happyThreadPool
-  }),
-  // vue
-  new HappyPack({
-    id: 'vue',
-    loaders: ['vue-loader'],
+    id: 'url',
+    loaders: ['url-loader'],
     threadPool: happyThreadPool
   })
 ]

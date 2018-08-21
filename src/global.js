@@ -5,7 +5,7 @@
 import Util from './utils'
 import Vue from 'vue'
 import './styles/theme.less'
-/* 
+/*  // 按需加载iview
 ["import", {
     "libraryName": "iview",
     "libraryDirectory": "src/components"
