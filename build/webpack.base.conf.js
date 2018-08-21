@@ -20,16 +20,15 @@ const externals = {}
 if(process.env.NODE_ENV === 'production'){
   // 核心依赖包
   externals['vue'] = 'Vue'
-  externals['axios'] = 'Axios'
-  // externals['vuex'] = 'vuex'
-  externals['iview'] = 'iview'
   // externals['jquery'] = 'jQuery'
 }
+/* externals['axios'] = 'Axios'
+externals['vuex'] = 'vuex'
+externals['iview'] = 'iview' */
 // 需要注入的cdn 引用的一些外部的样式
 const assets = (process.env.NODE_ENV === 'production' ? [
   { path: `https://cdn.bootcss.com/vue/${dealVersion(pkg.dependencies.vue)}/vue.min.js`, type: 'js' },
-  // { path: `https://cdn.bootcss.com/jquery/${dealVersion(pkg.dependencies.jquery)}/jquery.min.js`,type: 'js'},
-] : []).concat([
+] : [{ path: `../static/js/vendor.dll.js`,type: 'js'}]).concat([
   {path: `https://cdn.bootcss.com/normalize/8.0.0/normalize.min.css`, type: 'css'},
   {path: `https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css`, type: 'css'},
   {path: `https://cdn.bootcss.com/iview/2.14.0/styles/iview.css`, type: 'css'},
@@ -46,6 +45,7 @@ module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
     app: ["babel-polyfill", "./src/main.js"], // 垫片
+    iview: ['iview']
   },
   output: {
     path: config.build.assetsRoot,
@@ -105,7 +105,7 @@ module.exports = {
     ...happypackPlugin
   ],
   module: {
-    noParse: /node_modules\/(element-ui\.js)/,
+    noParse: /node_modules\/(iview\.js)/,
     rules: [
       ...(config.dev.useEslint? [{
         test: /\.(js|vue)$/,

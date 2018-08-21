@@ -9,12 +9,12 @@ let resolveDir = dir =>  path.join(__dirname, '..', dir)
  * 如果需要进行缓存的话 需要把所有的核心库都要加进来 目前只加进来了工具库
  */
 const vendor = [
-  "es6-promise",
+  'babel-polyfill',
   "vuex",
   "vue-router",
   "js-cookie",
   "axios",
-  "iview"
+  // "iview"
 ]
 const webpackConfig = {
   mode: 'production',
@@ -25,19 +25,29 @@ const webpackConfig = {
   output:{
     path: resolveDir('/static/js/'),
     filename: '[name].dll.js',
-    libraryTarget: "umd",
-    library: '[name]_[hash]' // 
+    library: '[name]_[hash]'
   },
   optimization: {
-    // minimizer: true,
+    minimizer: [
+      // 压缩文件
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          compress: {
+            drop_console: true,
+            drop_debugger: true,
+            warnings: false
+          }
+        },
+        sourceMap: false,
+        /* 提高代码打包压缩速度 */
+        cache: true,
+        parallel: true
+      }),
+    ],
     providedExports: true,
     usedExports: true,
-    //识别package.json中的sideEffects以剔除无用的模块，用来做tree-shake
-    //依赖于optimization.providedExports和optimization.usedExports
     sideEffects: true,
-    //取代 new webpack.optimize.ModuleConcatenationPlugin()
     concatenateModules: true,
-    //取代 new webpack.NoEmitOnErrorsPlugin()，编译错误时不打印输出资源。
     noEmitOnErrors: true
   },
   plugins:[
@@ -46,20 +56,6 @@ const webpackConfig = {
       context: __dirname,
       path: path.join(__dirname, '.' , '[name]-manifest.json'),
       name: '[name]_[hash]'
-    }),
-    // 压缩文件
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true,
-          warnings: false
-        }
-      },
-      sourceMap: false,
-      /* 提高代码打包压缩速度 */
-      cache: true,
-      parallel: true
     }),
     // 定义环境
     new webpack.DefinePlugin({
