@@ -11,7 +11,7 @@
 - Webpack打包速度以及体积方面的优化(CDN,happypack,Dllplugin...)
 - 新增加载屏配置
 - 新增欢迎页面
-
+- cli-webpack4.0 升级
 ## 预览地址
 [点我](https://qdmarkman.github.io/vue-base-template/dist/index.html)
 ## 技术栈
