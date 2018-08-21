@@ -21,7 +21,7 @@ if(process.env.NODE_ENV === 'production'){
   // 核心依赖包
   externals['vue'] = 'Vue'
   externals['axios'] = 'Axios'
-  externals['vuex'] = 'vuex'
+  externals['Vuex'] = 'vuex'
   externals['iview'] = 'iview'
   // externals['jquery'] = 'jQuery'
 }
