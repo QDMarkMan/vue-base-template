@@ -17,7 +17,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../static/js'),
     filename: '[name].dll.js',
-    library: '[name]_library'
+    library: '[name]_library' 
   },
   module: {
     rules: [
@@ -67,7 +67,7 @@ module.exports = {
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.DllPlugin({
       path: path.join(__dirname, '.', '[name]-manifest.json'),
-      name: '[name]_library'
+      name: '[name]_library' // 这个地方需要和target中得名字一样
     })
   ]
 }

@@ -3,7 +3,6 @@
  */
 import Vue from 'vue'
 import Vuex from 'vuex'
-console.log(Vuex)
 // vuex日志 使用dev-tools可能不需要这个东西
 // import createLogger from 'vuex/dist/logger'
 import getters from './getters'
