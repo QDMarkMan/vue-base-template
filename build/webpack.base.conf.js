@@ -4,6 +4,7 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const webpack = require('webpack')
+const chalk = require('chalk')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
@@ -13,22 +14,20 @@ const happypackPlugin = require('./webpack.happypack')
 let resolve = dir => path.join(__dirname, '..', dir)
 // 处理版本号
 let dealVersion = str => str.indexOf('^') === -1 ? str : str.replace('^','')
-console.log(`当前vue版本 ${dealVersion(pkg.dependencies.vue)}`)
+console.log(chalk.cyan(`当前vue版本 ${dealVersion(pkg.dependencies.vue)}`))
 // 需要排除的库 依赖包
 const externals = {}
-// 优化打包选项
+// 排除打包选项
 if(process.env.NODE_ENV === 'production'){
   // 核心依赖包
   externals['vue'] = 'Vue'
-  // externals['jquery'] = 'jQuery'
+  externals["babel-polyfill"] = 'window'
 }
-/* externals['axios'] = 'Axios'
-externals['vuex'] = 'vuex'
-externals['iview'] = 'iview' */
 // 需要注入的cdn 引用的一些外部的样式
 const assets = (process.env.NODE_ENV === 'production' ? [
   { path: `https://cdn.bootcss.com/vue/${dealVersion(pkg.dependencies.vue)}/vue.min.js`, type: 'js' },
-] : [{ path: `../static/js/vendor.dll.js`,type: 'js'}]).concat([
+] : []).concat([
+  // dll包
   {path: `https://cdn.bootcss.com/normalize/8.0.0/normalize.min.css`, type: 'css'},
   {path: `https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css`, type: 'css'},
   {path: `https://cdn.bootcss.com/iview/2.14.0/styles/iview.css`, type: 'css'},
@@ -81,11 +80,16 @@ module.exports = {
         jquery: "jquery",
         "window.jQuery": "jquery"
     }),
+    // 添加DllReferencePlugin插件
+    new webpack.DllReferencePlugin({
+      context: path.resolve(__dirname, '..'),
+      manifest: require('./vendor-manifest.json')
+    }),
     new VueLoaderPlugin(),
     // html plugin
     new HtmlWebpackPlugin({
       filename: process.env.NODE_ENV  === 'production' ? config.build.index : 'index.html',
-      template: 'index.html',
+      template: 'index.ejs',
       inject: true,
       minify: process.env.NODE_ENV === 'production' ? minifyConfig : {},
       chunksSortMode: 'dependency'
@@ -95,11 +99,6 @@ module.exports = {
       assets,
       append: process.env.NODE_ENV !== 'production',
       publicPath: '',
-    }),
-    // 添加DllReferencePlugin插件
-    new webpack.DllReferencePlugin({
-        context: path.resolve(__dirname, '..'),
-        manifest: require('./vendor-manifest.json')
     }),
     // happypack配置
     ...happypackPlugin

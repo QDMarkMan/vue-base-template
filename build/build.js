@@ -5,6 +5,7 @@ process.env.NODE_ENV = 'production'
 const ora = require('ora')
 const rm = require('rimraf')
 const path = require('path')
+const shell = require('shelljs')
 const chalk = require('chalk')
 const webpack = require('webpack')
 const config = require('../config')
@@ -12,6 +13,16 @@ const webpackConfig = require('./webpack.prod.conf')
 
 const spinner = ora('building for production...')
 spinner.start()
+// shell dll.js
+const asasetsPath = path.join(config.build.assetsRoot, config.build.assetsSubDirectory)
+console.log(chalk.yellow('\n shell dll begin'))
+shell.rm('-rf', asasetsPath)
+shell.mkdir('-p', asasetsPath)
+shell.config.silent = true
+shell.cp('-R', 'static/js/*', asasetsPath)
+shell.config.silent = false
+console.log(chalk.cyan('shell dll complete.\n'))
+
 
 rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
   if (err) throw err

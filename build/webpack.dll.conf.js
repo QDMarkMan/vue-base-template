@@ -1,35 +1,44 @@
-const webpack = require('webpack')
 const path = require('path')
-const vueLoader = require('./vue-loader.conf')
-const utils = require('./utils')
+const webpack = require('webpack')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-let resolveDir = dir =>  path.join(__dirname, '..', dir)
-/**
- * 需要打包的第三方库文件 
- * 如果需要进行缓存的话 需要把所有的核心库都要加进来 目前只加进来了工具库
- */
-const vendor = [
-  'babel-polyfill',
-  "vuex",
-  "vue-router",
-  "js-cookie",
-  "axios",
-  // "iview"
-]
-const webpackConfig = {
-  mode: 'production',
-  context: __dirname,
+
+module.exports = {
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: {
-    vendor
+    vendor: [
+      'axios',
+      'babel-polyfill',
+      'js-cookie',
+      'vue-router',
+      'vuex'
+    ]
   },
-  output:{
-    path: resolveDir('/static/js/'),
+  output: {
+    path: path.resolve(__dirname, '../static/js'),
     filename: '[name].dll.js',
-    library: '[name]_[hash]'
+    library: '[name]_library'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      }
+    ]
   },
   optimization: {
+    providedExports: true,
+    usedExports: true,
+    sideEffects: true,
+    concatenateModules: true,
+    noEmitOnErrors: true,
     minimizer: [
-      // 压缩文件
       new UglifyJsPlugin({
         uglifyOptions: {
           compress: {
@@ -38,69 +47,27 @@ const webpackConfig = {
             warnings: false
           }
         },
-        sourceMap: false,
+        cache: true,
+        parallel: true,
+        sourceMap: false, // set to true if you want JS source maps
         /* 提高代码打包压缩速度 */
         cache: true,
         parallel: true
       }),
-    ],
-    providedExports: true,
-    usedExports: true,
-    sideEffects: true,
-    concatenateModules: true,
-    noEmitOnErrors: true
-  },
-  plugins:[
-    // 执行插件
-    new webpack.DllPlugin({
-      context: __dirname,
-      path: path.join(__dirname, '.' , '[name]-manifest.json'),
-      name: '[name]_[hash]'
-    }),
-    // 定义环境
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    })
-  ],
-  module: {
-    rules:[
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: vueLoader
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include:[resolveDir('src'), resolveDir('test'), resolveDir('node_modules/webpack-dev-server/client')]
-      },
-      {
-        test: /.(png|jpe?g|gif|svg).(\?.*)?$/,
-        loader: 'url=loader',
-        options: {
-          limit: 10000,
-          name: utils.assetsPath('img/[name].[hash:7].[ext]')
-        }
-      },
-      {
-        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
-            limit: 10000,
-            name: utils.assetsPath('media/[name].[hash:7].[ext]')
-          }
-      },
-      {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
-            limit: 10000,
-            name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
-          }
-      }
+      // Compress extracted CSS. We are using this plugin so that possible
+      // duplicated CSS from different components can be deduped.
+      new OptimizeCSSAssetsPlugin({})
     ]
-  }
+  },
+  plugins: [
+    /*
+      @desc: https://webpack.js.org/plugins/module-concatenation-plugin/
+      "作用域提升(scope hoisting)",使代码体积更小[函数申明会产生大量代码](#webpack3)
+    */
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.DllPlugin({
+      path: path.join(__dirname, '.', '[name]-manifest.json'),
+      name: '[name]_library'
+    })
+  ]
 }
-module.exports = webpackConfig

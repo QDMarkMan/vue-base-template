@@ -1,8 +1,9 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
+console.log(VueRouter)
 import Login from './login'
 import Welcome from './welcome'
-Vue.use(Router)
+Vue.use(VueRouter)
 const routerMap = [
   // router nesting
   {
@@ -22,7 +23,7 @@ const routerMap = [
   // 欢迎页
   ...Welcome
 ]
-export default new Router({
+export default new VueRouter({
   // mode: 'history',// 发布正式需要服务器支持
   // base: '/base/',
   routes: routerMap
