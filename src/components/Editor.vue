@@ -70,7 +70,7 @@ export default {
     value: {
       deep: true,
       handler: function (val, oldVal) {
-        if(!change && this.hasInstance) {
+        if(!this.change && this.hasInstance) {
           // deal last word empty
           this.$nextTick(() => tinymce.get(this.id).setContent(val || ''))
         }
@@ -94,7 +94,7 @@ export default {
           body_class: 'panel-body ',
           object_resizing: false,
           // menubar: 'file edit insert view format table',
-          skin_url: "/static/tinymce/skins/lightgray",
+          skin_url: "static/tinymce/skins/lightgray",
           end_container_on_empty_block: true,
           powerpaste_word_import: 'clean',
           code_dialog_height: 450,
@@ -138,6 +138,7 @@ export default {
     }
   },
   mounted () {
+    console.log(this.showImmediate);
     this.initTinymce()
   },
   beforeDestroy() {
