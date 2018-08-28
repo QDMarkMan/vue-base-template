@@ -13,13 +13,15 @@
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
     "build": "node build/build.js",
     "build:dll": "webpack --config build/webpack.dll.conf.js",
-    "build:report": "npm run build --report"
+    "build:report": "npm run build --report",
+    "preview": "node ./server.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "iview": "^3.0.0",
     "jquery": "^3.3.1",
     "js-cookie": "^2.2.0",
+    "tinymce": "^4.8.2",
     "vue": "2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

@@ -12,6 +12,7 @@
 - 新增加载屏配置
 - 新增欢迎页面
 - cli-webpack4.0 升级
+- 新增一个富文本组件
 ## 预览地址
 [点我](https://qdmarkman.github.io/vue-base-template/dist/index.html)
 ## 技术栈

@@ -21,5 +21,28 @@ export default [
     icon: '', // 图标
     imgUrl: '', // 图片地址
     children: [], // 子集列表
+  },
+  {
+    name: 'webpackUpdate', // 世时间节点名称
+    color: 'red',
+    time: '2018年8月21日', // 时间节点
+    des: '重大更新：webpackV4.0升级', // 节点描述
+    href: '/', // 跳转路径
+    hrefName: '进入框架', // 跳转路径名称
+    icon: '', // 图标
+    imgUrl: '', // 图片地址
+    children: [], // 子集列表
+  },
+  {
+    name: 'tinymce', // 世时间节点名称
+    color: 'green',
+    time: '2018年8月28日', // 时间节点
+    des: '新增一个基于tinymce的富文本组件', // 节点描述
+    href: '/', // 跳转路径
+    hrefName: '查看富文本', // 跳转路径名称
+    icon: '', // 图标
+    imgUrl: '', // 图片地址
+    children: [], // 子集列表
   }
+  
 ]

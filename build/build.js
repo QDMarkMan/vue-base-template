@@ -20,6 +20,7 @@ shell.rm('-rf', asasetsPath)
 shell.mkdir('-p', asasetsPath)
 shell.config.silent = true
 shell.cp('-R', 'static/js/*', asasetsPath)
+shell.cp('-R', 'static/tinymce/*', asasetsPath)
 shell.config.silent = false
 console.log(chalk.cyan('shell dll complete.\n'))
 

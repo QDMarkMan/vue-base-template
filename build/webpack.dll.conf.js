@@ -11,7 +11,8 @@ module.exports = {
       'babel-polyfill',
       'js-cookie',
       'vue-router',
-      'vuex'
+      'vuex',
+      'tinymce/tinymce.min'
     ]
   },
   output: {

@@ -4,8 +4,8 @@ import RouterConfig from './modules'
 import CommonRouters from './common'
 Vue.use(VueRouter)
 export default new VueRouter({
-  mode: 'history',// 服务端支持
-  base: '/base/',
+  /* mode: 'history',// 需要服务端支持
+  base: '/base/', */
   scrollBehavior: () => ({ y: 0 }),
   routes: RouterConfig.concat(CommonRouters)
 })

@@ -37,10 +37,13 @@ const webpackConfig = merge(baseWebpackConfig, {
     splitChunks: {
       chunks: 'all', //'all'|'async'|'initial'(全部|按需加载|初始加载)的chunks
       /* cacheGroups: {
-        name: "chunk-iview", // 单独将拆包
-        priority: 20, // 权重
-        test: /[\\/]node_modules[\\/]iview[\\/]/
-      } */
+        // 拆包选项
+        ELementUI:{
+          name: "chunk-ElementUI", // 单独将拆包
+          priority: 20, // 权重
+          test: /[\\/]node_modules[\\/]element-ui[\\/]/
+        }
+      }*/
     },
     //提取webpack运行时的代码
     runtimeChunk: {
