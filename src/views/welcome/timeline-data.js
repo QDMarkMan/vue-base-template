@@ -43,6 +43,17 @@ export default [
     icon: '', // 图标
     imgUrl: '', // 图片地址
     children: [], // 子集列表
+  },
+  {
+    name: 'tinymce', // 世时间节点名称
+    color: 'green',
+    time: '2018年9月7日', // 时间节点
+    des: '修改整体风格, 增加dashBoard', // 节点描述
+    href: '/dashboard', // 跳转路径
+    hrefName: 'dashboard', // 跳转路径名称
+    // icon: 'ivu-icon ivu-icon-md-help-buoy', // 图标
+    imgUrl: '', // 图片地址
+    children: [], // 子集列表
   }
   
 ]

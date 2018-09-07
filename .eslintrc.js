@@ -5,6 +5,7 @@ module.exports = {
   parserOptions: {
     parser: 'babel-eslint'
   },
+  extends: 'standard',
   env: {
     browser: true,
   },
@@ -42,7 +43,9 @@ module.exports = {
     // 相等判断
     "eqeqeq": ["error", "smart"],
     // 允许扩展native
-    "no-extend-native": 0
+    "no-extend-native": 0,
     // 条件之前得空格
+    // disabled auto end-tag test
+    "vue/no-parsing-error": [2, { "x-invalid-end-tag": false }],
   }
 }

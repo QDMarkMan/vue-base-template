@@ -1,6 +1,7 @@
 /**
  * user store modlue
  */
+import { deleteToken } from '@/utils/cookie'
 const user = {
   // 状态
   state: {
@@ -28,6 +29,13 @@ const user = {
         // 执行完异步的ajax之后resovle(data)
         resolve()
       })
+    },
+    // 退出登录
+    logout({commit}) {
+      return new Promise((resolve, reject) => {
+        deleteToken()
+        resolve()
+      }) 
     }
   }
 

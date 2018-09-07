@@ -1,8 +1,10 @@
 <template>
   <main class="frame-content">
-    <transition enter-active-class="fadeIn" leave-active-class="fadeOut" mode="out-in" class="animated">
-      <router-view/>
-    </transition>
+    <div class="content-fluid">
+      <transition enter-active-class="fadeIn" leave-active-class="fadeOut" mode="out-in" class="animated">
+        <router-view/>
+      </transition>
+    </div>
   </main>
 </template>
 
@@ -19,6 +21,12 @@ export default {
   width: 100%;
   padding-top: @header-height;
   padding-left: @side-width !important;// 覆盖之前的样式
+}
+.content-fluid{
+  width: 100%;
+  padding: 10px;
+  margin-right: auto;
+  margin-left: auto;
 }
 </style>
 
