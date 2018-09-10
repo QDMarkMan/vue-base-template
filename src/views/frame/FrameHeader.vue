@@ -7,7 +7,7 @@
         <!-- iview的事件也太坑爹了 -->
         <Dropdown trigger="click" @on-click="dropOut">
           <a href="javascript:void(0)">
-              XXX用户
+              Mark
               <Icon type="ios-arrow-down"></Icon>
           </a>
           <DropdownMenu slot="list">

@@ -141,7 +141,7 @@ export default {
     console.log(this.showImmediate);
     this.initTinymce()
   },
-  beforeDestroy() {
+  destroyed () {
     if (tinymce.get(this.id)) {
       console.log('remove tiny mce')
       tinymce.get(this.id).destroy()

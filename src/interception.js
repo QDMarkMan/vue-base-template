@@ -6,7 +6,7 @@ import { readToken } from './utils/cookie'
 import iView from 'iview'
 // config loadingbar
 iView.LoadingBar.config({
-  color: '#2979ff',
+  color: '#5cb85c',
   failedColor: '#f0ad4e',
   height: 2
 });

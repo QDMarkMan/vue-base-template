@@ -1,17 +1,5 @@
 export default [
   {
-    path: '/',
-    name: 'index',
-    redirect: '/index',
-    component: () => import('@/views/frame/Frame'),
-    children: [
-      {
-        path: '',
-        component: () => import('@/views/index/index'),
-      }
-    ]
-  },
-  {
     path: '/welcome',
     name: 'welcome',
     redirect: '/welcome',

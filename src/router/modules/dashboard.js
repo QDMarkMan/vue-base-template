@@ -1,7 +1,7 @@
 export default [
   {
     path: '/dashboard',
-    name: 'dasboard',
+    name: 'Dashboard',
     noDropdown: true,// 是否有下级菜单
     hidden: false,// 是否隐藏
     icon: '',// 图标
