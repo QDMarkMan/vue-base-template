@@ -11,7 +11,7 @@ export default {
     return {}
   },
   beforeCreate () {
-    const ieVersion = this.$util.getIeVersion()
+    /* const ieVersion = this.$util.getIeVersion()
     // get skeleton dom
     const skeleton = document.querySelector('.skeleton')
     // app加载完成之后隐藏或者删除dom
@@ -32,7 +32,7 @@ export default {
           }, 0)
         }
       })
-    }
+    } */
   }
 }
 </script>
