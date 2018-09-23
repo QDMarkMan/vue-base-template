@@ -39,5 +39,9 @@ new Vue({
         }
       })
     }
+    // 定时任务 确保删除
+    setTimeout (() => {
+      if (skeleton) document.body.removeChild(skeleton)
+    }, 200)
   }
 })
