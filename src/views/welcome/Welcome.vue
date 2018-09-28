@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-import {Timeline, TimelineItem} from 'iview'
+import { Timeline, TimelineItem } from 'iview'
 import timelines from './timeline-data.js'
 export default {
   name: 'welcome',

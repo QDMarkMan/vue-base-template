@@ -23,12 +23,12 @@
 
 <script>
 import { writeToken } from '@/utils/cookie'
-import openCanvas from './canvas'
+// import openCanvas from './canvas'
 export default {
   name: 'login',
   data () {
     return {
-      loginPara:{
+      loginPara: {
         userName: 'admin',
         password: '123456',
         remember: true
@@ -40,10 +40,10 @@ export default {
       // token 虚拟登陆
       writeToken(new Date().getDate())
       // redirect
-      this.$router.push({path: '/welcome'})
+      this.$router.push({ path: '/welcome' })
     }
   },
-  created (){
+  created () {
     console.log('welcome');
   },
   mounted () {

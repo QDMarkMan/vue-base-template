@@ -15,7 +15,7 @@
                         <Icon type="ios-paper" />
                         {{item.name}}
                     </template>
-                    <MenuItem name="2-1">新增用户</MenuItem>
+                    <MenuItem name="2-1"> 新增用户 </MenuItem>
                 </Submenu>
               </template>
               
@@ -42,10 +42,10 @@ export default {
       return this.$router.currentRoute.fullPath
     }
   },
-  created() {
+  created () {
     console.log(this.routers)
     console.log(this.currentPath)
-  },
+  }
 }
 </script>
 

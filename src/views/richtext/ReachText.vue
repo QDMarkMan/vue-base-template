@@ -12,7 +12,7 @@ const str = `<h1><span style="background-color: #ffffff; color: #0000ff;">Vue-ba
 <p style="word-spacing: 0.05em; line-height: 1.6em; margin: 1.2em 0px -1.2em; padding-bottom: 1.2em; position: relative; z-index: 1; color: #34495e; font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif; font-size: 15px;">如果你已经是有经验的前端开发者，想知道 Vue 与其它库/框架有哪些区别，请查看<a style="text-decoration-line: none; color: #42b983; font-weight: 600;" href="https://cn.vuejs.org/v2/guide/comparison.html">对比其它框架</a>。</p>
 <p>&nbsp;</p>`
 export default {
-  components:{
+  components: {
     Editor
   },
   name: 'RichText',

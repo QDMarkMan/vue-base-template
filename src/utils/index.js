@@ -1,8 +1,8 @@
 /*
- * @Author: mark 
- * @Date: 2018-07-10 09:15:22 
- * @Last Modified by: etf
- * @Last Modified time: 2018-07-10 09:42:40
+ * @Author: mark
+ * @Date: 2018-07-10 09:15:22
+ * @Last Modified by: etongfu
+ * @Last Modified time: 2018-09-28 15:25:05
  * 实例工具库
  */
 // 浏览器兼容storage
@@ -29,10 +29,10 @@ class Util {
     return str.replace(reRegExp, newStr)
   }
   /**
-   * 
-   * @param {*storage名} name 
-   * @param {*storage值} value 
-   * @param {*类型 session/local} type 
+   *
+   * @param {*storage名} name
+   * @param {*storage值} value
+   * @param {*类型 session/local} type
    */
   setStorage (name, value, type = "local") {
     let storage
@@ -43,7 +43,7 @@ class Util {
       } else {
         storage = window.sessionStorage
       }
-  
+
       storage.setItem(name, _value)
     }
   }
@@ -78,7 +78,7 @@ class Util {
    * 获取IE历览器版本 火狐获取可能有点儿问题
    * 返回number类型当前大浏览器的大版本号
    */
-  getIeVersion (){
+  getIeVersion () {
     const browser = navigator.appName
     const bVersion = navigator.appVersion
     const version = bVersion.split(';')
@@ -91,10 +91,10 @@ class Util {
   }
   /**
    * 绑定事件
-   * @param {*} element 
-   * @param {*} eType 
-   * @param {*} handle 
-   * @param {*} bol 
+   * @param {*} element
+   * @param {*} eType
+   * @param {*} handle
+   * @param {*} bol
    */
   addEvent (element, eType, handle, bol = true) {
     if (element.addEventListener) {

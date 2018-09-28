@@ -9,8 +9,8 @@ export default [
     children: [
       {
         path: '',
-        component: () => import('@/views/index/index'),
+        component: () => import('@/views/index/index')
       }
     ]
-  },
+  }
 ]

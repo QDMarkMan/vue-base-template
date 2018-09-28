@@ -27,7 +27,7 @@ new Vue({
       console.log('this is IE9');
       setTimeout(() => {
         document.body.removeChild(skeleton)
-      },0)
+      }, 0)
     } else {
       this.$util.addEvent(skeleton, 'transitionend', (e) => {
         if (e.target === skeleton && flag) {
@@ -40,7 +40,7 @@ new Vue({
       })
     }
     // 定时任务 确保删除
-    setTimeout (() => {
+    setTimeout(() => {
       if (skeleton) document.body.removeChild(skeleton)
     }, 200)
   }

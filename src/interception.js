@@ -16,15 +16,15 @@ router.beforeEach((to, from, next) => {
   iView.LoadingBar.start();
   // user login permission
   if (readToken()) {
-    if (to.path === '/login') { 
+    if (to.path === '/login') {
       next({ path: '/welcome' })
     } else {
       next()
     }
   } else {
-    if(whiteList.indexOf(to.path) !== -1){
+    if (whiteList.indexOf(to.path) !== -1) {
       next()
-    }else{
+    } else {
       next({ path: '/login' })
     }
   }

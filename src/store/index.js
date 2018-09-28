@@ -11,8 +11,8 @@ import user from './modules/user'
 Vue.use(Vuex)
 // 创建store
 const store = new Vuex.Store({
-  modules:{
-    user,
+  modules: {
+    user
   },
   getters,
   strict: process.env.NODE_ENV !== 'production'

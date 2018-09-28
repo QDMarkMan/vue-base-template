@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'FrameContent',
+  name: 'FrameContent'
 }
 </script>
 

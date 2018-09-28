@@ -2,20 +2,16 @@
 
 module.exports = {
   root: true,
+  parser: "babel-eslint",
   parserOptions: {
-    parser: 'babel-eslint'
+    sourceType: "module"
   },
-  extends: 'standard',
   env: {
-    browser: true,
+    browser: true
   },
-  // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
-  // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-  extends: ['plugin:vue/essential'],
+  extends: "standard",
   // required to lint *.vue files
-  plugins: [
-    'vue'
-  ],
+  plugins: ["html"],
   // add your custom rules here  ：0-pass；1-warning；2-error
   rules: {
     // allow different quotes

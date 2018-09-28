@@ -1,35 +1,35 @@
 /**
  * 非原创仿知乎粒子运动动画
  */
-export default function openCanvas(dom){
+export default function openCanvas (dom) {
   // 初始化canvas
   const canvas = document.getElementById(dom)
   const ctx = canvas.getContext('2d')
 
-  function resize(){
+  function resize () {
     canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
   }
   resize()
 
   const RAF = (() => {
-    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
-          window.setTimeout(callback, 1000 / 60);
-        }
+    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {
+      window.setTimeout(callback, 1000 / 60);
+    }
   })()
 
   // 鼠标活动时，获取鼠标坐标
-  let warea = {x: null, y: null, max: 20000}
-  canvas.onmousemove = function(e) {
+  let warea = { x: null, y: null, max: 20000 }
+  canvas.onmousemove = function (e) {
     e = e || window.event
     warea.x = e.clientX
     warea.y = e.clientY
   }
-  canvas.onmouseout = function(e) {
+  canvas.onmouseout = function (e) {
     warea.x = null
     warea.y = null
   }
- // 添加粒子
+  // 添加粒子
   // x，y为粒子坐标，xa, ya为粒子xy轴加速度，max为连线的最大距离
   let dots = []
   for (let i = 0; i < 300; i++) {
@@ -46,11 +46,11 @@ export default function openCanvas(dom){
     })
   }
   // 每一帧循环的逻辑
-  function animate() {
+  function animate () {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     // 将鼠标坐标添加进去，产生一个用于比对距离的点数组
     let ndots = [warea].concat(dots)
-    dots.forEach(function(dot) {
+    dots.forEach(function (dot) {
       // 粒子位移
       dot.x += dot.xa
       dot.y += dot.ya
@@ -93,7 +93,7 @@ export default function openCanvas(dom){
     RAF(animate)
   }
   // 延迟100秒开始执行动画，如果立即执行有时位置计算会出错
-  setTimeout(function() {
+  setTimeout(function () {
     animate()
   }, 10)
 }

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import {mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'FrameHeader',
   props: {
@@ -32,17 +32,17 @@ export default {
   },
   methods: {
     ...mapActions({
-        doLogout: 'logout',
+      doLogout: 'logout'
     }),
-    logout() {
+    logout () {
       this.doLogout().then((result) => {
-        this.$router.push({path: '/login'})
+        this.$router.push({ path: '/login' })
       }).catch((err) => {
-        
+        console.log(err)
       })
     },
     // 触发退出
-    dropOut(data) {
+    dropOut (data) {
       this[data]()
     }
   }

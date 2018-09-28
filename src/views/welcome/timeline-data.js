@@ -9,7 +9,7 @@ export default [
     hrefName: '进入框架', // 跳转路径名称
     icon: 'timeline-icon ivu-icon ivu-icon-trophy', // 图标
     imgUrl: '', // 图片地址
-    children: [], // 子集列表
+    children: [] // 子集列表
   },
   {
     name: 'frameDev', // 世时间节点名称
@@ -20,7 +20,7 @@ export default [
     hrefName: '进入框架', // 跳转路径名称
     icon: '', // 图标
     imgUrl: '', // 图片地址
-    children: [], // 子集列表
+    children: [] // 子集列表
   },
   {
     name: 'webpackUpdate', // 世时间节点名称
@@ -31,7 +31,7 @@ export default [
     hrefName: '进入框架', // 跳转路径名称
     icon: '', // 图标
     imgUrl: '', // 图片地址
-    children: [], // 子集列表
+    children: [] // 子集列表
   },
   {
     name: 'tinymce', // 世时间节点名称
@@ -42,7 +42,7 @@ export default [
     hrefName: '查看富文本', // 跳转路径名称
     icon: '', // 图标
     imgUrl: '', // 图片地址
-    children: [], // 子集列表
+    children: [] // 子集列表
   },
   {
     name: 'tinymce', // 世时间节点名称
@@ -53,7 +53,7 @@ export default [
     hrefName: 'dashboard', // 跳转路径名称
     // icon: 'ivu-icon ivu-icon-md-help-buoy', // 图标
     imgUrl: '', // 图片地址
-    children: [], // 子集列表
+    children: [] // 子集列表
   }
-  
+
 ]

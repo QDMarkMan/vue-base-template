@@ -19,16 +19,16 @@ import 'tinymce/plugins/colorpicker'
 import 'tinymce/plugins/textcolor'
 /**
  * 富文本组件
- * @prop 
+ * @prop
  * id: 富文本id 每个页面需要保持唯一
- * value: 富文本显示以及传递的value 
+ * value: 富文本显示以及传递的value
  * height： 富文本高度
  * showImmediate: 是否立即在下方显示编辑产生内容
  * setting： 自定义设置，参考tinymce
  * plugins： 富文本使用插件 参考tinymce
  * toolbar： 显示工具条toolbar：参考tinymce
  * slot： beforeEditor/afterEditor
- * 
+ *
  * usage： <Editor id="demo" v-model ="value" :height="200" :setting="{}" show-immediate></Editor>
  */
 export default {
@@ -59,7 +59,7 @@ export default {
     },
     plugins: {
       type: String | Array,
-      default: () => ['link', 'image', 'fullscreen', 'colorpicker', 'textcolor']      
+      default: () => ['link', 'image', 'fullscreen', 'colorpicker', 'textcolor']
     },
     toolbar: {
       type: String | Array,
@@ -70,7 +70,7 @@ export default {
     value: {
       deep: true,
       handler: function (val, oldVal) {
-        if(!this.change && this.hasInstance) {
+        if (!this.change && this.hasInstance) {
           // deal last word empty
           this.$nextTick(() => tinymce.get(this.id).setContent(val || ''))
         }
@@ -80,13 +80,13 @@ export default {
   data: () => ({
     hasInstance: false,
     fullscreen: false,
-    change: false 
+    change: false
   }),
   methods: {
     initTinymce () {
       const setting =
         {
-          selector:`#${this.id}`,
+          selector: `#${this.id}`,
           height: this.height,
           // language_url:"/static/tinymce/langs/zh_CN.js",
           // language: 'zh_CN',
@@ -103,25 +103,25 @@ export default {
           advlist_number_styles: 'default',
           default_link_target: '_blank',
           link_title: false,
-          branding:false,
+          branding: false,
           nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin
           init_instance_callback: (editor) => {
-              this.hasInstance = true
-              // back show
-              if (this.value) {
-                editor.setContent(this.value)
-              }
-              /* editor.on('input change undo redo', () => {
-                  const content = editor.getContent()
-                  this.$emit('input', content)
-              }) */
-              editor.on('NodeChange Change KeyUp SetContent', () => {
-                this.change = true
+            this.hasInstance = true
+            // back show
+            if (this.value) {
+              editor.setContent(this.value)
+            }
+            /* editor.on('input change undo redo', () => {
                 const content = editor.getContent()
                 this.$emit('input', content)
-              })
+            }) */
+            editor.on('NodeChange Change KeyUp SetContent', () => {
+              this.change = true
+              const content = editor.getContent()
+              this.$emit('input', content)
+            })
           },
-          setup(editor) {
+          setup (editor) {
             editor.on('FullscreenStateChanged', (e) => {
               this.fullscreen = e.state
             })
@@ -130,8 +130,8 @@ export default {
           plugins: this.plugins
         }
         // 合并setting
-        Object.assign(setting,this.setting)
-        tinymce.init(setting)
+      Object.assign(setting, this.setting)
+      tinymce.init(setting)
     },
     setContent (content) {
       tinymce.get(this.id).setContent(content)

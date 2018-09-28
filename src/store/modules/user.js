@@ -1,13 +1,10 @@
-/**
- * user store modlue
- */
 import { deleteToken } from '@/utils/cookie'
 const user = {
   // 状态
   state: {
     userId: '',
     userToken: '',
-    userName: '',
+    userName: ''
   },
   // 修改方法
   mutations: {
@@ -19,23 +16,23 @@ const user = {
     },
     Set_userName: (state, userName) => {
       state.userName = userName
-    },
+    }
   },
   // 异步修改方式
   actions: {
     // 通过vuex登陆
-    loginByStore ({ commit }, loginPara){
+    loginByStore ({ commit }, loginPara) {
       return new Promise((resolve, reject) => {
         // 执行完异步的ajax之后resovle(data)
         resolve()
       })
     },
     // 退出登录
-    logout({commit}) {
+    logout ({ commit }) {
       return new Promise((resolve, reject) => {
         deleteToken()
         resolve()
-      }) 
+      })
     }
   }
 
