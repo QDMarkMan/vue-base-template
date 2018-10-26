@@ -2,7 +2,7 @@
   <div class="frame">
     <FrameHeader center></FrameHeader>
     <section class="frame-container">
-			<FrameContent id="content"></FrameContent>
+			<FrameContent id="content" class="content-noside"></FrameContent>
       <FrameFooter></FrameFooter>
     </section>
   </div>
@@ -27,8 +27,9 @@ export default {
   .frame-container{
     height: 100%;
     width: 100%;
-    .frame-content{
-      padding-left: 0;
+    // 无边框设置
+    .content-noside{
+      padding-left: 0 !important;
     }
   }
 }

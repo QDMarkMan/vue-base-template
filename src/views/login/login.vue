@@ -8,12 +8,14 @@
         <div class="login-form">
           <div>
             <Input v-model="loginPara.userName" size="default" icon="person" placeholder="请输入用户名"/>
+            <!-- <v-text-field
+              label="Regular"
+            ></v-text-field> -->
           </div>
           <div class="login-item">
             <Input v-model="loginPara.password" size="default" type="password" icon="key" placeholder="请输入密码"/>
           </div>
           <div class="login-item">
-            <!-- <Checkbox class="remember" v-model="loginPara.remember">记住我</Checkbox> -->
           </div>
           <Button class="btn-login" type="success" long @click="doLogin">登陆</Button>
         </div>
@@ -28,9 +30,10 @@ export default {
   name: 'login',
   data () {
     return {
+      name: '',
       loginPara: {
-        userName: 'admin',
-        password: '123456',
+        userName: '',
+        password: '',
         remember: true
       }
     }

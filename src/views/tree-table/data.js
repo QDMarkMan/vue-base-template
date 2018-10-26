@@ -1,4 +1,4 @@
-[
+export default [
   {
     "Id": 1,
     "ObjectName": "技术",

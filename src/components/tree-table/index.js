@@ -1,2 +1,4 @@
 // 抛出treetable
-export {default as TreeTable } from './Treetable' 
+import TreeTable from './Treetable.vue'
+
+export default TreeTable

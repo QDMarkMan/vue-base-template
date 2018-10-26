@@ -5179,6 +5179,10 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
+material-design-icons-iconfont@^3.0.3:
+  version "3.0.3"
+  resolved "http://registry.npm.taobao.org/material-design-icons-iconfont/download/material-design-icons-iconfont-3.0.3.tgz#154a1084047d4e27237fa7f5a37e1075ceea6df2"
+
 math-expression-evaluator@^1.2.14:
   version "1.2.17"
   resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.2.17.tgz#de819fdbcd84dccd8fae59c6aeb79615b9d266ac"
@@ -8444,9 +8448,9 @@ vue@2.5.2:
   version "2.5.2"
   resolved "http://registry.npm.taobao.org/vue/download/vue-2.5.2.tgz#fd367a87bae7535e47f9dc5c9ec3b496e5feb5a4"
 
-vuetify@^1.2.5:
-  version "1.2.5"
-  resolved "http://registry.npm.taobao.org/vuetify/download/vuetify-1.2.5.tgz#91578367709b20e406f2cdc7a164dfd70df954d9"
+vuetify@^1.3.3:
+  version "1.3.3"
+  resolved "http://registry.npm.taobao.org/vuetify/download/vuetify-1.3.3.tgz#d91904d6357d7332a7e974aa9d8b915cc65ab158"
 
 vuex@^3.0.1:
   version "3.0.1"
