@@ -4,8 +4,7 @@
     <!-- 下拉按钮 -->
     <ul v-if="!center" class="user-panel" >
       <li class="panel-item">
-        <!-- iview的事件也太坑爹了 -->
-        <Dropdown trigger="click" @on-click="dropOut">
+        <!-- <Dropdown trigger="click" @on-click="dropOut">
           <a href="javascript:void(0)">
               Mark
               <Icon type="ios-arrow-down"></Icon>
@@ -13,7 +12,7 @@
           <DropdownMenu slot="list">
               <DropdownItem name="logout">退出登录</DropdownItem>
           </DropdownMenu>
-      </Dropdown>
+      </Dropdown> -->
       </li>
     </ul>
   </header>

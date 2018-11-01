@@ -1,29 +1,41 @@
 <template>
   <aside class="frame-side">
     <div class="frame-side-inner">
-      <Menu width="auto" :active-name="currentPath" >
-          <template v-for="item in routers">
-              <template v-if="!item.hidden && item.noDropdown">
-                <MenuItem :to="item.path" :name="item.path" :key="item.path">
-                  <i :class="item.icon" :key="item.path"></i>
-                  {{item.name}}
-                </MenuItem>
-              </template>
-              <template v-if="!item.hidden && !item.noDropdown">
-                <Submenu :key="item.path" :name="item.name">
-                    <template slot="title">
-                        <Icon type="ios-paper" />
-                        {{item.name}}
-                    </template>
-                    <MenuItem name="2-1"> 新增用户 </MenuItem>
-                </Submenu>
-              </template>
-              
-          </template>
-      </Menu>
-    </div>
-    <div class="side-colspan" v-if="showCol">
-      <i class="colspan-icon ivu-icon ivu-icon-ios-rewind"></i>
+      <!-- <v-navigation-drawer
+      v-model="drawer"
+      permanent
+      absolute
+    >
+      <v-toolbar flat class="transparent">
+        <v-list class="pa-0">
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <img src="https://randomuser.me/api/portraits/men/85.jpg">
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>John Leider</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-toolbar>
+
+      <v-list class="pt-0" dense>
+        <v-divider></v-divider>
+
+        <v-list-tile
+          v-for="item in items"
+          :key="item.title"
+        >
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer> -->
     </div>
   </aside>
 </template>
@@ -34,7 +46,14 @@ export default {
   data () {
     return {
       routers: this.$router.options.routes,
-      showCol: false
+      showCol: false,
+      drawer: false,
+      items: [
+        { title: 'Home', icon: 'dashboard' },
+        { title: 'About', icon: 'question_answer' }
+      ],
+      mini: true,
+      right: null
     }
   },
   computed: {
@@ -60,7 +79,7 @@ export default {
   bottom: 0;
   .frame-side-inner{
     position: relative;
-    min-height: 20px;
+    height: 100%;
     margin: 10px;
     background-color: #fff;
   }

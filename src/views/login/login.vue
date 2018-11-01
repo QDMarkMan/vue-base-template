@@ -7,17 +7,20 @@
         </div>
         <div class="login-form">
           <div>
-            <Input v-model="loginPara.userName" size="default" icon="person" placeholder="请输入用户名"/>
-            <!-- <v-text-field
-              label="Regular"
-            ></v-text-field> -->
+            <v-text-field
+              v-model="loginPara.userName"
+              label="请输入用户名"
+            ></v-text-field>
           </div>
           <div class="login-item">
-            <Input v-model="loginPara.password" size="default" type="password" icon="key" placeholder="请输入密码"/>
+            <v-text-field
+              v-model="loginPara.password"
+              label="请输入密码"
+            ></v-text-field>
           </div>
           <div class="login-item">
           </div>
-          <Button class="btn-login" type="success" long @click="doLogin">登陆</Button>
+          <v-btn block color="secondary" dark @click="doLogin">登陆</v-btn>
         </div>
       </div>
   </div>
@@ -25,7 +28,6 @@
 
 <script>
 import { writeToken } from '@/utils/cookie'
-// import openCanvas from './canvas'
 export default {
   name: 'login',
   data () {
