@@ -1,6 +1,11 @@
 <template>
   <header class="frame-header">
-    <img :class="{'center-logo': center}" src="../../assets/logo.png" alt="" height="50px">
+    <!-- <img :class="{'center-logo': center}" src="../../assets/logo.png" alt="" height="50px"> -->
+    <div class="header-logo">
+      <span class="logo-font">
+        FASTER-VUE
+      </span>
+    </div>
     <!-- 下拉按钮 -->
     <ul v-if="!center" class="user-panel" >
       <li class="panel-item">
@@ -50,6 +55,16 @@ export default {
   left: 0;
   right: 0;
   z-index: 100;
+  .header-logo{
+    display: inline-block;
+    width: 220px;
+    height: 100%;
+    line-height: 53px;
+    padding-left: 10px;
+    .logo-font{
+      color: #ffffff;
+    }
+  }
   .user-panel{
     margin-right: 20px;
     float: right;
@@ -58,7 +73,7 @@ export default {
       display: inline-block;
       height: 100%;
       line-height: @header-height;
-       .ivu-dropdown a{
+      .ivu-dropdown a{
         color: #ffffff ;
       }
       &:hover{

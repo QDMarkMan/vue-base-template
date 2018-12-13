@@ -6,6 +6,9 @@
           <img height="120" width="120" src="../../assets/logo.png" alt="">
         </div>
         <div class="login-form">
+          <div class="form-title logo-font">
+            FASTER-VUE
+          </div>
           <div>
             <el-input
               v-model="loginPara.userName"
@@ -20,8 +23,8 @@
             ></el-input>
           </div>
           <div class="login-item">
+            <el-button :loading="loading" style="width: 100%;" round @click="doLogin">登陆</el-button>
           </div>
-          <el-button :loading="loading" style="width: 100%;" round @click="doLogin">登陆</el-button>
         </div>
       </div>
   </div>
@@ -36,7 +39,7 @@ export default {
       name: '',
       loading: false,
       loginPara: {
-        userName: 'etongfu',
+        userName: 'vue',
         password: '123456',
         remember: true
       }
@@ -84,6 +87,9 @@ export default {
     .login-form{
       position: relative;
       top: -20px;
+    }
+    .form-title{
+      margin-bottom: 10px;
     }
   }
 }

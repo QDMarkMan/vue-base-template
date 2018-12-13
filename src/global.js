@@ -6,7 +6,7 @@ import Util from './utils'
 import Vue from 'vue'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
-import './styles/theme.less'
+import './styles/index.less'
 import './components/global'
 // 示例表格用的
 Vue.use(Element)
