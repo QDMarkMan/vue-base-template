@@ -5,7 +5,7 @@ export default [
     component: () => import('@/views/frame/Frame'),
     noDropdown: false,
     icon: '',
-    hidden: false, // 是否隐藏
+    hidden: true, // 是否隐藏
     children: [
 
     ]

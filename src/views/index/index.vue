@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    I am index 
+    index
   </div>
 </template>
 

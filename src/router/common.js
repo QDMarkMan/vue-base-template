@@ -1,5 +1,5 @@
 export default [
-  {
+  /* {
     path: '/welcome',
     name: 'welcome',
     redirect: '/welcome',
@@ -11,5 +11,5 @@ export default [
         component: () => import('@/views/welcome/Welcome')
       }
     ]
-  }
+  } */
 ]

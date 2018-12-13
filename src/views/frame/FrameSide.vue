@@ -1,41 +1,36 @@
 <template>
   <aside class="frame-side">
     <div class="frame-side-inner">
-      <!-- <v-navigation-drawer
-      v-model="drawer"
-      permanent
-      absolute
-    >
-      <v-toolbar flat class="transparent">
-        <v-list class="pa-0">
-          <v-list-tile avatar>
-            <v-list-tile-avatar>
-              <img src="https://randomuser.me/api/portraits/men/85.jpg">
-            </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title>John Leider</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
-      </v-toolbar>
+      <el-col :span="24">
+        <el-menu  
+          :default-active="$route.path"  
+          class="el-menu-vertical-demo"
+          >
+          <template v-for="item in routers">
+              <router-link v-if="!item.hidden && item.noDropdown" :key="item.path" :to="item.path">
+                  <el-menu-item :index="item.path" class='submenu-title-noDropdown'>
+                      <i :class="item.icon"></i>
+                      <span  slot="title">{{item.name}}</span>
+                  </el-menu-item>
+              </router-link>
 
-      <v-list class="pt-0" dense>
-        <v-divider></v-divider>
+              <el-submenu v-if="!item.hidden && !item.noDropdown" :key="item.path" :index="item.path">
+                <template slot="title">
+                  <i :class="item.icon"></i>
+                  <span v-if="item.name">{{item.name}}</span>
+                </template>
 
-        <v-list-tile
-          v-for="item in items"
-          :key="item.title"
-        >
-          <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-
-          <v-list-tile-content>
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer> -->
+                <template v-for="child in item.children" v-if="!child.hidden">
+                  <router-link :to="item.path+'/'+child.path" :key="child.path">
+                    <el-menu-item :index="child.path" class='submenu-title-noDropdown'>
+                      <span slot="title">{{child.name}}</span>
+                    </el-menu-item>
+                  </router-link>
+                </template>
+              </el-submenu>
+          </template>
+        </el-menu>
+    </el-col>
     </div>
   </aside>
 </template>
@@ -45,15 +40,7 @@ export default {
   name: 'FrameSide',
   data () {
     return {
-      routers: this.$router.options.routes,
-      showCol: false,
-      drawer: false,
-      items: [
-        { title: 'Home', icon: 'dashboard' },
-        { title: 'About', icon: 'question_answer' }
-      ],
-      mini: true,
-      right: null
+      routers: this.$router.options.routes
     }
   },
   computed: {
@@ -62,12 +49,9 @@ export default {
     }
   },
   created () {
-    console.log(this.routers)
-    console.log(this.currentPath)
   }
 }
 </script>
-
 
 <style lang="less">
 @import url('../../styles/variable.less');

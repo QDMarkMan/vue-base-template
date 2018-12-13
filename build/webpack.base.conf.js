@@ -29,8 +29,7 @@ const assets = (process.env.NODE_ENV === 'production' ? [
 ] : []).concat([
   // dll包
   {path: `https://cdn.bootcss.com/normalize/8.0.0/normalize.min.css`, type: 'css'},
-  {path: `https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css`, type: 'css'},
-  {path: `https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css`, type: 'css'},
+  {path: `https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css`, type: 'css'}
 ])
 // html plugin minifyConfig
 const minifyConfig = {
@@ -44,7 +43,7 @@ module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
     app: ["babel-polyfill", "./src/main.js"], // 垫片
-    iview: ['vuetify']
+    element: ['element-ui']
   },
   output: {
     path: config.build.assetsRoot,

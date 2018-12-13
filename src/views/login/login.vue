@@ -7,20 +7,21 @@
         </div>
         <div class="login-form">
           <div>
-            <v-text-field
+            <el-input
               v-model="loginPara.userName"
-              label="请输入用户名"
-            ></v-text-field>
+              placeholder="请输入用户名"
+            ></el-input>
           </div>
           <div class="login-item">
-            <v-text-field
+            <el-input
               v-model="loginPara.password"
-              label="请输入密码"
-            ></v-text-field>
+              type="password"
+              placeholder="请输入密码"
+            ></el-input>
           </div>
           <div class="login-item">
           </div>
-          <v-btn block color="secondary" dark @click="doLogin">登陆</v-btn>
+          <el-button :loading="loading" style="width: 100%;" round @click="doLogin">登陆</el-button>
         </div>
       </div>
   </div>
@@ -33,27 +34,28 @@ export default {
   data () {
     return {
       name: '',
+      loading: false,
       loginPara: {
-        userName: '',
-        password: '',
+        userName: 'etongfu',
+        password: '123456',
         remember: true
       }
     }
   },
   methods: {
     doLogin () {
+      this.loading = true
       // token 虚拟登陆
       writeToken(new Date().getDate())
-      // redirect
-      this.$router.push({ path: '/welcome' })
+      setTimeout(() => {
+        this.loading = false
+        // redirect
+        this.$router.push({ path: '/' })
+      }, 2000)
     }
   },
   created () {
     console.log('welcome');
-  },
-  mounted () {
-    // 开启登陆动画canvas
-    // openCanvas('login-canvas')
   }
 }
 </script>

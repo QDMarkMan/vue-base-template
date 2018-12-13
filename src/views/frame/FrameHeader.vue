@@ -4,15 +4,7 @@
     <!-- 下拉按钮 -->
     <ul v-if="!center" class="user-panel" >
       <li class="panel-item">
-        <!-- <Dropdown trigger="click" @on-click="dropOut">
-          <a href="javascript:void(0)">
-              Mark
-              <Icon type="ios-arrow-down"></Icon>
-          </a>
-          <DropdownMenu slot="list">
-              <DropdownItem name="logout">退出登录</DropdownItem>
-          </DropdownMenu>
-      </Dropdown> -->
+        <el-button type="danger" icon="el-icon-arrow-right" circle @click="logout"></el-button>
       </li>
     </ul>
   </header>

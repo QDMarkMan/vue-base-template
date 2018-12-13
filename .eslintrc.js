@@ -43,5 +43,7 @@ module.exports = {
     // 条件之前得空格
     // disabled auto end-tag test
     // "vue/no-parsing-error": [2, { "x-invalid-end-tag": false }],
+    "allowAllPropertiesOnSameLine": false,
+    "blocks": "never" 
   }
 }
