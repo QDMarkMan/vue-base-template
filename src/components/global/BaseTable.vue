@@ -1,7 +1,7 @@
 <template>
   <el-row>
-    <el-col :span="24">
-      <el-table :data="list" border size="mini" @selection-change="handleSelectionChange" :max-height="400" v-bind="$attrs"> <!--   -->
+    <el-col class="m-b-10" :span="24">
+      <el-table :data="list" border size="mini" @selection-change="handleSelectionChange" :max-height="tableHeight" v-bind="$attrs"> <!--   -->
         <template v-for="(column, index) in columns">
           <slot name="front-slot"> </slot>
           <!-- 序号 -->
@@ -31,19 +31,23 @@
               </label>
             </template>
           </el-table-column>
+          <!-- 匿名slot -->
         </template>
-        <!--默认的slot -->
         <slot/>
       </el-table>
     </el-col>
+    <!-- 分页部分 -->
+    <el-col :span="24" v-if="!hiddenPage" class="page">
+      <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageNo" :page-sizes="pageSizes" :page-size="pageSize" :layout="pageLayout" :total="totalCount">
+      </el-pagination>
+    </el-col>
   </el-row>
 </template>
-
-
 <script>
 /**
  * @author etongfu
  * @todo 项目中基本使用表格
+ * @slot 1: defaultSlot：插入表格一行 2: front-slot：默认在表格开始处加一行 3:column内slot
  * @property
  * list => 表格数据
  * columns: [ ==> 配置表格头
@@ -84,23 +88,54 @@ export default {
       type: Array,
       required: true,
       default: () => []
+    },
+    // is hidden page for table
+    hiddenPage: {
+      type: Boolean,
+      default: false
+    },
+    // page object
+    pageNo: {
+      type: Number,
+      default: 1
+    },
+    pageSize: {
+      type: Number,
+      default: 15
+    },
+    totalCount: {
+      type: Number,
+      default: 0
     }
   },
   data () {
     return {
-      tableHeight: 400
+      pageSizes: [15, 20, 25, 30], // 页长数
+      pageLayout: 'total, sizes, prev, pager, next, jumper' // 分页布局
+    }
+  },
+  computed: {
+    tableHeight () {
+      return this.$store.state.custom.maxTableHeight
     }
   },
   methods: {
     // 处理点击事件
     handleClick (action, data) {
       // emit事件
-
       this.$emit(`${action.emitKey}`, data)
     },
     // 选中变化
     handleSelectionChange (val) {
       this.$emit('change-select', val)
+    },
+    // 页长变化
+    handleSizeChange (val) {
+      this.$emit('change-size', val)
+    },
+    // 页码变化
+    handleCurrentChange (val) {
+      this.$emit('change-page', val)
     }
   }
 }
