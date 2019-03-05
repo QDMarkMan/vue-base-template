@@ -7,6 +7,10 @@ const baseWebpackConfig = require('./webpack.base.conf')
 // const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
+
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+const smp = new SpeedMeasurePlugin();
+
 // const { VueLoaderPlugin } = require('vue-loader')
 const devWebpackConfig = merge(baseWebpackConfig, {
   mode: 'development',
@@ -69,7 +73,7 @@ module.exports = new Promise((resolve, reject) => {
         : undefined
       }))
 
-      resolve(devWebpackConfig)
+      resolve(smp.wrap(devWebpackConfig))
     }
   })
 })

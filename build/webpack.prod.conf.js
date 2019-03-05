@@ -8,14 +8,18 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 // const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const { VueLoaderPlugin } = require('vue-loader')
+// const { VueLoaderPlugin } = require('vue-loader')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
+
+const smp = new SpeedMeasurePlugin();
 
 const env = process.env.NODE_ENV === 'testing' ? require('../config/test.env') : require('../config/prod.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
-  // mode: 'production',
+  mode: 'production',
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.build.productionSourceMap,
@@ -110,7 +114,12 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+    // notice
+    new WebpackBuildNotifierPlugin({
+      title: "Project Webpack Build",
+      suppressSuccess: true
+    })
   ]
 })
 
@@ -137,4 +146,5 @@ if (config.build.bundleAnalyzerReport) {
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
-module.exports = webpackConfig
+
+module.exports = smp.wrap(webpackConfig)
