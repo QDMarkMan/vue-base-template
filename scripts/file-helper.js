@@ -2,12 +2,12 @@
  * @Author: etongfu
  * @Email: 13583254085@163.com
  * @LastEditors: etongfu
- * @Description: 生成项目中通用的Vue文件 blank/list
+ * @Description: Beta 测试版本中 不建议在正式环境下使用
  * @youWant: add you want info here
  * @Date: 2019-02-25 15:18:58
- * @LastEditTime: 2019-03-01 17:08:54
+ * @LastEditTime: 2019-03-05 09:36:47
  * @todo: 1: 路由模块注入 √
- *        2: 新模式的文件生成 
+ *        2: 新模式的文件生成
  */
 // current process argumengts
 const argumentsList = process.argv
@@ -16,13 +16,13 @@ const path = require('path')
 const fs = require('fs')
 const chalk = require('chalk')
 const os = require('os')
-const {vueFile, routerFile, apiFile} = require('./files')
+const { vueFile, routerFile, apiFile } = require('./files')
 
 const reslove = file => path.resolve(__dirname, '../src', file)
 // symbol const
-const RouterSymbol = Symbol('router'),
-      ApiSymbol = Symbol('api'),
-      ViewsSymbol = Symbol('views')
+const RouterSymbol = Symbol('router');
+const ApiSymbol = Symbol('api');
+const ViewsSymbol = Symbol('views')
 // root path
 const rootPath = {
   [RouterSymbol]: reslove('router/modules'),
@@ -46,7 +46,7 @@ export default {
 
   },
   created() {
-    
+
   }
 }
 </script>
@@ -96,12 +96,12 @@ export default [
 ]
 `)
 } */
-//loggs
+// loggs
 const errorLog = error => console.log(chalk.red(`${error}`))
 const defaultLog = log => console.log(chalk.green(`${log}`))
 // create file options
 let createOptions = extractArgFromProcess()
-function extractArgFromProcess() {
+function extractArgFromProcess () {
   const _tempArr = argumentsList.splice(2);
   return _tempArr.map(
     el => el.substring(2)
@@ -114,13 +114,13 @@ function extractArgFromProcess() {
 class GenerateTools {
   /**
    * get directory bt target path
-   * @param {*} path 
+   * @param {*} path
    */
   static getExistsDirsByPath (targetPath) {
     const _files = fs.readdirSync(targetPath)
     const _temp = _files.filter(el => {
       let currentPath = path.join(targetPath, `./${el}`)
-      const fileStats =  fs.statSync(currentPath)
+      const fileStats = fs.statSync(currentPath)
       if (fileStats.isDirectory()) {
         return el
       }
@@ -145,18 +145,18 @@ class GenerateTools {
   }
   /**
    * If module is Empty then create dir and file
-   * @param {*} filePath 
-   * @param {*} content 
-   * @param {*} dirPath 
+   * @param {*} filePath
+   * @param {*} content
+   * @param {*} dirPath
    */
   static async createDirAndFile (filePath, content, dirPath = '') {
     try {
       // create file if file not exit
-      if (dirPath !== '' && ! await fs.existsSync(dirPath)) {
+      if (dirPath !== '' && !await fs.existsSync(dirPath)) {
         await fs.mkdirSync(dirPath)
         defaultLog(`created ${dirPath}`)
       }
-      if (! await fs.existsSync(filePath)) {
+      if (!await fs.existsSync(filePath)) {
         // create file
         await fs.openSync(filePath, 'w')
         defaultLog(`created ${filePath}`)
@@ -168,7 +168,7 @@ class GenerateTools {
   }
   /**
    * create dir
-   * @param {*} dirPath 
+   * @param {*} dirPath
    */
   static createDir (dirPath) {
     fs.mkdirSync(dirPath)
@@ -178,22 +178,21 @@ class GenerateTools {
    * Call create files method
    * @param {*string} moduleName name for module
    * @param {*string} dirName  dir name
-   * @param {*boolean} isSub Is this module is a sub module 
+   * @param {*boolean} isSub Is this module is a sub module
    */
   static callCreateFiles (moduleName, isSub = false) {
     files.forEach(async (el, index) => {
       await generates.get(`${el}`).call(null, moduleName, isSub)
-      if (index === files.length-1) {
+      if (index === files.length - 1) {
         process.stdin.emit('end')
       }
     })
   }
-  
 }
 /**
  * 处理不同类型的模块创建
- * @param {*} isSimpleModule 
- * @param {*} stringChunk 
+ * @param {*} isSimpleModule
+ * @param {*} stringChunk
  */
 const dealFileType = function (isSimpleModule, chunkString) {
   /* console.log(isSimpleModule)
@@ -220,7 +219,7 @@ const dealFileType = function (isSimpleModule, chunkString) {
     // 已经存在模块名称了
   } else {
     // 判断当前是否需要需要覆盖操作
-    if(!chunkString) {
+    if (!chunkString) {
       return defaultLog(`检测到已经存在${chunkString}模块，是否进行覆盖操作？(y/n：n退出程序)`)
     } else {
       continueCreateSub = chunkString.toUpperCase()
@@ -233,24 +232,23 @@ const dealFileType = function (isSimpleModule, chunkString) {
         // end current create
         return process.stdin.emit('end')
       }
-      
     }
   }
 }
 /**
  * If module is Empty then create dir and file
- * @param {*} filePath 
- * @param {*} content 
- * @param {*} dirPath 
+ * @param {*} filePath
+ * @param {*} content
+ * @param {*} dirPath
  */
-const createDirAndFile = async (filePath, content, dirPath = '') =>{
+const createDirAndFile = async (filePath, content, dirPath = '') => {
   try {
     // create file if file not exit
-    if (dirPath !== '' && ! await fs.existsSync(dirPath)) {
+    if (dirPath !== '' && !await fs.existsSync(dirPath)) {
       await fs.mkdirSync(dirPath)
       defaultLog(`created ${dirPath}`)
     }
-    if (! await fs.existsSync(filePath)) {
+    if (!await fs.existsSync(filePath)) {
       // create file
       await fs.openSync(filePath, 'w')
       defaultLog(`created ${filePath}`)
@@ -269,7 +267,7 @@ class RouteFile {
     this.dirName = dirName
     // the path for router file
     this.moduleName = moduleName
-    // route absolute path 
+    // route absolute path
     this.modulePath = path.join(rootPath[RouterSymbol], `${dirName}.js`)
   }
   /**
@@ -301,7 +299,7 @@ class RouteFile {
     let writeStream = fs.createWriteStream(_root)
     let readInterface = readline.createInterface(
       {
-        input: readStream,
+        input: readStream
         // output: writeStream
       }
     )
@@ -334,13 +332,13 @@ const generates = new Map([
   ['view', async (module, dir) => {
     // simple module 表示着在子目录下直接创建vue文件
     const targetDir = isSimpleModule ? `./${dir}` : `./${dir}/${module}`
-    const filePath =  path.join(rootPath[ViewsSymbol], targetDir)
+    const filePath = path.join(rootPath[ViewsSymbol], targetDir)
     const vuePath = path.join(filePath, '/index.vue')
     await createDirAndFile(vuePath, vueFile(module), filePath)
   }],
   // router is not need new folder
-  ['router',async (module, dir) => {
-    if(isNewDir) {
+  ['router', async (module, dir) => {
+    if (isNewDir) {
       const routerPath = path.join(rootPath[RouterSymbol], `/${dir}.js`)
       await createDirAndFile(routerPath, routerFile(module, dir, isSimpleModule))
     } else {
@@ -353,15 +351,15 @@ const generates = new Map([
     // 如果当前的模块已经存在的话那么就在当前模块的文件夹下生成对应的模块js
     const targetFile = isNewDir ? `/index.js` : `/${module}.js`
     // 存在上级目录就使用上级目录  不存在上级目录的话就是使用当前模块的名称进行创建
-    const filePath = path.join(rootPath[ApiSymbol], dir ? dir : module)
+    const filePath = path.join(rootPath[ApiSymbol], dir || module)
     const apiPath = path.join(filePath, targetFile)
     await createDirAndFile(apiPath, apiFile(module), filePath)
-  }],
+  }]
 ])
 // ask module name
 defaultLog(`请输入模块所属目录名称(英文 如果检测不到已输入目录将会默认新建 跳过此步骤的话将在Views文件夹下创建新模块)：`)
 // moduleName: global module name / continueCreateSub: is continue create sub module  y/n  / coverCheck ==> already need check  / rootDirPath: 自定义目录
-let dirName, moduleName, continueCreateSub, coverCheck = false , rootDirPath
+let dirName; let moduleName; let continueCreateSub; let coverCheck = false; let rootDirPath
 // 是否是新的文件夹
 let isNewDir = false
 // 是否是无上层目录的模块
@@ -371,21 +369,21 @@ let existsFilesInViews = GenerateTools.getExistsDirsByPath(rootPath[ViewsSymbol]
 // files
 const files = ['view', 'router', 'api']
 // get new moduule name
-process.stdin.on('data',  async (chunk) => {
+process.stdin.on('data', async (chunk) => {
   try {
     // slice /n
-    chunk = chunk.slice(0,-2)
+    chunk = chunk.slice(0, -2)
     // buffer to string
     const chunkString = chunk.toString()
     // 检测用户当前是否有输入
     if (chunkString) {
       // 有输入的情况
-      if(!dirName) {
+      if (!dirName) {
         dirName = chunkString
         // 如果是没有上级目录的简单模块
         if (!isSimpleModule) {
           // 如果没有这个目录 那么新建一个新的目录
-          if(!GenerateTools.isFileInDir(dirName)) {
+          if (!GenerateTools.isFileInDir(dirName)) {
             rootDirPath = path.join(rootPath[ViewsSymbol], dirName)
             // create dir for path
             GenerateTools.createDir(rootDirPath)
@@ -397,17 +395,16 @@ process.stdin.on('data',  async (chunk) => {
           }
           defaultLog(`模块目录为${dirName}, 请输入模块名称(英文: )：`)
         } else {
-          //简单模式下创建模块
+          // 简单模式下创建模块
           defaultLog(`开始创建简单模块${chunkString}`);
           dealFileType(isSimpleModule, chunkString)
         }
       } else {
         dealFileType(isSimpleModule, chunkString)
       }
-
     } else {
       // 用户没有输入的情况
-      if(!dirName) {
+      if (!dirName) {
         // 上层目录为空的时候 使用module name 作为当前的模块名称
         rootDirPath = path.join(rootPath[ViewsSymbol])
         isSimpleModule = true
