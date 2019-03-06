@@ -116,7 +116,8 @@ export default {
   },
   computed: {
     tableHeight () {
-      return this.$store.state.custom.maxTableHeight
+      // return this.$store.state.custom.maxTableHeight
+      return 400
     }
   },
   methods: {
