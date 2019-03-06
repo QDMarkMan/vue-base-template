@@ -13,10 +13,10 @@
         </template>
     </base-table>
     <!-- 分页部分 使用mixin中的默认值-->
-    <el-col :span="24" class="page">
+    <!-- <el-col :span="24" class="page">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageNo" :page-sizes="pageSizes" :page-size="pageSize" :layout="pageLayout" :total="totalCount">
       </el-pagination>
-    </el-col>
+    </el-col> -->
   </box-content>
 </template>
 
