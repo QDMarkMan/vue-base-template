@@ -23,6 +23,7 @@ if(process.env.NODE_ENV === 'production'){
   externals['vue'] = 'Vue'
   externals["babel-polyfill"] = 'window'
 }
+console.log(process.env.NODE_ENV)
 // 需要注入的cdn 引用的一些外部的样式
 const assets = (process.env.NODE_ENV === 'production' ? [
   { path: `https://cdn.bootcss.com/vue/${dealVersion(pkg.dependencies.vue)}/vue.min.js`, type: 'js' },

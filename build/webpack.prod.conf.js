@@ -147,4 +147,5 @@ if (config.build.bundleAnalyzerReport) {
 }
 
 
-module.exports = smp.wrap(webpackConfig)
+// module.exports = smp.wrap(webpackConfig)
+module.exports = webpackConfig
