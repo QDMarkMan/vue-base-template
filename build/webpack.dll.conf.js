@@ -8,7 +8,7 @@ module.exports = {
   entry: {
     vendor: [
       'axios',
-      'babel-polyfill',
+      '@babel/polyfill',
       'js-cookie',
       'vue-router',
       'vuex',

@@ -21,7 +21,7 @@ const externals = {}
 if(process.env.NODE_ENV === 'production'){
   // 核心依赖包
   externals['vue'] = 'Vue'
-  externals["babel-polyfill"] = 'window'
+  externals["@babel/polyfill"] = 'window'
 }
 console.log(process.env.NODE_ENV)
 // 需要注入的cdn 引用的一些外部的样式
@@ -43,7 +43,7 @@ module.exports = {
   // mode: process.env.NODE_ENV,
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: ["babel-polyfill", "./src/main.js"], // 垫片
+    app: ["@babel/polyfill", "./src/main.js"], // 垫片
     element: ['element-ui']
   },
   output: {
