@@ -5,25 +5,23 @@
  * @Description: 需要生成的文件字符串
  * @youWant: add you want info here
  * @Date: 2019-03-01 16:55:58
- * @LastEditTime: 2019-03-01 17:14:20
+ * @LastEditTime: 2019-03-11 17:30:51
  */
 // 构造Vue文件
 module.exports.vueFile = module => (`<template>
-<div class="content">
-  <page-title slot="buttonTitle" buttons="add">
-    <div slot="title">
-      <span class="iconfont"></span> ${module}
-    </div>
-  </page-title>
-  <box-content>
-    <base-table v-loading="loading" :columns="headers" :list="list" @reset="resetCb" @edit="editCb" @delete="deleteCb">
+  <box-content v-loading="loading">
+    <page-title buttons="add">
+      <div slot="title">
+        <span class="iconfont"></span> ${module}
+      </div>
+    </page-title>
+    <base-table :columns="headers" :list="list" @reset="resetCb" @edit="editCb" @delete="deleteCb">
         <!-- 选择自定义slot -->
         <template slot="roleSlot" slot-scope="{scope}">
             {{scope.row.roleName}}
         </template>
     </base-table>
   </box-content>
-</div>
 </template>
 
 <script>
@@ -44,9 +42,9 @@ data () {
       { type: 'operate',
         title: '操作',
         operates: [
-          { name: '重置', emitKey: 'reset' },
-          { name: '编辑', emitKey: 'edit' },
-          { name: '删除', emitKey: 'delete' }
+          { name: '重置', emitKey: 'demo' },
+          { name: '编辑', emitKey: 'demo' },
+          { name: '删除', emitKey: 'demo' }
         ] }
     ]
   }
@@ -54,53 +52,91 @@ data () {
 methods: {
   // 监听事件
   resetCb (data) {
-    this.$message.success(data.demo)
+    this.$message.success('data.loginName')
   },
   editCb (data) {
-    this.$message.success(data.demo)
+    this.$message.success('data.loginName}')
   },
   deleteCb (data) {
-    this.$message.success(data.demo)
+    this.$message.success('data.loginName')
   }
 },
-created() {
-  
-}
+created() {  }
 }
 </script>
-`)
-// vue新增模块构造文件
-module.exports.vueAddFile = module => (`
-  
-`)
-// vue查看构造文件
-module.exports.viewFile = module => (`
 
 `)
+/**
+ * 构建Vue空白页面
+ * @param {*} pageName 页面名称
+ * @param {*} type  add/view/blank 默认是blank页面
+ */
+function vueBlankFile (pageName, type = 'blank') {
+  return `
+<template>
+  <div class="content">
+    <page-title back slot="buttonTitle" buttons="save">
+      <div slot="title">
+        <span class="iconfont"></span> module
+      </div>
+    </page-title>
+    <box-content>
+      ${type} ${pageName}
+    </box-content>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "module-view",
+  data() {
+    return {
+
+    }
+  },
+  methods: {
+
+  },
+  created() {
+
+  }
+};
+</script>
+`
+}
+// vue新增模块构造文件
+module.exports.vueAddFile = module => (vueBlankFile(module, 'add'))
+// vue查看构造文件
+module.exports.viewFile = module => (vueBlankFile(module, 'view'))
 /**
  * 构造routerfile
  */
 module.exports.routerFile = (module, dir, isSimpleModule) => {
   // 简单模块直接使用dir作为路径
-  let comPath = isSimpleModule ? `${dir}` :`${dir}/${module}`
+  let comPath = isSimpleModule ? `${dir}` : `${dir}/${module}`
+  let urlPath = isSimpleModule ? `/${dir}` : `/${dir}/${module}`
+  console.log(urlPath)
+  console.log(comPath)
+  // 默认当前模块为首要模块
   return (`// write your comment here...
 export default [
   {
     path: "/${dir}",
     component: () => import("@/views/frame/Frame"),
-    redirect: "/${dir}",
+    redirect: "${urlPath}",
     name: "",
     icon: "",
     noDropdown: false,
     children: [
       {
-        path: "",
+        path: "${urlPath}",
         component: () => import("@/views/${comPath}/index"),
         name: ""
       }
     ]
   }
 ]
+
 `)
 }
 // api 文件

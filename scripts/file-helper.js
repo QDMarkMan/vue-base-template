@@ -2,16 +2,16 @@
  * @Author: etongfu
  * @Email: 13583254085@163.com
  * @LastEditors: etongfu
- * @Description: Beta 测试版本中 不建议在正式环境下使用
+ * @Description: 项目模块文件生成助手  ⭐Beta版本：使用中出现问题请提交issue并提交
  * @youWant: add you want info here
  * @Date: 2019-02-25 15:18:58
- * @LastEditTime: 2019-03-05 09:36:47
- * @todo: 1: 路由模块注入 √
- *        2: 新模式的文件生成
+ * @LastEditTime: 2019-03-12 09:27:30
+ * @todo:  1: vue单独模块文件生成
+ * @issue: add you issues here
  */
 // current process argumengts
 const argumentsList = process.argv
-const readline = require('readline');
+const readline = require('readline')
 const path = require('path')
 const fs = require('fs')
 const chalk = require('chalk')
@@ -20,8 +20,8 @@ const { vueFile, routerFile, apiFile } = require('./files')
 
 const reslove = file => path.resolve(__dirname, '../src', file)
 // symbol const
-const RouterSymbol = Symbol('router');
-const ApiSymbol = Symbol('api');
+const RouterSymbol = Symbol('router')
+const ApiSymbol = Symbol('api')
 const ViewsSymbol = Symbol('views')
 // root path
 const rootPath = {
@@ -29,85 +29,18 @@ const rootPath = {
   [ApiSymbol]: reslove('api'),
   [ViewsSymbol]: reslove('views')
 }
-/* //const string
-const vueFile = module => (`<template>
-
-</template>
-
-<script>
-export default {
-  name: '${module}',
-  data () {
-    return {
-
-    }
-  },
-  methods: {
-
-  },
-  created() {
-
-  }
-}
-</script>
-
-<style lang="less">
-
-</style>
-`)
-const listVueFile = module => (`<template>
-
-
-</style>
-`)
-// API file
-const apiFile = module => (`// write your comment here...
-import http from '@/utils/http'
-
-export function demo (data) {
-  return http({
-    method: "post",
-    url: '',
-    data
-  })
-}
-`)
-// route file
-const routerFile = (module, dir) => {
-  // 简单模块直接使用dir作为路径
-  let comPath = isSimpleModule ? `${dir}` :`${dir}/${module}`
-  return (`// write your comment here...
-export default [
-  {
-    path: "/${dir}",
-    component: () => import("@/views/frame/Frame"),
-    redirect: "/${dir}",
-    name: "",
-    icon: "",
-    noDropdown: false,
-    children: [
-      {
-        path: "",
-        component: () => import("@/views/${comPath}/index"),
-        name: ""
-      }
-    ]
-  }
-]
-`)
-} */
 // loggs
 const errorLog = error => console.log(chalk.red(`${error}`))
 const defaultLog = log => console.log(chalk.green(`${log}`))
 // create file options
-let createOptions = extractArgFromProcess()
-function extractArgFromProcess () {
+let extractArgFromProcess = function () {
   const _tempArr = argumentsList.splice(2);
   return _tempArr.map(
     el => el.substring(2)
   )
 }
-
+// 创建选项
+let createOptions = extractArgFromProcess()
 /**
  * tools for dir
  */
@@ -182,7 +115,8 @@ class GenerateTools {
    */
   static callCreateFiles (moduleName, isSub = false) {
     files.forEach(async (el, index) => {
-      await generates.get(`${el}`).call(null, moduleName, isSub)
+      // await generates.get(`${el}`).call(null, moduleName, isSub)
+      await generates.get(`${el}`)(moduleName, isSub)
       if (index === files.length - 1) {
         process.stdin.emit('end')
       }
@@ -236,7 +170,7 @@ const dealFileType = function (isSimpleModule, chunkString) {
   }
 }
 /**
- * If module is Empty then create dir and file
+ * Create dir and file
  * @param {*} filePath
  * @param {*} content
  * @param {*} dirPath
@@ -258,6 +192,8 @@ const createDirAndFile = async (filePath, content, dirPath = '') => {
     errorLog(error)
   }
 }
+// 是否有注入路由操作， 因为这个操作是异步的所以要加上标记
+let injectRouteSuccess = true
 /**
  * router file generate
  */
@@ -274,13 +210,15 @@ class RouteFile {
    * Generate a router for module
    * The vue file path is @/name/name/index
    * The default full url is http:xxxxx/name/name
+   * @param {*} routeName url default is router name
+   * @param {*string} filePath vue file path default is ${this.dirName}/${this.moduleName}/index
    * @returns {*Array} A string array for write line
    */
-  generateRouter () {
+  generateRouter (routeName = this.moduleName, filePath = `${this.dirName}/${this.moduleName}/index`) {
     let temp = [
       `      {`,
-      `        path: "/${this.dirName}/${this.moduleName}",`,
-      `        component: () => import("@/views/${this.dirName}/${this.moduleName}/index"),`,
+      `        path: "/${this.dirName}/${routeName}",`,
+      `        component: () => import("@/views/${filePath}"),`,
       `        name: ""`,
       `      },`
     ]
@@ -290,45 +228,73 @@ class RouteFile {
    * add router to file
    */
   injectRoute () {
-    const root = this.modulePath
-    const _root = path.join(rootPath[RouterSymbol], `_${this.dirName}.js`)
-    // temp file content
-    let temp = []
-    // file read or write
-    let readStream = fs.createReadStream(root)
-    let writeStream = fs.createWriteStream(_root)
-    let readInterface = readline.createInterface(
-      {
-        input: readStream
+    try {
+      const root = this.modulePath
+      const _root = path.join(rootPath[RouterSymbol], `_${this.dirName}.js`)
+      // temp file content
+      let temp = []
+      // file read or write
+      let readStream = fs.createReadStream(root)
+      let writeStream = fs.createWriteStream(_root)
+      let readInterface = readline.createInterface(
+        {
+          input: readStream
         // output: writeStream
-      }
-    )
-    // collect old data in file
-    readInterface.on('line', (line) => {
-      temp.push(line)
-    })
-    // After read file and we begin write new router to this file
-    readInterface.on('close', () => {
-      let _index
-      temp.forEach((line, index) => {
-        if (line.indexOf('children') !== -1) {
-          _index = index + 1
         }
+      )
+      // collect old data in file
+      readInterface.on('line', (line) => {
+        temp.push(line)
       })
-      temp = temp.slice(0, _index).concat(this.generateRouter(), temp.slice(_index))
-      // write file
-      temp.forEach(el => {
-        writeStream.write(el + os.EOL)
-      })
+      // After read file and we begin write new router to this file
+      readInterface.on('close', async () => {
+        let _index
+        temp.forEach((line, index) => {
+          if (line.indexOf('children') !== -1) {
+            _index = index + 1
+          }
+        })
+        temp = temp.slice(0, _index).concat(this.generateRouter(), temp.slice(_index))
+        // write file
+        temp.forEach((el, index) => {
+          writeStream.write(el + os.EOL)
+        })
+        writeStream.end('\n')
+        // 流文件读写完毕
+        writeStream.on('finish', () => {
+          fs.unlinkSync(root)
+          fs.renameSync(_root, root)
+          injectRouteSuccess = true
+          defaultLog(`路由/${this.dirName}/${this.moduleName}注入成功`)
+          process.stdin.emit('end')
+        })
       // next step：remove old demo.js and rename _module.js to module.js
-      fs.unlinkSync(root)
-      fs.renameSync(_root, root)
-    })
+      })
+    } catch (error) {
+      errorLog('路由注入失败')
+      errorLog(error)
+    }
   }
 }
-
 // create module methods
 const generates = new Map([
+  /**
+   * 增加页面和路由
+   * @param {*} releativePath 相对views的路径
+   * @param {*} dir
+   * @param {*} fileName
+   */
+  ['pageAndRouter', async (releativePath, dir, fileName) => {
+    // 1：先生成vue文件
+
+    // 2：再注入路由
+
+    const targetDir = isSimpleModule ? `./${dir}` : `./${dir}/${module}`
+    const filePath = path.join(rootPath[ViewsSymbol], targetDir)
+    const vuePath = path.join(filePath, `/${fileName}.vue`)
+    await createDirAndFile(vuePath, vueFile(moduleName), filePath)
+  }],
+  // views部分
   ['view', async (module, dir) => {
     // simple module 表示着在子目录下直接创建vue文件
     const targetDir = isSimpleModule ? `./${dir}` : `./${dir}/${module}`
@@ -342,6 +308,7 @@ const generates = new Map([
       const routerPath = path.join(rootPath[RouterSymbol], `/${dir}.js`)
       await createDirAndFile(routerPath, routerFile(module, dir, isSimpleModule))
     } else {
+      injectRouteSuccess = false
       const route = new RouteFile(module, dir)
       route.injectRoute()
     }
@@ -356,10 +323,8 @@ const generates = new Map([
     await createDirAndFile(apiPath, apiFile(module), filePath)
   }]
 ])
-// ask module name
-defaultLog(`请输入模块所属目录名称(英文 如果检测不到已输入目录将会默认新建 跳过此步骤的话将在Views文件夹下创建新模块)：`)
 // moduleName: global module name / continueCreateSub: is continue create sub module  y/n  / coverCheck ==> already need check  / rootDirPath: 自定义目录
-let dirName; let moduleName; let continueCreateSub; let coverCheck = false; let rootDirPath
+let dirName, moduleName, continueCreateSub, rootDirPath
 // 是否是新的文件夹
 let isNewDir = false
 // 是否是无上层目录的模块
@@ -368,61 +333,109 @@ let isSimpleModule = false
 let existsFilesInViews = GenerateTools.getExistsDirsByPath(rootPath[ViewsSymbol]) // already exists module
 // files
 const files = ['view', 'router', 'api']
-// get new moduule name
-process.stdin.on('data', async (chunk) => {
-  try {
+
+// 在没有输入参数的时候 进行文件和模块的监听
+if (createOptions.length === 0) {
+  // 增加模块listener
+  addDirAndModuleListener()
+} else {
+  addPageListener()
+}
+// 页面存放位置
+let vueFileSavePath
+function addPageListener () {
+  console.log(createOptions)
+
+  defaultLog(`即将创建vue ${createOptions[1]}页面文件，请输入页面文件相对于views目录的存放位置(将根据位置生成路由文件)：`)
+
+  process.stdin.on('data', async (chunk) => {
     // slice /n
     chunk = chunk.slice(0, -2)
     // buffer to string
     const chunkString = chunk.toString()
-    // 检测用户当前是否有输入
     if (chunkString) {
-      // 有输入的情况
-      if (!dirName) {
-        dirName = chunkString
-        // 如果是没有上级目录的简单模块
-        if (!isSimpleModule) {
-          // 如果没有这个目录 那么新建一个新的目录
-          if (!GenerateTools.isFileInDir(dirName)) {
-            rootDirPath = path.join(rootPath[ViewsSymbol], dirName)
-            // create dir for path
-            GenerateTools.createDir(rootDirPath)
-            defaultLog(`已创建目录${dirName}`)
-            isNewDir = true
+      vueFileSavePath = chunkString
+      const absolutePath = path.join(rootPath[ViewsSymbol], vueFileSavePath)
+      const vueFilesArr = vueFileSavePath.split('/')
+      console.log(vueFilesArr)
+      if (fs.existsSync(absolutePath)) {
+        defaultLog(`即将在${absolutePath}下创建文件`)
+      } else {
+        vueFileSavePath = ''
+        return defaultLog(`输入位置不存在请重新输入：`)
+      }
+    } else {
+      if (!vueFileSavePath) {
+        return defaultLog(`请输入保存位置：`)
+      }
+    }
+  })
+}
+/**
+ * 创建模块交互器
+ */
+function addDirAndModuleListener () {
+  // ask module name
+  defaultLog(`请输入模块所属目录名称(英文 如果检测不到已输入目录将会默认新建，跳过此步骤将在Views文件夹下创建新模块)：`)
+  // get new moduule name
+  process.stdin.on('data', async (chunk) => {
+    try {
+      // slice /n
+      chunk = chunk.slice(0, -2)
+      // buffer to string
+      const chunkString = chunk.toString()
+      // 检测用户当前是否有输入
+      if (chunkString) {
+        // 有输入的情况
+        if (!dirName) {
+          dirName = chunkString
+          // 如果是没有上级目录的简单模块
+          if (!isSimpleModule) {
+            // 如果没有这个目录 那么新建一个新的目录
+            if (!GenerateTools.isFileInDir(dirName)) {
+              rootDirPath = path.join(rootPath[ViewsSymbol], dirName)
+              // create dir for path
+              GenerateTools.createDir(rootDirPath)
+              defaultLog(`已创建目录${dirName}`)
+              isNewDir = true
+            } else {
+              isNewDir = false
+              rootDirPath = path.join(rootPath[ViewsSymbol])
+            }
+            defaultLog(`模块目录为${dirName}, 请输入模块名称(英文: )：`)
           } else {
-            isNewDir = false
-            rootDirPath = path.join(rootPath[ViewsSymbol])
+            // 简单模式下创建模块
+            defaultLog(`开始创建简单模块${chunkString}`);
+            dealFileType(isSimpleModule, chunkString)
           }
-          defaultLog(`模块目录为${dirName}, 请输入模块名称(英文: )：`)
         } else {
-          // 简单模式下创建模块
-          defaultLog(`开始创建简单模块${chunkString}`);
           dealFileType(isSimpleModule, chunkString)
         }
       } else {
-        dealFileType(isSimpleModule, chunkString)
-      }
-    } else {
-      // 用户没有输入的情况
-      if (!dirName) {
-        // 上层目录为空的时候 使用module name 作为当前的模块名称
-        rootDirPath = path.join(rootPath[ViewsSymbol])
-        isSimpleModule = true
-        defaultLog(`即将在views目录下创建模块, 请输入模块名称(英文)：`)
-        // return defaultLog(`请输入模块所属目录名称(英文: 如果没有将会默认新建)：`)
-      } else {
-        if (!moduleName) {
-          return defaultLog(`请输入模块名称(英文: )：`)
+        // 用户没有输入的情况
+        if (!dirName) {
+          // 上层目录为空的时候 使用module name 作为当前的模块名称
+          rootDirPath = path.join(rootPath[ViewsSymbol])
+          isSimpleModule = true
+          defaultLog(`即将在views目录下创建模块, 请输入模块名称(英文)：`)
+          // return defaultLog(`请输入模块所属目录名称(英文: 如果没有将会默认新建)：`)
+        } else {
+          if (!moduleName) {
+            return defaultLog(`请输入模块名称(英文: )：`)
+          }
         }
       }
+    } catch (error) {
+      errorLog(error)
     }
-  } catch (error) {
-    errorLog(error)
-  }
-})
+  })
+}
+
 process.stdin.on('end', () => {
-  // 判断
-  if (continueCreateSub !== undefined && continueCreateSub !== 'N') {
-    defaultLog('Create module end')
+  if (injectRouteSuccess) {
+    // 判断
+    defaultLog('Created')
+    process.exit(0)
   }
 })
+

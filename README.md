@@ -16,6 +16,36 @@
 - 命令行快速增加模块
 - 富文本组件
 - ...
+
+## 目录结构
+```js
+vue-base-template
+│   build                   // webpack配置
+│   config                  // 配置文件
+│   scripts                 // 帮助脚本文件
+│   static                  // 静态文件
+└───src                     // 业务逻辑代码
+│   │   api                 // http api 层
+│   │   assets              // 资源
+│   └── components          // 公共组件
+│   │     └──global         // 全局组件
+│   │        │ BaseTable     // 基础表格
+│   │        │ BoxContent    // 基础Box
+│   │   directive           // 公共指令
+│   │   filters             // 过滤器
+│   │   mixins              // mixins
+│   └── router              // 路由文件
+│   │     │  modules        // 业务路由文件夹
+│   │     │  common.js      // 通用路由
+│   │     │  index.js       // 路由汇总
+│   │   store               // vuex
+│   │   styles              // 公共样式文件
+│   │   utils               // 工具库
+│   │   global.js           // 全局模块处理
+│   │   interception.js     // 路由拦截器
+│   │   main.js             // 入口文件
+```
+
 ## 预览地址
 [点我](https://qdmarkman.github.io/vue-base-template/dist/index.html)
 
