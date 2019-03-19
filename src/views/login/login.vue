@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { loginByUserName } from '@/api/login'
 import { writeToken } from '@/utils/cookie'
 export default {
   name: 'login',
@@ -55,6 +56,25 @@ export default {
         // redirect
         this.$router.push({ path: '/' })
       }, 2000)
+    },
+    // 通过API接口登陆
+    doLoginByAPI () {
+      this.loading = true
+      const para = {
+        username: this.loginPara.userName,
+        password: this.loginPara.password
+      }
+      loginByUserName(para).then((result) => {
+        if (result.success) {
+          writeToken(result.result.sessionId)
+          this.$message.success("登陆成功!")
+          this.$router.push({ path: '/' })
+        } else {
+          this.$message.error(result.message)
+        }
+      }).finally(() => {
+        this.loading = false
+      })
     }
   },
   created () {

@@ -128,13 +128,31 @@ module.exports = {
         // loader: 'babel-loader',
         include: [resolve('src'), resolve('test')]
       },
-      {
+      /* {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
         }
+      }, */
+      {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        use:[
+          {
+            loader: "url-loader",
+            options: {
+              limit: 10000,
+              name: utils.assetsPath('img/[name].[hash:7].[ext]')
+            }
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              disable: true, // webpack@2.x and newer
+            },
+          }
+        ]
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,

@@ -10,7 +10,7 @@ import Qs from 'qs'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;utf-8'
 //
 const http = axios.create({
-  baseURL: '', // base url for http request
+  baseURL: process.env.BASE_API, // base url for http request
   timeout: 4 * 5000 // request overtime time
 })
 // request intercept
@@ -21,16 +21,17 @@ http.interceptors.request.use(config => {
   if (config.method === 'get') {
     config.paramsSerializer = params => Qs.stringify(params, { arrayFormat: 'brackets' })
   }
-  // deal post request
-  if (config.method === 'post') {
+  // deal post request 这个时候会处理成a=1&b=2的形式
+  /* if (config.method === 'post') {
     config.transformRequest = [function (data) {
       let ret = ''
       for (let key in data) {
         ret += `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}&`
       }
+      console.log(ret)
       return ret
     }]
-  }
+  } */
   return config
 }, error => {
   // Do something with request error
