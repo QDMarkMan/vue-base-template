@@ -6,17 +6,22 @@
  */
 import axios from 'axios'
 import Qs from 'qs'
+import { getCookie } from './cookie'
 // setting header
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;utf-8'
 //
 const http = axios.create({
   baseURL: process.env.BASE_API, // base url for http request
+  withCredentials: true, // 表示跨域请求时是否需要使用凭证
   timeout: 4 * 5000 // request overtime time
 })
 // request intercept
 http.interceptors.request.use(config => {
   // 1:set token
-
+  if (getCookie()) {
+    // 设置jwt token
+    config.headers['Authorization'] = `Bearer ${getCookie()}` // define token key you can use you customize key
+  }
   // deal get requerst
   if (config.method === 'get') {
     config.paramsSerializer = params => Qs.stringify(params, { arrayFormat: 'brackets' })
