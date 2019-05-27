@@ -6,7 +6,7 @@
  * @Description: 当前项目配置文件
  * @youWant: add you want info here
  * @Date: 2019-04-24 17:45:34
- * @LastEditTime: 2019-05-27 17:10:17
+ * @LastEditTime: 2019-05-27 17:12:24
  */
 const path = require('path')
 const resolve = dir => path.join(__dirname, dir)
@@ -30,7 +30,8 @@ const addStyleResource = rule => {
 // 配置文件抛出
 module.exports = {
   // publicPath: '/',
-  publicPath: process.env.NODE_ENV === 'development' ? '/' : '/vue-base-template/dist/',
+  // publicPath: process.env.NODE_ENV === 'development' ? '/' : '/vue-base-template/dist/',
+  publicPath: './',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
