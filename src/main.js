@@ -16,7 +16,7 @@ new Vue({
   store,
   components: { App },
   template: '<App/>',
-  beforeCreate () {
+  beforeCreate() {
     const ieVersion = this.$util.getIeVersion()
     // get skeleton dom
     const skeleton = document.querySelector('.skeleton')
@@ -24,12 +24,12 @@ new Vue({
     skeleton.style.opacity = '0'
     let flag = true
     if (ieVersion !== 0 && ieVersion <= 9) {
-      console.log('this is IE9');
+      console.log('this is IE9')
       setTimeout(() => {
         document.body.removeChild(skeleton)
       }, 0)
     } else {
-      this.$util.addEvent(skeleton, 'transitionend', (e) => {
+      this.$util.addEvent(skeleton, 'transitionend', e => {
         if (e.target === skeleton && flag) {
           flag = false
           skeleton.style.displpay = 'none'

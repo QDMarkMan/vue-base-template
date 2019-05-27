@@ -6,10 +6,10 @@
  * 实例工具库
  */
 // 浏览器兼容storage
-let supportStorage = function () {
+let supportStorage = function() {
   let flag = false
   if (!window.storage) {
-    throw new Error("浏览器不支持localStorage")
+    throw new Error('浏览器不支持localStorage')
   } else {
     flag = true
   }
@@ -23,9 +23,9 @@ class Util {
    * @param {*目标字符串} targetStr
    * @param {*要替换得新字符串} newStr
    */
-  replaceStr (str, targetStr, newStr) {
+  replaceStr(str, targetStr, newStr) {
     str = Util.isString(str) ? str : str.toString()
-    let reRegExp = new RegExp(targetStr, "g")
+    let reRegExp = new RegExp(targetStr, 'g')
     return str.replace(reRegExp, newStr)
   }
   /**
@@ -34,7 +34,7 @@ class Util {
    * @param {*storage值} value
    * @param {*类型 session/local} type
    */
-  setStorage (name, value, type = "local") {
+  setStorage(name, value, type = 'local') {
     let storage
     if (supportStorage) {
       let _value = JSON.stringify(value)
@@ -47,7 +47,7 @@ class Util {
       storage.setItem(name, _value)
     }
   }
-  getStorage = (name, type = "local") => {
+  getStorage = (name, type = 'local') => {
     let storage
     if (type === 'local') {
       storage = window.localStorage
@@ -56,7 +56,7 @@ class Util {
     }
     return JSON.parse(storage.getItem(name))
   }
-  removeStorage = (name, type = "local") => {
+  removeStorage = (name, type = 'local') => {
     let storage
     if (type === 'local') {
       storage = window.localStorage
@@ -65,7 +65,7 @@ class Util {
     }
     return storage.removeItem(name)
   }
-  clearStorage = (type = "local") => {
+  clearStorage = (type = 'local') => {
     let storage
     if (type === 'local') {
       storage = window.localStorage
@@ -78,7 +78,7 @@ class Util {
    * 获取IE历览器版本 火狐获取可能有点儿问题
    * 返回number类型当前大浏览器的大版本号
    */
-  getIeVersion () {
+  getIeVersion() {
     const browser = navigator.appName
     const bVersion = navigator.appVersion
     const version = bVersion.split(';')
@@ -96,13 +96,13 @@ class Util {
    * @param {*} handle
    * @param {*} bol
    */
-  addEvent (element, eType, handle, bol = true) {
+  addEvent(element, eType, handle, bol = true) {
     if (element.addEventListener) {
       element.addEventListener(eType, handle, bol)
     } else if (element.attachEvent) {
       element.attachEvent(eType, handle, bol)
     } else {
-      element["on" + eType] = null
+      element['on' + eType] = null
     }
   }
 }
@@ -112,9 +112,9 @@ class Util {
  * @param {*执行函数} fn
  * @param {*时间间隔} wait
  */
-Util._debance = function (fn, wait) {
+Util._debance = function(fn, wait) {
   let timer = null
-  return function () {
+  return function() {
     let _this = this
     let args = arguments
     if (timer) {
@@ -131,9 +131,9 @@ Util._debance = function (fn, wait) {
  * @param {*要执行的函数} fn
  * @param {*等待时间} wait
  */
-Util._throttle = function (fn, wait) {
+Util._throttle = function(fn, wait) {
   let _lastTime = null
-  return function () {
+  return function() {
     let _nowTime = new Date()
     if (_nowTime - _lastTime > wait || !_lastTime) {
       fn()

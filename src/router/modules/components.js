@@ -6,8 +6,6 @@ export default [
     noDropdown: false,
     icon: '',
     hidden: true, // 是否隐藏
-    children: [
-
-    ]
+    children: []
   }
 ]

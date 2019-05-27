@@ -1,20 +1,14 @@
 <template>
   <div class="dashboard">
-      dashboard
+    dashboard
   </div>
 </template>
 
 <script>
 export default {
   name: 'dashboard',
-  data () {
-    return {
-
-    }
+  data() {
+    return {}
   }
 }
 </script>
-
-<style>
-
-</style>

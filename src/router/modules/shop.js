@@ -5,7 +5,7 @@ export default [
     name: '新增',
     noDropdown: true,
     sort: 0,
-    icon: "iconfont ",
+    icon: 'iconfont ',
     redirect: '/shop',
     component: () => import('@/views/frame/Frame'),
     children: [

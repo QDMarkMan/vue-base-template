@@ -8,15 +8,15 @@ const tokenKey = 'base-key'
  * @param {*} key
  * @param {*} value
  */
-export function setCookie (key, value) {
+export function setCookie(key, value) {
   Cookie.set(key, value)
 }
 
-export function getCookie (key) {
+export function getCookie(key) {
   return Cookie.get(key)
 }
 
-export function deleteCookie (key) {
+export function deleteCookie(key) {
   Cookie.remove(key)
 }
 // 以下是用户的token部分
@@ -25,12 +25,12 @@ export function deleteCookie (key) {
  * @param {*} key
  * @param {*} value
  */
-export function writeToken (value) {
+export function writeToken(value) {
   setCookie(tokenKey, value)
 }
-export function readToken (key, value) {
+export function readToken() {
   return getCookie(tokenKey)
 }
-export function deleteToken () {
+export function deleteToken() {
   deleteCookie(tokenKey)
 }

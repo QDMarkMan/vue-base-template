@@ -1,0 +1,15 @@
+/*
+ * @Author: etongfu
+ * @Email: 13583254085@163.com
+ * @Version: 
+ * @Date: 2019-05-17 17:10:13
+ * @LastEditors: etongfu
+ * @LastEditTime: 2019-05-17 17:17:47
+ * @Description: 覆盖elementUI scss变量
+ * @youWant: add you want info here
+ */
+ /* 改变主题色变量 */
+$--color-primary: #2979ff;
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";

@@ -5,7 +5,7 @@ export default [
     name: '表格',
     noDropdown: true,
     sort: 0,
-    icon: "iconfont ",
+    icon: 'iconfont ',
     redirect: '/list',
     component: () => import('@/views/frame/Frame'),
     children: [

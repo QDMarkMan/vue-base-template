@@ -5,7 +5,7 @@ export default [
     noDropdown: true, // 是否有下级菜单
     hidden: false, // 是否隐藏
     icon: '', // 图标
-    redirect: "/richtext",
+    redirect: '/richtext',
     component: () => import('@/views/frame/Frame'),
     children: [
       {

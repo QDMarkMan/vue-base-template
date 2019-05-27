@@ -1,45 +1,86 @@
 <template>
   <el-row>
     <el-col class="m-b-10" :span="24">
-      <el-table :data="list" border size="mini" @selection-change="handleSelectionChange" :max-height="tableHeight" v-bind="$attrs"> <!--   -->
+      <el-table
+        :data="list"
+        border
+        size="mini"
+        @selection-change="handleSelectionChange"
+        v-bind="$attrs"
+      >
+        <!--   -->
         <template v-for="(column, index) in columns">
-          <slot name="front-slot"> </slot>
+          <slot name="front-slot"></slot>
           <!-- 序号 -->
-          <el-table-column :key="index" v-if="column.type === 'selection'" type="selection" width="55"> </el-table-column>
+          <el-table-column
+            :key="index"
+            v-if="column.type === 'selection'"
+            type="selection"
+            width="55"
+          ></el-table-column>
           <!-- 复选框 -->
-          <el-table-column :key="index" v-else-if="column.type === 'index'"  type="index" width="50" label="序号"> </el-table-column>
+          <el-table-column
+            :key="index"
+            v-else-if="column.type === 'index'"
+            type="index"
+            width="50"
+            label="序号"
+          ></el-table-column>
           <!-- 具体内容 -->
-          <el-table-column :key="index" v-else align="left" :label="column.title" :width="column.width">
+          <el-table-column
+            :key="index"
+            v-else
+            align="left"
+            :label="column.title"
+            :width="column.width"
+          >
             <template slot-scope="scope">
               <!-- 仅仅显示文字 -->
-              <label v-if="!column.hidden"> <!-- 如果hidden为true的时候 那么当前格可以不显示，可以选择显示自定义的slot-->
+              <label v-if="!column.hidden">
+                <!-- 如果hidden为true的时候 那么当前格可以不显示，可以选择显示自定义的slot-->
                 <!-- 操作按钮 -->
                 <label v-if="column.type === 'operate'">
-                  <a href="javascript:void(0)" class="operate-button" v-for="(operate, index) in column.operates" :key="index" @click="handleClick(operate, scope.row)">
-                    {{operate.name}}
+                  <a
+                    href="javascript:void(0)"
+                    class="operate-button"
+                    v-for="(operate, index) in column.operates"
+                    :key="index"
+                    @click="handleClick(operate, scope.row)"
+                  >
+                    {{ operate.name }}
                     &nbsp;&nbsp;
                   </a>
                 </label>
-                <span v-else>
-                  {{scope.row[column.key]}}
-                </span>
+                <span v-else>{{ scope.row[column.key] }}</span>
               </label>
               <!-- 使用slot的情况下 -->
               <label v-if="column.slot">
                 <!-- 具名slot -->
-                <slot v-if="column.slot" :name="column.slot" :scope="scope"></slot>
+                <slot
+                  v-if="column.slot"
+                  :name="column.slot"
+                  :scope="scope"
+                ></slot>
               </label>
             </template>
           </el-table-column>
           <!-- 匿名slot -->
         </template>
-        <slot/>
+        <slot />
       </el-table>
     </el-col>
     <!-- 分页部分 -->
     <el-col :span="24" v-if="!hiddenPage" class="page">
-      <el-pagination class="float-right" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageNo" :page-sizes="pageSizes" :page-size="pageSize" :layout="pageLayout" :total="totalCount">
-      </el-pagination>
+      <el-pagination
+        class="float-right"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="pageNo"
+        :page-sizes="pageSizes"
+        :page-size="pageSize"
+        :layout="pageLayout"
+        :total="totalCount"
+      ></el-pagination>
     </el-col>
   </el-row>
 </template>
@@ -108,34 +149,34 @@ export default {
       default: 0
     }
   },
-  data () {
+  data() {
     return {
       pageSizes: [15, 20, 25, 30], // 页长数
       pageLayout: 'total, sizes, prev, pager, next, jumper' // 分页布局
     }
   },
   computed: {
-    tableHeight () {
+    tableHeight() {
       // return this.$store.state.custom.maxTableHeight
       return 400
     }
   },
   methods: {
     // 处理点击事件
-    handleClick (action, data) {
+    handleClick(action, data) {
       // emit事件
       this.$emit(`${action.emitKey}`, data)
     },
     // 选中变化
-    handleSelectionChange (val) {
+    handleSelectionChange(val) {
       this.$emit('change-select', val)
     },
     // 页长变化
-    handleSizeChange (val) {
+    handleSizeChange(val) {
       this.$emit('change-size', val)
     },
     // 页码变化
-    handleCurrentChange (val) {
+    handleCurrentChange(val) {
       this.$emit('change-page', val)
     }
   }

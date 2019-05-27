@@ -4,7 +4,8 @@ const user = {
   state: {
     userId: '',
     userToken: '',
-    userName: ''
+    userName: '',
+    loginStatus: false
   },
   // 修改方法
   mutations: {
@@ -16,26 +17,38 @@ const user = {
     },
     Set_userName: (state, userName) => {
       state.userName = userName
+    },
+    Set_loginStatus: (state, loginStatus) => {
+      state.loginStatus = loginStatus
     }
   },
   // 异步修改方式
   actions: {
     // 通过vuex登陆
-    loginByStore ({ commit }, loginPara) {
+    loginByStore({ commit }, loginPara) {
+      console.log(loginPara)
       return new Promise((resolve, reject) => {
+        commit('Login')
         // 执行完异步的ajax之后resovle(data)
-        resolve()
+        try {
+          resolve()
+        } catch (error) {
+          reject(error)
+        }
       })
     },
     // 退出登录
-    logout ({ commit }) {
+    logout() {
       return new Promise((resolve, reject) => {
-        deleteToken()
-        resolve()
+        try {
+          deleteToken()
+          resolve()
+        } catch (error) {
+          reject(error)
+        }
       })
     }
   }
-
 }
 
 export default user

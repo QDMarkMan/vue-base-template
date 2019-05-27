@@ -1,7 +1,13 @@
 <template>
   <div class="editor">
-      <Editor id="demo" v-model ="value" :height="200" :setting="{}" show-immediate></Editor>
-    </div>
+    <Editor
+      id="demo"
+      v-model="value"
+      :height="200"
+      :setting="{}"
+      show-immediate
+    ></Editor>
+  </div>
 </template>
 
 <script>
@@ -20,7 +26,7 @@ export default {
     value: str
   }),
   watch: {
-    value (val) {
+    value(val) {
       console.log(val)
     }
   }
@@ -28,7 +34,7 @@ export default {
 </script>
 
 <style lang="less">
-.editor{
+.editor {
   height: 100%;
   width: 50%;
   margin: 0 auto;

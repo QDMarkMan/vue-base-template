@@ -7,7 +7,7 @@
  * 列表页面中使用到多次复用的mixins
  */
 const listMixins = {
-  data () {
+  data() {
     return {
       loading: false, // 伴随loading状态
       pageNo: 1, // 页码
@@ -20,11 +20,11 @@ const listMixins = {
   },
   methods: {
     // 分页回掉事件
-    handleSizeChange (val) {
+    handleSizeChange(val) {
       this.pageSize = val
       this.load()
     },
-    handleCurrentChange (val) {
+    handleCurrentChange(val) {
       this.pageNo = val
       this.load()
     },
@@ -33,30 +33,25 @@ const listMixins = {
      * @param {*} apiResult
      * @returns {*} promise
      */
-    listSuccessCb (apiResult = {}) {
-      return new Promise((resolve, reject) => {
-        let tempList = [
-          { name: 'demo', id: 'demo', age: 'demo' }
-        ] // 临时list
-        try {
-          this.loading = false
-          // 直接抛出
-          resolve([tempList])
-        } catch (error) {
-          reject(error)
-        }
+    listSuccessCb(apiResult = {}) {
+      console.log(apiResult)
+      return new Promise((resolve) => {
+        let tempList = [{ name: 'demo', id: 'demo', age: 'demo' }] // 临时list
+        this.loading = false
+        // 直接抛出
+        resolve(tempList)
       })
     },
     /**
      * 处理异常情况
      * ==> 简单处理  仅仅是对表格处理为空以及取消loading
      */
-    listExceptionCb (error) {
+    listExceptionCb(error) {
       this.loading = false
       console.error(error)
     }
   },
-  created () {
+  created() {
     console.log(`list mixin creatd`)
   }
 }

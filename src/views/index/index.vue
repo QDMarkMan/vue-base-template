@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'index',
-  data () {
+  data() {
     return {
       value: ''
     }
@@ -15,6 +15,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

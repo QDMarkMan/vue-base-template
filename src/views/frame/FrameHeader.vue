@@ -7,9 +7,14 @@
       </span>
     </div>
     <!-- 下拉按钮 -->
-    <ul v-if="!center" class="user-panel" >
+    <ul v-if="!center" class="user-panel">
       <li class="panel-item">
-        <el-button type="danger" icon="el-icon-arrow-right" circle @click="logout"></el-button>
+        <el-button
+          type="danger"
+          icon="el-icon-arrow-right"
+          circle
+          @click="logout"
+        ></el-button>
       </li>
     </ul>
   </header>
@@ -30,15 +35,17 @@ export default {
     ...mapActions({
       doLogout: 'logout'
     }),
-    logout () {
-      this.doLogout().then((result) => {
-        this.$router.push({ path: '/login' })
-      }).catch((err) => {
-        console.log(err)
-      })
+    logout() {
+      this.doLogout()
+        .then(() => {
+          this.$router.push({ path: '/login' })
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     // 触发退出
-    dropOut (data) {
+    dropOut(data) {
       this[data]()
     }
   }
@@ -46,8 +53,7 @@ export default {
 </script>
 
 <style lang="less">
-@import url('../../styles/variable.less');
-.frame-header{
+.frame-header {
   height: @header-height;
   background-color: @theme-color;
   position: fixed;
@@ -55,17 +61,17 @@ export default {
   left: 0;
   right: 0;
   z-index: 100;
-  .header-logo{
+  .header-logo {
     display: inline-block;
     width: 220px;
     height: 100%;
     line-height: 53px;
     padding-left: 10px;
-    .logo-font{
+    .logo-font {
       color: #ffffff;
     }
   }
-  .user-panel{
+  .user-panel {
     margin-right: 20px;
     float: right;
     height: 100%;
@@ -73,11 +79,11 @@ export default {
       display: inline-block;
       height: 100%;
       line-height: @header-height;
-      .ivu-dropdown a{
-        color: #ffffff ;
+      .ivu-dropdown a {
+        color: #ffffff;
       }
-      &:hover{
-        .ivu-dropdown a{
+      &:hover {
+        .ivu-dropdown a {
           color: #f1f1f1;
         }
       }
@@ -85,9 +91,8 @@ export default {
   }
 }
 // logo居中显示
-.center-logo{
+.center-logo {
   display: block;
   margin: 0 auto;
 }
 </style>
-

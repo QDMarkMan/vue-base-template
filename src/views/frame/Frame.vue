@@ -3,14 +3,14 @@
     <FrameHeader></FrameHeader>
     <section class="frame-container">
       <FrameSide></FrameSide>
-			<FrameContent id="content"></FrameContent>
+      <FrameContent id="content"></FrameContent>
       <FrameFooter></FrameFooter>
     </section>
   </div>
 </template>
 
 <script>
-import { FrameHeader, FrameSide, FrameContent, FrameFooter } from "./index"
+import { FrameHeader, FrameSide, FrameContent, FrameFooter } from './index'
 export default {
   name: 'Frame',
   components: {
@@ -23,13 +23,12 @@ export default {
 </script>
 
 <style lang="less">
-.frame{
+.frame {
   height: 100%;
   width: 100%;
-  .frame-container{
+  .frame-container {
     height: 100%;
     width: 100%;
   }
 }
 </style>
-
