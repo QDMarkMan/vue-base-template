@@ -7,6 +7,11 @@
 基于cli 而且对cli结构的修改并不大，都能看的懂。如果觉得适合你得业务得话 完全是可以拿过去直接用得。这也是这篇文章[加快Vue项目的开发速度](https://github.com/QDMarkMan/CodeBlog/blob/master/Vue/%E5%8A%A0%E5%BF%ABVue%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%BC%80%E5%8F%91%E9%80%9F%E5%BA%A6.md)的示例代码
 
 
+## 基于vue-cli2.9版本地址
+
+[<font color=red>点我查看V1.0版本</font>](https://github.com/QDMarkMan/vue-base-template/tree/vue-cli2.9base)
+
+
 ## 2019年5月25日更新内容
 
 最近比较忙肝了一段时间，把整个的底层开发重构了一遍， 目前采用的是`基于vue-cli3`的底层开发框架这次主要做出了以下的改动
@@ -20,7 +25,7 @@
 - 新增打包完成之后的`hook`(进行中)
 - 富文本编辑器的重构(进行中)
 
-我以为升级个脚手架会很快， 结果现实给我来了一记狠狠的巴掌，中间过程也是一把鼻涕一把泪。现在这个2.0版本的`vue-base-template`其实还不是很稳定，还是比较推荐使用[V1.0版本](https://github.com/QDMarkMan/vue-base-template/tree/vue-cli2.9base)
+我以为升级个脚手架会很快， 结果现实给我来了一记狠狠的巴掌，中间过程也是一把鼻涕一把泪。现在这个2.0版本的`vue-base-template`其实还不是很稳定，还是比较推荐使用[V1.0版本](https://github.com/QDMarkMan/vue-base-template/tree/vue-cli2.9base), 后续的组件开发中希望大家能多提意见交流。
 
 ## 包括什么(持续更新...)
 - `Vuex`完整的真实项目组织结构，一级大型的`state`怎么组织
