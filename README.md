@@ -7,9 +7,9 @@
 基于cli 而且对cli结构的修改并不大，都能看的懂。如果觉得适合你得业务得话 完全是可以拿过去直接用得。这也是这篇文章[加快Vue项目的开发速度](https://github.com/QDMarkMan/CodeBlog/blob/master/Vue/%E5%8A%A0%E5%BF%ABVue%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%BC%80%E5%8F%91%E9%80%9F%E5%BA%A6.md)的示例代码
 
 
-## 基于vue-cli2.9版本地址
+<font size=20 color=red> 基于vue-cli2.9版本地址 </font>
 
-[<font color=red>点我查看V1.0版本</font>](https://github.com/QDMarkMan/vue-base-template/tree/vue-cli2.9base)
+[点我查看V1.0版本](https://github.com/QDMarkMan/vue-base-template/tree/vue-cli2.9base)
 
 
 ## 2019年5月25日更新内容
