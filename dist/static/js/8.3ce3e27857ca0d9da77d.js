@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[8],{"N/kD":function(n,e,t){"use strict";t.r(e);var i=t("KHd+"),a=Object(i.a)({name:"index",data:function(){return{value:""}}},function(){var n=this.$createElement;return(this._self._c||n)("div",{staticClass:"index"},[this._v("\n  index\n")])},[],!1,null,null,null);e.default=a.exports}}]);
