@@ -6,7 +6,7 @@
  * @Description: 当前项目配置文件
  * @youWant: add you want info here
  * @Date: 2019-04-24 17:45:34
- * @LastEditTime: 2019-05-27 17:14:28
+ * @LastEditTime: 2019-05-28 14:55:53
  */
 const path = require('path')
 const resolve = dir => path.join(__dirname, dir)
@@ -71,7 +71,7 @@ module.exports = {
     // it can be accessed in index.html to inject the correct title.
     resolve: {
       // 自动扫描文件
-      extensions: ['.js', '.vue', '.json'],
+      extensions: ['.js', '.json', '.vue', '.less'],
       // 别名
       alias: {
         vue$: 'vue/dist/vue.esm.js',
@@ -107,6 +107,7 @@ module.exports = {
       .use('vue-loader')
       .loader('vue-loader')
       .tap(options => {
+        // 渲染函数是否会保留所有 HTML 标签之间的空格 如果设置为 false，则标签之间的空格会被忽略。这能够略微提升一点性能但是可能会影响到内联元素的布局。
         options.compilerOptions.preserveWhitespace = true
         return options
       })
@@ -125,7 +126,7 @@ module.exports = {
       args[0].cdn = cdn
       return args
     })
-    // 运行时/打包模块拆分优化
+    // 运行时/打包 模块拆分优化
     config.optimization.splitChunks({
       chunks: 'all',
       cacheGroups: {
