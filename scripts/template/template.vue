@@ -1,7 +1,7 @@
 <template>
   <box-content>
     <div class="search">
-      
+      module
     </div>
     <base-table
       v-loading="loading"
@@ -21,10 +21,9 @@
 
 <script>
 import listMixins from '@/mixins/list'
-import typeMixin from '@/mixins/types'
 export default {
-  name: '$module',
-  mixins: [listMixins, typeMixin],
+  name: 'module',
+  mixins: [listMixins],
   data() {
     return {
       loading: false,
@@ -81,8 +80,4 @@ export default {
   }
 }
 </script>
-<style lang="less">
-.search {
-  margin: 10px 0;
-}
-</style>
+

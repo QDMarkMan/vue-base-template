@@ -4,26 +4,24 @@
  * @Version: 
  * @Date: 2019-05-25 15:13:51
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-05 17:15:27
+ * @LastEditTime: 2019-06-12 18:04:49
  * @Description: 文件生成模块重构==> 进行中
  * @youWant: add you want info here
  */
 
 const fs = require('fs')
 const path = require('path')
-
-const VueTemplate = fs.readFileSync(path.resolve(__dirname, './template.vue'))
-
-const myTemplaye = VueTemplate.toString().replace("$template", "aaa")
-
-console.log(myTemplaye)
-
+const { StringUtil } = require('../util')
+const ENV = fs.readFileSync(path.resolve(__dirname, '../../.env.development.local'))
+console.log(ENV.toString())
 /**
  * 生成Vue template文件
  * @param {*} moduleName 
  */
 module.exports.buildVueFile = (moduleName) => {
-  
+  const VueTemplate = fs.readFileSync(path.resolve(__dirname, './template.vue'))
+  const builtTemplaye = StringUtil.replaceAll(VueTemplate.toString(), "module", moduleName)
+  return builtTemplaye
 }
 /**
  * @author: etongfu

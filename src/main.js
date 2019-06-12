@@ -17,6 +17,9 @@ new Vue({
   components: { App },
   template: '<App/>',
   beforeCreate() {
+    /**
+     * TODO 这个后期肯定会重新做 现在实现的方式不是很优雅
+     */
     const ieVersion = this.$util.getIeVersion()
     // get skeleton dom
     const skeleton = document.querySelector('.skeleton')

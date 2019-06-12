@@ -4,17 +4,18 @@
  * @Version: 
  * @Date: 2019-06-03 17:39:27
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-05 17:18:01
+ * @LastEditTime: 2019-06-12 17:23:21
  * @Description: 脚本工具文件
  * @youWant: add you want info here
  */
 const chalk = require('chalk')
 const path = require('path')
+const fs = require('fs')
 /**
  * @author: etongfu
  * @description: 日志帮助文件
  */
-module.exports.Log = class {
+class Log {
   static logger (msg) {
     console.log(chalk.blue(`${msg}`))
   }
@@ -31,6 +32,7 @@ module.exports.Log = class {
     console.log(chalk.red(`${msg}`))
   }
 }
+module.exports.Log = Log
 /**
  * 字符串Util
  */
@@ -41,9 +43,9 @@ module.exports.StringUtil = class {
    * @param {*} oldStr 
    * @param {*} newStr 
    */
-  static replaceAll (targetStr, oldStr ,newStr) {
-    let reg = new RegExp(oldStr, 'g')
-    return targetStr.replace(reg,newStr)
+  static replaceAll (str, AFindText, ARepText) {
+    let raRegExp = new RegExp(AFindText, "g")
+    return str.replace(raRegExp, ARepText)
   }
   /**
   * 去除空格(字符串,要去除空格的类型)
@@ -88,7 +90,7 @@ module.exports.FileUtil = class {
    * @param {*string} dir  文件夹名称
    * @param {*string} existsPath  制定文件夹路径
    */
-  static isFileInDir (dir, existsPath) {
+  static isPathInDir (dir, existsPath) {
     let files = []
     if (!existsPath) {
       // views dir
@@ -101,22 +103,24 @@ module.exports.FileUtil = class {
   }
   /**
    * If module is Empty then create dir and file
-   * @param {*} filePath
-   * @param {*} content
-   * @param {*} dirPath
+   * @param {*} filePath .vue/.js 文件路径
+   * @param {*} content 内容
+   * @param {*} dirPath 文件夹目录
    */
   static async createDirAndFile (filePath, content, dirPath = '') {
     try {
-      // create file if file not exit
+      // create dic if file not exit
       if (dirPath !== '' && !await fs.existsSync(dirPath)) {
+        // mkdir new dolder
         await fs.mkdirSync(dirPath)
         Log.success(`created ${dirPath}`)
       }
       if (!await fs.existsSync(filePath)) {
-        // create file
+        // create a open file
         await fs.openSync(filePath, 'w')
         Log.success(`created ${filePath}`)
       }
+      // write content to file
       await fs.writeFileSync(filePath, content, 'utf8')
     } catch (error) {
       Log.error(error)
@@ -128,6 +132,6 @@ module.exports.FileUtil = class {
    */
   static createDir (dirPath) {
     fs.mkdirSync(dirPath)
-    Log.success(`created ${dirPath}`)
+    // Log.success(`created ${dirPath}`)
   }
 }

@@ -1,15 +1,23 @@
+/*
+ * @Author: 
+ * @Version: 
+ * @Date: date
+ * @Description: 
+ * @youWant: add you want info here
+ */
+
 export default [
   {
-    path: "/$module",
+    path: "/module",
     component: () => import("@/views/frame/Frame"),
-    redirect: "$url",
+    redirect: "/folder/module",
     name: "",
     icon: "",
     noDropdown: false,
     children: [
       {
         path: "$url",
-        component: () => import("@/views/$compath/index"),
+        component: () => import("@/views/folder/module/index"),
         name: ""
       }
     ]
