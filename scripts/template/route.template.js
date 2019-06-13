@@ -16,7 +16,10 @@ export default [
       {
         path: "/_filePath",
         component: () => import("@/views/_filePath/index"),
-        name: "_module"
+        name: "_module",
+        meta: {
+          keepAlive: false
+        }
       }
     ]
   }

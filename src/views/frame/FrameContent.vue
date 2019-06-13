@@ -1,15 +1,22 @@
 <template>
   <main class="frame-content">
-    <div class="content-fluid">
+    <section class="content-fluid">
       <transition
         enter-active-class="fadeIn"
         leave-active-class="fadeOut"
         mode="out-in"
         class="animated"
       >
-        <router-view />
+        
+        <div>
+            <!-- 最多缓存一个组件 你可以按照需求自己设置 -->
+            <keep-alive :max="1">
+              <router-view v-if="$route.meta.keepAlive"></router-view>
+            </keep-alive>
+            <router-view v-if="!$route.meta.keepAlive"></router-view>
+          </div>
       </transition>
-    </div>
+    </section>
   </main>
 </template>
 
