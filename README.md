@@ -21,7 +21,7 @@
 - `less`变量全局注入
 - 配置文件采用`.env`环境替代
 - 新增了`SSH远程发布`
-- 模块生成方式的重构(进行中)
+- 模块生成方式的重构(已进入测试阶段)
 - 新增打包完成之后的`hook`(进行中)
 - 富文本编辑器的重构(进行中)
 
@@ -96,8 +96,8 @@ npm run build:dll
 # run deploy scripts
 npm run deploy
 
-# add a new module by script
-# npm run module 
+# create module for our project
+npm run create 
 
 # lint file
 npm run lint 
