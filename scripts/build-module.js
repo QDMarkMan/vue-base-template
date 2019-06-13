@@ -4,7 +4,7 @@
  * @Version: V2.0
  * @Date: 2019-06-03 17:35:48
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-12 17:45:35
+ * @LastEditTime: 2019-06-13 15:53:50
  * @Description: 快速创建新模块/页面2.0 版本 基于问答模式的创建模块
  * 新建模块流程
  *  ==> 选择创建的类型 模块/页面
@@ -16,58 +16,15 @@
  */
 const inquirer = require('inquirer')
 const path = require('path')
-const fs = require('fs')
-const { Log, FileUtil } = require('./util')
-const { buildVueFile } = require('./template')
-const reslove = (file = '.') => path.resolve(__dirname, '../src', file)
-// root path
-const ROOTPATH = Object.freeze({
-  srcPath: reslove(),
-  routerPath: reslove('router/modules'),
-  apiPath: reslove('api'),
-  viewsPath: reslove('views')
-})
+const { Log, FileUtil, LOCAL , ROOTPATH} = require('./util')
+const { buildVueFile, buildRouteFile, buildApiFile, RouteFile } = require('./template')
+const EventEmitter = require('events');
 // 询问项
 const questions = [
-  /* {
-    type: 'list',
-    message: '请选择创建类型',
-    name: 'isModule',
-    choices: [
-      {
-        name: '模块',
-        value: true
-      },
-      {
-        name: '页面',
-        value: false
-      }
-    ]
-  },
-  {
-    type: 'input',
-    name: 'AUTHOR',
-    message: "请输入作者（推荐使用拼音或者英文）",
-    // 格式验证
-    validate: str => ( str !== '' && /^[\u4E00-\u9FA5A-Za-z]+$/.test(str)),
-    when: () => !Boolean(process.env.AUTHOR)
-  },
-   */
   {
     type: 'input',
     name: 'folder',
     message: "请输入所属目录名称(英文，如果检测不到已输入目录将会默认新建，跳过此步骤将在Views文件夹下创建新模块)："
-    /* when: function(answers) { // 当watch为true的时候才会提问当前问题
-      return answers.isModule
-    } */
-  },
-  {
-    type: 'confirm',
-    message: `是否强制覆盖已存在同名文件夹?`,
-    name: 'cover',
-    when: function(answers) { // 当watch为true的时候才会提问当前问题
-      return FileUtil.isPathInDir(answers.folder, ROOTPATH.viewsPath)
-    }
   },
   {
     type: 'input',
@@ -76,30 +33,65 @@ const questions = [
     // 格式验证
     validate: str => ( str !== '' && /^[A-Za-z0-9_-]+$/.test(str))
   },
-  /* {
-    type: "input",
-    message: "您输入的文件夹不存在请重新输入",
-    name: "filter",
-    suffix: "后缀",
-    when: function(answers) { // 当watch为true的时候才会提问当前问题
-      return answers.isModule
-    }
-  },
+  // 单一模块创建的时候才询问
   {
     type: 'confirm',
-    message: '是否强制覆盖已存在同名文件夹?',
-    name: 'cover'
-  }*/
+    message: `是否强制覆盖已存在同名文件夹?`,
+    name: 'cover',
+    when: function(answers) { // 当folder为空且module名称已经存在的时候才会提问当前问题
+      return (answers.folder == '' && FileUtil.isPathInDir(answers.module, ROOTPATH.viewsPath))
+    }
+  }
 ]
+// 配置项相关问题
+const configQuestion = [
+  {
+    type: 'input',
+    name: 'AUTHOR',
+    message: "请输入作者（推荐使用拼音或者英文）",
+    // 格式验证
+    validate: str => ( str !== '' && /^[\u4E00-\u9FA5A-Za-z]+$/.test(str)),
+    when: () => !Boolean(process.env.AUTHOR)
+  },
+  {
+    type: 'input',
+    name: 'Email',
+    message: "请输入联系邮箱",
+    // 格式验证
+    /* validate: str => ( str !== '' && /^[\u4E00-\u9FA5A-Za-z]+$/.test(str)),
+    when: () => !Boolean(process.env.AUTHOR) */
+  }
+]
+// 判断本地配置环境
+if (!LOCAL.hasEnvFile()) {
+  questions.unshift(...configQuestion)
+}
 // 获取已经完成的大难
 inquirer.prompt(questions).then(answers => {
-  Log.logger(JSON.stringify(answers, null, '  '))
+  // 日志打印
+  Log.logger(answers.folder == '' ? '即将为您' : `即将为您在${answers.folder}文件夹下` + `创建${answers.module}模块`)
   const {
     folder,
     module
   } = answers
-  // 执行目录和文件的创造
+  // 1: 配置文件的相关设置
+  if (!LOCAL.hasEnvFile()) {
+    LOCAL.buildEnvFile({
+      AUTHOR: answers.AUTHOR,
+      Email: answers.Email
+    })
+  }
+  // 2: 执行目录和文件的创造
   buildDirAndFiles(folder, module)
+})
+// 注册事件处理中心
+class RouteEmitter extends EventEmitter {}
+const routeEmitter = new RouteEmitter() // 事件处理中心
+routeEmitter.on('success', value => {
+  // 创建成功
+  if (value) {
+    process.exit(1)
+  }
 })
 // module-method map
 // create module methods
@@ -110,7 +102,7 @@ const generates = new Map([
     // 目录和文件的生成路径
     const folderPath = path.join(ROOTPATH.viewsPath,folder,module)
     const vuePath = path.join(folderPath, '/index.vue')
-    // 文件生成
+    // vue文件生成
     await FileUtil.createDirAndFile(vuePath, buildVueFile(module), folderPath)
   }],
   // router is not need new folder
@@ -122,12 +114,12 @@ const generates = new Map([
      * 这样做使得我们的目录结构和模块划分都更加的清晰。
      */
     if (isNewDir) {
-      const routerPath = path.join(ROOTPATH.routerPath, `/${folder}.js`)
-      // await FileUtil.createDirAndFile(routerPath, routerFile(module, dir, isSimpleModule))
+      // 如果folder不存在 那么直接使用module命名 folder不存在的情况是直接在src根目录下创建模块
+      const routerPath = path.join(ROOTPATH.routerPath, `/${folder || module}.js`)
+      await FileUtil.createDirAndFile(routerPath, buildRouteFile(folder, module))
     } else {
-      /* injectRouteSuccess = false
-      const route = new RouteFile(module, dir)
-      route.injectRoute() */
+      const route = new RouteFile(folder, module, routeEmitter)
+      route.injectRoute()
     }
   }],
   ['api', async (folder, module, isNewDir) => {
@@ -137,7 +129,7 @@ const generates = new Map([
     // 存在上级目录就使用上级目录  不存在上级目录的话就是使用当前模块的名称进行创建
     const filePath = path.join(ROOTPATH.apiPath, folder || module)
     const apiPath = path.join(filePath, targetFile)
-    // await FileUtil.createDirAndFile(apiPath, apiFile(module), filePath)
+    await FileUtil.createDirAndFile(apiPath, buildApiFile(), filePath)
   }]
 ])
 /**
@@ -148,7 +140,6 @@ const generates = new Map([
 function buildDirAndFiles (folder, module) {
   let _tempFloder = folder || module // 临时文件夹 如果当前的文件是
   let isNewDir
-
   // 如果没有这个目录那么就新建这个目录
   if (!FileUtil.isPathInDir(_tempFloder, ROOTPATH.viewsPath)) {
     rootDirPath = path.join(ROOTPATH.viewsPath, _tempFloder)
@@ -171,5 +162,3 @@ function buildDirAndFiles (folder, module) {
     }
   })
 }
-
-/*   */

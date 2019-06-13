@@ -4,33 +4,60 @@
  * @Version: 
  * @Date: 2019-05-25 15:13:51
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-12 18:04:49
+ * @LastEditTime: 2019-06-13 15:39:41
  * @Description: 文件生成模块重构==> 进行中
  * @youWant: add you want info here
  */
 
 const fs = require('fs')
 const path = require('path')
-const { StringUtil } = require('../util')
-const ENV = fs.readFileSync(path.resolve(__dirname, '../../.env.development.local'))
-console.log(ENV.toString())
+const os = require('os')
+const readline = require('readline')
+const {Log, StringUtil , LOCAL, DateUtil, ROOTPATH} = require('../util')
+/**
+ * 替换作者时间日期等等通用注释
+ * @param {*} str 
+ * @todo 有待优化
+ */
+const replaceCommonContent = (content) => {
+  const comments = [
+    ['_author_', LOCAL.config.AUTHOR],
+    ['_email_', LOCAL.config.Email],
+    ['_date_', DateUtil.getCurrentDate()]
+  ]
+  comments.forEach(item => {
+    content = content.replace(item[0], item[1])
+  })
+  return content
+}
 /**
  * 生成Vue template文件
- * @param {*} moduleName 
+ * @param {*} moduleName 模块名称
+ * @returns {*string}
  */
 module.exports.buildVueFile = (moduleName) => {
   const VueTemplate = fs.readFileSync(path.resolve(__dirname, './template.vue'))
-  const builtTemplaye = StringUtil.replaceAll(VueTemplate.toString(), "module", moduleName)
-  return builtTemplaye
+  const builtTemplate = StringUtil.replaceAll(VueTemplate.toString(), "module", moduleName)
+  return replaceCommonContent(builtTemplate)
 }
 /**
  * @author: etongfu
  * @description: 生成路由文件
- * @param {type}  {*}
- * @returns:  {*}
+ * @param {string} folder 文件夹名称 
+ * @param {string} moduleName 模块名称
+ * @returns  {*string}
  */
-module.exports.buildRouteFile = (moduleName) => {
+module.exports.buildRouteFile = (folder,moduleName) => {
+  const RouteTemplate = fs.readFileSync(path.resolve(__dirname, './route.template.js')).toString()
+  // 拼接执行参数
+  const _mainPath = folder || moduleName
+  const _filePath = folder == '' ? `${moduleName}` : `${folder}/${moduleName}`
+  // 进行替换
+  let builtTemplate = StringUtil.replaceAll(RouteTemplate, "_mainPath", _mainPath) // 替换模块主名称
+  builtTemplate = StringUtil.replaceAll(builtTemplate, "_filePath", _filePath) // 替换具体路由路由名称
+  builtTemplate = StringUtil.replaceAll(builtTemplate, "_module", moduleName) // 替换模块中的name
 
+  return replaceCommonContent(builtTemplate)
 }
 
 /**
@@ -40,5 +67,92 @@ module.exports.buildRouteFile = (moduleName) => {
  * @returns:  {*}
  */
 module.exports.buildApiFile = () => {
-  
+  const ApiTemplate = fs.readFileSync(path.resolve(__dirname, './api.template.js')).toString()
+  return replaceCommonContent(ApiTemplate)
 }
+
+/**
+ * router file generate
+ */
+class RouteFile {
+  constructor (dirName, moduleName, event) {
+    // the dir path for router file
+    this.dirName = dirName
+    // the path for router file
+    this.moduleName = moduleName
+    // 事件中心
+    this.event = event
+    // route absolute path
+    this.modulePath = path.join(ROOTPATH.routerPath, `${dirName}.js`)
+  }
+  /**
+   * Generate a router for module
+   * The vue file path is @/name/name/index
+   * The default full url is http:xxxxx/name/name
+   * @param {*} routeName url default is router name
+   * @param {*string} filePath vue file path default is ${this.dirName}/${this.moduleName}/index
+   * @returns {*Array} A string array for write line
+   */
+  generateRouter (routeName = this.moduleName, filePath = `${this.dirName}/${this.moduleName}/index`) {
+    let temp = [
+      `      {`,
+      `        path: "/${this.dirName}/${routeName}",`,
+      `        component: () => import("@/views/${filePath}"),`,
+      `        name: "${routeName}"`,
+      `      },`
+    ]
+    return temp
+  }
+  /**
+   * add router to file
+   */
+  injectRoute () {
+    try {
+      const root = this.modulePath
+      const _root = path.join(ROOTPATH.routerPath, `_${this.dirName}.js`)
+      // temp file content
+      let temp = []
+      // file read or write
+      let readStream = fs.createReadStream(root)
+      let writeStream = fs.createWriteStream(_root)
+      let readInterface = readline.createInterface(
+        {
+          input: readStream
+        // output: writeStream
+        }
+      )
+      // collect old data in file
+      readInterface.on('line', (line) => {
+        temp.push(line)
+      })
+      // After read file and we begin write new router to this file
+      readInterface.on('close', async () => {
+        let _index
+        temp.forEach((line, index) => {
+          if (line.indexOf('children') !== -1) {
+            _index = index + 1
+          }
+        })
+        temp = temp.slice(0, _index).concat(this.generateRouter(), temp.slice(_index))
+        // write file
+        temp.forEach((el, index) => {
+          writeStream.write(el + os.EOL)
+        })
+        writeStream.end('\n')
+        // 流文件读写完毕
+        writeStream.on('finish', () => {
+          fs.unlinkSync(root)
+          fs.renameSync(_root, root)
+          Log.success(`路由/${this.dirName}/${this.moduleName}注入成功`)
+          // process.stdin.emit('end')
+          //emit 成功事件
+          this.event.emit('success', true)
+        })
+      })
+    } catch (error) {
+      Log.error('路由注入失败')
+      Log.error(error)
+    }
+  }
+}
+module.exports.RouteFile = RouteFile

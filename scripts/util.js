@@ -4,13 +4,64 @@
  * @Version: 
  * @Date: 2019-06-03 17:39:27
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-12 17:23:21
+ * @LastEditTime: 2019-06-13 15:13:27
  * @Description: 脚本工具文件
  * @youWant: add you want info here
  */
 const chalk = require('chalk')
 const path = require('path')
+const dotenv = require('dotenv')
 const fs = require('fs')
+// local配置
+module.exports.LOCAL = class  {
+  /**
+   * env path
+   */
+  static get envPath () {
+    return path.resolve(__dirname, './.env.local')
+  }
+  /**
+   * 配置文件
+   */
+  static get config () {
+    // ENV 文件查找优先查找./env.local
+    const ENV = fs.readFileSync(path.resolve(__dirname, './.env.local')) || fs.readFileSync(path.resolve(__dirname, '../.env.development.local'))
+    // 转为config
+    const envConfig = dotenv.parse(ENV)
+    return envConfig
+  }
+  /**
+   * 创建.env配置文件文件
+   * @param {*} config 
+   * @description 创建的env文件会保存在scripts文件夹中
+   */
+  static buildEnvFile (config = {AUTHOR: ''}) {
+    if (!fs.existsSync(this.envPath)) {
+      console.log(this.envPath)
+      // create a open file
+      fs.openSync(this.envPath, 'w')
+    }
+    let content = ''
+    // 判断配置文件是否合法
+    if (Object.keys(config).length > 0) {
+      // 拼接内容
+      for (const key in config) {
+        let temp = `${key} = ${config[key]}\n`
+        content += temp
+      }
+    }
+    // write content to file
+    fs.writeFileSync(this.envPath, content, 'utf8')
+    Log.success(`local env file ${this.envPath} create success`)
+  }
+  /**
+   * 检测env.loacl文件是否存在
+   */
+  static hasEnvFile () {
+    return fs.existsSync(path.resolve(__dirname, './.env.local')) || fs.existsSync(path.resolve(__dirname, '../.env.development.local'))
+  }
+}
+
 /**
  * @author: etongfu
  * @description: 日志帮助文件
@@ -33,6 +84,7 @@ class Log {
   }
 }
 module.exports.Log = Log
+
 /**
  * 字符串Util
  */
@@ -135,3 +187,68 @@ module.exports.FileUtil = class {
     // Log.success(`created ${dirPath}`)
   }
 }
+const initDateStr = str => (str >= 0 && str <= 9) ? `0${str}` : str 
+module.exports.DateUtil = class {
+  /**
+   * @author: etongfu
+   * @description: 获取当前时间
+   * @param {format}  {*} 格式 date:YYYY-MM-DD time: hh:mm:ss full:YYYY-MM-DD hh:mm:ss
+   * @param {useCN} 使用中文
+   * @returns: {*String}
+   */
+  static getCurrentDate (format = "YYYY-MM-DD hh:mm:ss", useCN = false) {
+    const types = ["YYYY-MM-DD", "YYYY-MM-DD hh:mm:ss", "hh:mm:ss"]
+    // 在null或者不传的情况下进行默认值传递
+    if (types.indexOf(format) === -1) format = types[0]
+    const date = new Date() ,seperator1 = "-" , seperator2 = ":"
+    let month = initDateStr(date.getMonth() + 1) , strDate = initDateStr(date.getDate()), hours = initDateStr(date.getHours()), minutes = initDateStr(date.getMinutes()) , seconds = initDateStr(date.getSeconds())
+    let currentdate = ""
+    switch (types.indexOf(format)) {
+      case 0:
+        currentdate = useCN ? date.getFullYear() + "年" + month + "月" + strDate + "日" : date.getFullYear() + seperator1 + month + seperator1 + strDate
+        break;
+      case 1:
+        currentdate =
+          useCN ? 
+          date.getFullYear() +
+          "年" +
+          month +
+          "月" +
+          strDate +
+          "日 " +
+          hours +
+          seperator2 +
+          minutes +
+          seperator2 +
+          seconds
+          : date.getFullYear() +
+          seperator1 +
+          month +
+          seperator1 +
+          strDate +
+          " " +
+          hours +
+          seperator2 +
+          minutes +
+          seperator2 +
+          seconds
+        break;
+      case 2:
+        currentdate = hours + seperator2 + minutes + seperator2 + date.getSeconds()
+        break;
+      default:
+        currentdate = useCN ? date.getFullYear() + "年" + month + "月" + strDate + "日" : date.getFullYear() + seperator1 + month + seperator1 + strDate
+        break;
+    }
+    return currentdate
+  }
+}
+// root path
+const reslove = (file = '.') => path.resolve(__dirname, '../src', file)
+const ROOTPATH = Object.freeze({
+  srcPath: reslove(),
+  routerPath: reslove('router/modules'),
+  apiPath: reslove('api'),
+  viewsPath: reslove('views')
+})
+module.exports.ROOTPATH = ROOTPATH

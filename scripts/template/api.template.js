@@ -1,4 +1,9 @@
-// $module api file
+/*
+ * @Author: _author_
+ * @Email: _email_
+ * @Date: _date_
+ * @Description: 
+ */
 import http from '@/utils/http'
 
 export function demo(data) {

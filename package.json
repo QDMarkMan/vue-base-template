@@ -11,6 +11,7 @@
     "build:stage": "vue-cli-service build --mode stage",
     "build:dll": "webpack -p --progress --config config/dll.config.js",
     "deploy": "node scripts/deploy.js",
+    "create": "node scripts/build-module.js",
     "lint": "eslint --ext .js,.vue src",
     "lint:fix": "vue-cli-service lint"
   },
@@ -38,6 +39,7 @@
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
     "connect": "^3.7.0",
+    "dotenv": "^8.0.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "happypack": "^5.0.1",

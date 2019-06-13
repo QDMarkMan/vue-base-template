@@ -20,6 +20,12 @@
 </template>
 
 <script>
+/*
+ * @Author: _author_
+ * @Email: _email_
+ * @Date: _date_
+ * @Description: 
+ */
 import listMixins from '@/mixins/list'
 export default {
   name: 'module',
