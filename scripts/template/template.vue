@@ -24,11 +24,11 @@
  * @Author: _author_
  * @Email: _email_
  * @Date: _date_
- * @Description: 
+ * @Description: _comment_
  */
 import listMixins from '@/mixins/list'
 export default {
-  name: 'module',
+  name: '_module_',
   mixins: [listMixins],
   data() {
     return {

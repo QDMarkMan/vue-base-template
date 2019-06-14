@@ -4,7 +4,7 @@
  * @Version: V2.0
  * @Date: 2019-06-03 17:35:48
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-13 15:53:50
+ * @LastEditTime: 2019-06-14 14:23:54
  * @Description: 快速创建新模块/页面2.0 版本 基于问答模式的创建模块
  * 新建模块流程
  *  ==> 选择创建的类型 模块/页面
@@ -36,12 +36,17 @@ const questions = [
   // 单一模块创建的时候才询问
   {
     type: 'confirm',
-    message: `是否强制覆盖已存在同名文件夹?`,
+    message: `是否强制覆盖已存在同名文件夹(选否即退出当前创建)?`,
     name: 'cover',
     when: function(answers) { // 当folder为空且module名称已经存在的时候才会提问当前问题
       return (answers.folder == '' && FileUtil.isPathInDir(answers.module, ROOTPATH.viewsPath))
     }
-  }
+  },
+  {
+    type: 'input',
+    name: 'comment',
+    message: "请输入模块描述(注释)："
+  },
 ]
 // 配置项相关问题
 const configQuestion = [
@@ -56,33 +61,33 @@ const configQuestion = [
   {
     type: 'input',
     name: 'Email',
-    message: "请输入联系邮箱",
-    // 格式验证
-    /* validate: str => ( str !== '' && /^[\u4E00-\u9FA5A-Za-z]+$/.test(str)),
-    when: () => !Boolean(process.env.AUTHOR) */
+    message: "请输入联系方式（邮箱/电话/钉钉）"
   }
 ]
 // 判断本地配置环境
 if (!LOCAL.hasEnvFile()) {
   questions.unshift(...configQuestion)
 }
-// 获取已经完成的大难
+// 获取已经完成的答案
 inquirer.prompt(questions).then(answers => {
-  // 日志打印
+  // 1: 日志打印
   Log.logger(answers.folder == '' ? '即将为您' : `即将为您在${answers.folder}文件夹下` + `创建${answers.module}模块`)
-  const {
-    folder,
-    module
-  } = answers
-  // 1: 配置文件的相关设置
+  // 根据答案进行是否进行下一步操作
+  if (answers.folder == '' && FileUtil.isPathInDir(answers.module, ROOTPATH.viewsPath) && !answers.cover) return process.exit(1)
+  // 2: 配置文件的相关设置
   if (!LOCAL.hasEnvFile()) {
     LOCAL.buildEnvFile({
       AUTHOR: answers.AUTHOR,
       Email: answers.Email
     })
   }
-  // 2: 执行目录和文件的创造
-  buildDirAndFiles(folder, module)
+  // 3: 进入文件和目录创建流程
+  const {
+    folder,
+    module,
+    comment
+  } = answers
+  buildDirAndFiles(folder, module, comment)
 })
 // 注册事件处理中心
 class RouteEmitter extends EventEmitter {}
@@ -98,15 +103,15 @@ routeEmitter.on('success', value => {
 const generates = new Map([
   // views部分
   // 2019年6月12日17:39:29 完成
-  ['view',async (folder, module) => {
+  ['view',async (folder, module, isNewDir , comment) => {
     // 目录和文件的生成路径
     const folderPath = path.join(ROOTPATH.viewsPath,folder,module)
     const vuePath = path.join(folderPath, '/index.vue')
     // vue文件生成
-    await FileUtil.createDirAndFile(vuePath, buildVueFile(module), folderPath)
+    await FileUtil.createDirAndFile(vuePath, buildVueFile(module, comment), folderPath)
   }],
   // router is not need new folder
-  ['router', async (folder, module, isNewDir) => {
+  ['router', async (folder, module, isNewDir, comment) => {
     /**
      * @des 路由文件和其他的文件生成都不一样， 如果是新的目录那么生成新的文件。
      * 但是如果module所在的folder 已经存在了那么就对路由文件进行注入。
@@ -116,28 +121,29 @@ const generates = new Map([
     if (isNewDir) {
       // 如果folder不存在 那么直接使用module命名 folder不存在的情况是直接在src根目录下创建模块
       const routerPath = path.join(ROOTPATH.routerPath, `/${folder || module}.js`)
-      await FileUtil.createDirAndFile(routerPath, buildRouteFile(folder, module))
+      await FileUtil.createDirAndFile(routerPath, buildRouteFile(folder, module, comment))
     } else {
       const route = new RouteFile(folder, module, routeEmitter)
       route.injectRoute()
     }
   }],
-  ['api', async (folder, module, isNewDir) => {
+  ['api', async (folder, module, isNewDir, comment) => {
     // inner module will not add new folder
     // 如果当前的模块已经存在的话那么就在当前模块的文件夹下生成对应的模块js
     const targetFile = isNewDir ? `/index.js` : `/${module}.js`
     // 存在上级目录就使用上级目录  不存在上级目录的话就是使用当前模块的名称进行创建
     const filePath = path.join(ROOTPATH.apiPath, folder || module)
     const apiPath = path.join(filePath, targetFile)
-    await FileUtil.createDirAndFile(apiPath, buildApiFile(), filePath)
+    await FileUtil.createDirAndFile(apiPath, buildApiFile(comment), filePath)
   }]
 ])
 /**
  * 通过我们询问的答案来创建文件/文件夹
- * @param {*} folder 
- * @param {*} module 
+ * @param {*} folder 目录名称
+ * @param {*} module 模块名称
+ * @param {*} comment 注释
  */
-function buildDirAndFiles (folder, module) {
+function buildDirAndFiles (folder, module, comment) {
   let _tempFloder = folder || module // 临时文件夹 如果当前的文件是
   let isNewDir
   // 如果没有这个目录那么就新建这个目录
@@ -155,7 +161,7 @@ function buildDirAndFiles (folder, module) {
   let _arrays = [...generates]
   _arrays.forEach((el, i) => {
     if (i < _arrays.length) {
-      el[1](folder, module, isNewDir)
+      el[1](folder, module, isNewDir, comment)
     } else {
       Log.success("模块创建成功!")
       process.exit(1)

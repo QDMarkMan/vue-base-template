@@ -4,25 +4,25 @@
  * @Version: 
  * @Date: 2019-05-25 15:13:51
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-13 15:39:41
- * @Description: 文件生成模块重构==> 进行中
+ * @LastEditTime: 2019-06-14 15:09:17
+ * @Description: 文件模板管理模块
  * @youWant: add you want info here
  */
-
 const fs = require('fs')
 const path = require('path')
 const os = require('os')
 const readline = require('readline')
-const {Log, StringUtil , LOCAL, DateUtil, ROOTPATH} = require('../util')
+const {Log, DateUtil, StringUtil , LOCAL, DateUtil, ROOTPATH} = require('../util')
 /**
- * 替换作者时间日期等等通用注释
+ * 替换作者/时间/日期等等通用注释
  * @param {*} str 
  * @todo 有待优化
  */
-const replaceCommonContent = (content) => {
+const _replaceCommonContent = (content, comment) => {
   const comments = [
     ['_author_', LOCAL.config.AUTHOR],
     ['_email_', LOCAL.config.Email],
+    ['_comment_', comment],
     ['_date_', DateUtil.getCurrentDate()]
   ]
   comments.forEach(item => {
@@ -35,10 +35,10 @@ const replaceCommonContent = (content) => {
  * @param {*} moduleName 模块名称
  * @returns {*string}
  */
-module.exports.buildVueFile = (moduleName) => {
+module.exports.buildVueFile = (moduleName, comment) => {
   const VueTemplate = fs.readFileSync(path.resolve(__dirname, './template.vue'))
-  const builtTemplate = StringUtil.replaceAll(VueTemplate.toString(), "module", moduleName)
-  return replaceCommonContent(builtTemplate)
+  const builtTemplate = StringUtil.replaceAll(VueTemplate.toString(), "_module_", moduleName)
+  return _replaceCommonContent(builtTemplate, comment)
 }
 /**
  * @author: etongfu
@@ -47,34 +47,38 @@ module.exports.buildVueFile = (moduleName) => {
  * @param {string} moduleName 模块名称
  * @returns  {*string}
  */
-module.exports.buildRouteFile = (folder,moduleName) => {
+module.exports.buildRouteFile = (folder,moduleName, comment) => {
   const RouteTemplate = fs.readFileSync(path.resolve(__dirname, './route.template.js')).toString()
-  // 拼接执行参数
+  // 因为路由比较特殊。路由模块需要指定的路径。所以在这里重新生成路由文件所需要的参数。
   const _mainPath = folder || moduleName
   const _filePath = folder == '' ? `${moduleName}` : `${folder}/${moduleName}`
   // 进行替换
   let builtTemplate = StringUtil.replaceAll(RouteTemplate, "_mainPath", _mainPath) // 替换模块主名称
   builtTemplate = StringUtil.replaceAll(builtTemplate, "_filePath", _filePath) // 替换具体路由路由名称
   builtTemplate = StringUtil.replaceAll(builtTemplate, "_module", moduleName) // 替换模块中的name
-
-  return replaceCommonContent(builtTemplate)
+  return _replaceCommonContent(builtTemplate, comment)
 }
 
 /**
  * @author: etongfu
  * @description: 生成API文件
- * @param {type}  {*}
+ * @param {string}  comment 注释
  * @returns:  {*}
  */
-module.exports.buildApiFile = () => {
+module.exports.buildApiFile = comment => {
   const ApiTemplate = fs.readFileSync(path.resolve(__dirname, './api.template.js')).toString()
-  return replaceCommonContent(ApiTemplate)
+  return _replaceCommonContent(ApiTemplate, comment)
 }
 
 /**
- * router file generate
+ * @author: etongfu
+ * @description: 路由注入器
+ * @param {string}  dirName
+ * @param {string}  moduleName
+ * @param {event}  event
+ * @returns:  {*}
  */
-class RouteFile {
+module.exports.RouteFile = class {
   constructor (dirName, moduleName, event) {
     // the dir path for router file
     this.dirName = dirName
@@ -95,6 +99,8 @@ class RouteFile {
    */
   generateRouter (routeName = this.moduleName, filePath = `${this.dirName}/${this.moduleName}/index`) {
     let temp = [
+      `      // @Author: ${LOCAL.config.AUTHOR}`,
+      `      // @Date: ${DateUtil}`,
       `      {`,
       `        path: "/${this.dirName}/${routeName}",`,
       `        component: () => import("@/views/${filePath}"),`,
@@ -114,6 +120,7 @@ class RouteFile {
       let temp = []
       // file read or write
       let readStream = fs.createReadStream(root)
+      // temp file
       let writeStream = fs.createWriteStream(_root)
       let readInterface = readline.createInterface(
         {
@@ -155,4 +162,3 @@ class RouteFile {
     }
   }
 }
-module.exports.RouteFile = RouteFile
