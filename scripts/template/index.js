@@ -1,10 +1,10 @@
 /*
  * @Author: etongfu
  * @Email: 13583254085@163.com
- * @Version: 
+ * @Version: 2.0
  * @Date: 2019-05-25 15:13:51
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-14 15:09:17
+ * @LastEditTime: 2019-06-14 16:18:53
  * @Description: 文件模板管理模块
  * @youWant: add you want info here
  */
@@ -15,10 +15,13 @@ const readline = require('readline')
 const {Log, DateUtil, StringUtil , LOCAL, DateUtil, ROOTPATH} = require('../util')
 /**
  * 替换作者/时间/日期等等通用注释
- * @param {*} str 
- * @todo 有待优化
+ * @param {*string} content 内容
+ * @param {*string} comment 注释
+ * @todo 这个方法还有很大的优化空间
  */
 const _replaceCommonContent = (content, comment) => {
+  if (content === '') return ''
+  // 注释对应列表 comments =  [ [文件中埋下的锚点, 将替换锚点的目标值] ]
   const comments = [
     ['_author_', LOCAL.config.AUTHOR],
     ['_email_', LOCAL.config.Email],
@@ -151,7 +154,6 @@ module.exports.RouteFile = class {
           fs.unlinkSync(root)
           fs.renameSync(_root, root)
           Log.success(`路由/${this.dirName}/${this.moduleName}注入成功`)
-          // process.stdin.emit('end')
           //emit 成功事件
           this.event.emit('success', true)
         })
