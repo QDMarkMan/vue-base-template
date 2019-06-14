@@ -6,14 +6,15 @@
  * @Description: 当前项目配置文件
  * @youWant: add you want info here
  * @Date: 2019-04-24 17:45:34
- * @LastEditTime: 2019-05-28 14:55:53
+ * @LastEditTime: 2019-06-14 15:46:45
  */
 const path = require('path')
+const chalk = require('chalk')
 const resolve = dir => path.join(__dirname, dir)
 const cdnResource = require('./config/cdn.config')
-console.log(`当前运行环境：${process.env.NODE_ENV}`)
+console.log(chalk.blue(`当前运行环境：${process.env.NODE_ENV}`))
 /**
- * 注入全局less变量
+ * 全局less变量注入
  * @param {*} rule
  */
 const addStyleResource = rule => {

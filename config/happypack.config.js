@@ -3,8 +3,8 @@
  * @Email: 13583254085@163.com
  * @Date: 2019-05-17 16:47:21
  * @LastEditors: etongfu
- * @LastEditTime: 2019-05-27 15:09:41
- * @Description: happypack config  在按时不使用
+ * @LastEditTime: 2019-06-14 15:43:52
+ * @Description: happypack config  暂时不使用 正在寻找更好的多线程打包工具
  * @youWant: add you want info here
  */
 'use strict'

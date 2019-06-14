@@ -6,13 +6,12 @@
  * @Description: webpack dll plugin 预编译配置
  * @youWant: add you want info here
  * @Date: 2019-05-09 10:33:45
- * @LastEditTime: 2019-05-25 16:25:33
+ * @LastEditTime: 2019-06-14 15:43:16
  */
 const path = require('path')
 const webpack = require('webpack')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const dllPath = path.resolve(__dirname, '..', 'public/vendor')
-
 module.exports = {
   mode: "production",
   entry: {

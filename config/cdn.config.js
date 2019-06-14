@@ -1,4 +1,8 @@
 const pkg = require('../package.json')
+/**
+ * 处理Version
+ * @param {*} str 
+ */
 let dealVersion = str => str.indexOf('^') === -1 ? str : str.replace('^','')
 // 需要排除打包的选项
 const externals = {
