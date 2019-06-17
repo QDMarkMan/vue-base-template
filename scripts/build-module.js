@@ -4,7 +4,7 @@
  * @Version: V2.0
  * @Date: 2019-06-03 17:35:48
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-17 17:16:43
+ * @LastEditTime: 2019-06-17 17:59:15
  * @Description: 快速创建新模块/页面2.0 版本 基于问答模式的创建模块
  * 新建模块流程
  *  ==> 请输入模块所属目录名称(英文 如果检测不到已输入目录将会默认新建，跳过此步骤将在Views文件夹下创建新模块)：
@@ -152,7 +152,7 @@ let generates = new Map([
  * @param {*} comment 注释
  */
 function buildDirAndFiles (folder, module, comment) {
-  let _tempFloder = folder || module // 临时文件夹 如果当前的文件是
+  let _tempFloder = folder || module // 临时文件夹 如果目录名称未输入， 那么选择模块名称作为顶层路径
   let isNewDir
   // 如果没有这个目录那么就新建这个目录
   if (!FileUtil.isPathInDir(_tempFloder, ROOTPATH.viewsPath)) {
