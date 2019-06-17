@@ -4,7 +4,7 @@
  * @Version: V2.0
  * @Date: 2019-06-03 17:35:48
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-17 14:20:51
+ * @LastEditTime: 2019-06-17 17:16:43
  * @Description: 快速创建新模块/页面2.0 版本 基于问答模式的创建模块
  * 新建模块流程
  *  ==> 请输入模块所属目录名称(英文 如果检测不到已输入目录将会默认新建，跳过此步骤将在Views文件夹下创建新模块)：
@@ -33,7 +33,13 @@ const questions = [
     // 格式验证
     validate: str => ( str !== '' && /^[A-Za-z0-9_-]+$/.test(str))
   },
-  // TODO need test
+  // TODO: need write
+  {
+    type: 'confirm',
+    message: `您是否需要新增和信息页面(我们将为你创建增加和详情页面)?`,
+    name: 'needInfo'
+  },
+  // TODO: need test
   {
     type: 'confirm',
     message: `是否强制覆盖已存在同名文件夹(选否即退出当前创建)?`,
@@ -101,7 +107,7 @@ routeEmitter.on('success', value => {
 })
 // module-method map
 // create module methods
-const generates = new Map([
+let generates = new Map([
   // views部分
   // 2019年6月12日17:39:29 完成
   ['view', (folder, module, isNewDir , comment) => {
@@ -159,7 +165,7 @@ function buildDirAndFiles (folder, module, comment) {
     isNewDir = false
   }
 
-  // 循环操作进行
+  // 生成主要模块
   let _arrays = [...generates]
   _arrays.forEach((el, i) => {
     if (i < _arrays.length) {
