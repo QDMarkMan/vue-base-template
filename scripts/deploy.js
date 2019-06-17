@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-05-25 13:43:58
  * @LastEditors: etongfu
- * @LastEditTime: 2019-05-25 15:10:52
+ * @LastEditTime: 2019-06-17 15:31:06
  * @Description: SSH 执行发布脚本
  * 压缩文件 ==> 选择发布环境 ==> SSH脚本发布
  * @youWant: add you want info here
@@ -27,7 +27,7 @@ const successLog = log => console.log(chalk.green(`*********${log}*********`))
 // 文件夹位置
 const distDir = path.resolve(__dirname, '../dist')
 const distZipPath = path.resolve(__dirname, '../dist.zip')
-// ********* 打包代码 *********
+// ********* TODO 打包代码 暂时不用 需要和打包接通之后进行测试 *********
 const compileDist = async () => {
   // 进入本地文件夹
   shell.cd(path.resolve(__dirname, '../'))

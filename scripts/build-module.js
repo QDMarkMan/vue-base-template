@@ -4,14 +4,14 @@
  * @Version: V2.0
  * @Date: 2019-06-03 17:35:48
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-17 13:45:58
+ * @LastEditTime: 2019-06-17 14:20:51
  * @Description: 快速创建新模块/页面2.0 版本 基于问答模式的创建模块
  * 新建模块流程
- *  ==> 选择创建的类型 模块/页面
  *  ==> 请输入模块所属目录名称(英文 如果检测不到已输入目录将会默认新建，跳过此步骤将在Views文件夹下创建新模块)：
- *  ==> 没有找到目录的情况下创建目录
+ *  ==> 系统没有找到目录的情况下创建目录
  *  ==> 找到目录的情况下输入输入模块名称(英文: )：
- * 
+ *  ==> 根据目录和模块创建view/api/route文件
+ *  ==> 创建完成
  * @youWant: add you want info here
  */
 const inquirer = require('inquirer')
@@ -19,7 +19,7 @@ const path = require('path')
 const { Log, FileUtil, LOCAL , ROOTPATH} = require('./util')
 const { buildVueFile, buildRouteFile, buildApiFile, RouteHelper } = require('./template')
 const EventEmitter = require('events');
-// 询问项
+// file options
 const questions = [
   {
     type: 'input',
@@ -33,7 +33,7 @@ const questions = [
     // 格式验证
     validate: str => ( str !== '' && /^[A-Za-z0-9_-]+$/.test(str))
   },
-  // 单一模块创建的时候才询问
+  // TODO need test
   {
     type: 'confirm',
     message: `是否强制覆盖已存在同名文件夹(选否即退出当前创建)?`,
@@ -48,7 +48,7 @@ const questions = [
     message: "请输入模块描述(注释)："
   },
 ]
-// 配置项相关问题
+// local configs 
 const configQuestion = [
   {
     type: 'input',
@@ -64,7 +64,7 @@ const configQuestion = [
     message: "请输入联系方式（邮箱/电话/钉钉）"
   }
 ]
-// 判断本地配置环境
+// Add config questions if local condfig does not exit
 if (!LOCAL.hasEnvFile()) {
   questions.unshift(...configQuestion)
 }
@@ -73,7 +73,7 @@ inquirer.prompt(questions).then(answers => {
   // 1: 日志打印
   Log.logger(answers.folder == '' ? '即将为您' : `即将为您在${answers.folder}文件夹下` + `创建${answers.module}模块`)
   // 根据答案进行是否进行下一步操作
-  if (answers.folder == '' && FileUtil.isPathInDir(answers.module, ROOTPATH.viewsPath) && !answers.cover) return process.exit(1)
+  if (answers.folder == '' && FileUtil.isPathInDir(answers.module, ROOTPATH.viewsPath) && !answers.cover) return process.exit(0)
   // 2: 配置文件的相关设置
   if (!LOCAL.hasEnvFile()) {
     LOCAL.buildEnvFile({
@@ -83,17 +83,18 @@ inquirer.prompt(questions).then(answers => {
   }
   // 3: 进入文件和目录创建流程
   const {
-    folder,
-    module,
-    comment
+    folder, // 目录
+    module, // 模块
+    comment // 注释
   } = answers
   buildDirAndFiles(folder, module, comment)
 })
-// 注册事件处理中心
+// 事件处理中心
 class RouteEmitter extends EventEmitter {}
-const routeEmitter = new RouteEmitter() // 事件处理中心
+// 注册事件处理中心
+const routeEmitter = new RouteEmitter() 
 routeEmitter.on('success', value => {
-  // 创建成功
+  // 创建成功后正确退出程序
   if (value) {
     process.exit(0)
   }

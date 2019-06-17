@@ -4,7 +4,7 @@
  * @Version: 2.0
  * @Date: 2019-05-25 15:13:51
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-17 13:43:01
+ * @LastEditTime: 2019-06-17 14:45:13
  * @Description: 文件模板管理模块
  * @youWant: add you want info here
  */
@@ -146,13 +146,14 @@ module.exports.RouteHelper = class {
         temp = temp.slice(0, _index).concat(this.generateRouter(), temp.slice(_index))
         // write file
         temp.forEach((el, index) => {
+          //os.EOL 一个字符串常量,定义操作系统相关的行末标志:
           writeStream.write(el + os.EOL)
         })
         writeStream.end('\n')
         // 流文件读写完毕
         writeStream.on('finish', () => {
-          fs.unlinkSync(root)
-          fs.renameSync(_root, root)
+          fs.unlinkSync(root) // delete old file
+          fs.renameSync(_root, root) // exchange file 
           Log.success(`路由/${this.dirName}/${this.moduleName}注入成功`)
           //emit 成功事件
           this.event.emit('success', true)

@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-06-03 17:39:27
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-17 13:38:05
+ * @LastEditTime: 2019-06-17 16:11:36
  * @Description: 脚本工具文件
  * @youWant: add you want info here
  */
@@ -159,7 +159,7 @@ module.exports.FileUtil = class {
    * @param {*} content 内容
    * @param {*} dirPath 文件夹目录
    */
-  static async createDirAndFile (filePath, content, dirPath = '') {
+  static createDirAndFile (filePath, content, dirPath = '') {
     try {
       // create dic if file not exit
       if (dirPath !== '' && ! fs.existsSync(dirPath)) {
