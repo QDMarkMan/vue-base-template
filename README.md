@@ -64,6 +64,7 @@ vue-base-template
 │   │   store               // vuex
 │   │   styles              // 公共样式文件
 │   │   utils               // 工具库
+│   │   views               // 视图页面
 │   │   global.js           // 全局模块处理
 │   │   interception.js     // 路由拦截器
 │   │   main.js             // 入口文件

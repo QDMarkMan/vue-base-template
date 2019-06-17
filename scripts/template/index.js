@@ -4,7 +4,7 @@
  * @Version: 2.0
  * @Date: 2019-05-25 15:13:51
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-14 16:18:53
+ * @LastEditTime: 2019-06-17 13:43:01
  * @Description: 文件模板管理模块
  * @youWant: add you want info here
  */
@@ -12,7 +12,7 @@ const fs = require('fs')
 const path = require('path')
 const os = require('os')
 const readline = require('readline')
-const {Log, DateUtil, StringUtil , LOCAL, DateUtil, ROOTPATH} = require('../util')
+const {Log, DateUtil, StringUtil , LOCAL, ROOTPATH} = require('../util')
 /**
  * 替换作者/时间/日期等等通用注释
  * @param {*string} content 内容
@@ -81,7 +81,7 @@ module.exports.buildApiFile = comment => {
  * @param {event}  event
  * @returns:  {*}
  */
-module.exports.RouteFile = class {
+module.exports.RouteHelper = class {
   constructor (dirName, moduleName, event) {
     // the dir path for router file
     this.dirName = dirName
@@ -103,7 +103,7 @@ module.exports.RouteFile = class {
   generateRouter (routeName = this.moduleName, filePath = `${this.dirName}/${this.moduleName}/index`) {
     let temp = [
       `      // @Author: ${LOCAL.config.AUTHOR}`,
-      `      // @Date: ${DateUtil}`,
+      `      // @Date: ${DateUtil.getCurrentDate()}`,
       `      {`,
       `        path: "/${this.dirName}/${routeName}",`,
       `        component: () => import("@/views/${filePath}"),`,

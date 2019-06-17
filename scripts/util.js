@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-06-03 17:39:27
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-13 15:13:27
+ * @LastEditTime: 2019-06-17 13:38:05
  * @Description: 脚本工具文件
  * @youWant: add you want info here
  */
@@ -162,18 +162,18 @@ module.exports.FileUtil = class {
   static async createDirAndFile (filePath, content, dirPath = '') {
     try {
       // create dic if file not exit
-      if (dirPath !== '' && !await fs.existsSync(dirPath)) {
+      if (dirPath !== '' && ! fs.existsSync(dirPath)) {
         // mkdir new dolder
-        await fs.mkdirSync(dirPath)
+        fs.mkdirSync(dirPath)
         Log.success(`created ${dirPath}`)
       }
-      if (!await fs.existsSync(filePath)) {
+      if (!fs.existsSync(filePath)) {
         // create a open file
-        await fs.openSync(filePath, 'w')
+        fs.openSync(filePath, 'w')
         Log.success(`created ${filePath}`)
       }
       // write content to file
-      await fs.writeFileSync(filePath, content, 'utf8')
+      fs.writeFileSync(filePath, content, 'utf8')
     } catch (error) {
       Log.error(error)
     }

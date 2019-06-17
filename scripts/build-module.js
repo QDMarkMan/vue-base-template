@@ -4,7 +4,7 @@
  * @Version: V2.0
  * @Date: 2019-06-03 17:35:48
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-14 14:23:54
+ * @LastEditTime: 2019-06-17 13:45:58
  * @Description: 快速创建新模块/页面2.0 版本 基于问答模式的创建模块
  * 新建模块流程
  *  ==> 选择创建的类型 模块/页面
@@ -17,7 +17,7 @@
 const inquirer = require('inquirer')
 const path = require('path')
 const { Log, FileUtil, LOCAL , ROOTPATH} = require('./util')
-const { buildVueFile, buildRouteFile, buildApiFile, RouteFile } = require('./template')
+const { buildVueFile, buildRouteFile, buildApiFile, RouteHelper } = require('./template')
 const EventEmitter = require('events');
 // 询问项
 const questions = [
@@ -95,7 +95,7 @@ const routeEmitter = new RouteEmitter() // 事件处理中心
 routeEmitter.on('success', value => {
   // 创建成功
   if (value) {
-    process.exit(1)
+    process.exit(0)
   }
 })
 // module-method map
@@ -103,15 +103,15 @@ routeEmitter.on('success', value => {
 const generates = new Map([
   // views部分
   // 2019年6月12日17:39:29 完成
-  ['view',async (folder, module, isNewDir , comment) => {
+  ['view', (folder, module, isNewDir , comment) => {
     // 目录和文件的生成路径
     const folderPath = path.join(ROOTPATH.viewsPath,folder,module)
     const vuePath = path.join(folderPath, '/index.vue')
     // vue文件生成
-    await FileUtil.createDirAndFile(vuePath, buildVueFile(module, comment), folderPath)
+    FileUtil.createDirAndFile(vuePath, buildVueFile(module, comment), folderPath)
   }],
   // router is not need new folder
-  ['router', async (folder, module, isNewDir, comment) => {
+  ['router', (folder, module, isNewDir, comment) => {
     /**
      * @des 路由文件和其他的文件生成都不一样， 如果是新的目录那么生成新的文件。
      * 但是如果module所在的folder 已经存在了那么就对路由文件进行注入。
@@ -121,20 +121,21 @@ const generates = new Map([
     if (isNewDir) {
       // 如果folder不存在 那么直接使用module命名 folder不存在的情况是直接在src根目录下创建模块
       const routerPath = path.join(ROOTPATH.routerPath, `/${folder || module}.js`)
-      await FileUtil.createDirAndFile(routerPath, buildRouteFile(folder, module, comment))
+      FileUtil.createDirAndFile(routerPath, buildRouteFile(folder, module, comment))
     } else {
-      const route = new RouteFile(folder, module, routeEmitter)
+      // 新建路由helper 进行路由注入
+      const route = new RouteHelper(folder, module, routeEmitter)
       route.injectRoute()
     }
   }],
-  ['api', async (folder, module, isNewDir, comment) => {
+  ['api', (folder, module, isNewDir, comment) => {
     // inner module will not add new folder
     // 如果当前的模块已经存在的话那么就在当前模块的文件夹下生成对应的模块js
     const targetFile = isNewDir ? `/index.js` : `/${module}.js`
     // 存在上级目录就使用上级目录  不存在上级目录的话就是使用当前模块的名称进行创建
     const filePath = path.join(ROOTPATH.apiPath, folder || module)
     const apiPath = path.join(filePath, targetFile)
-    await FileUtil.createDirAndFile(apiPath, buildApiFile(comment), filePath)
+    FileUtil.createDirAndFile(apiPath, buildApiFile(comment), filePath)
   }]
 ])
 /**
