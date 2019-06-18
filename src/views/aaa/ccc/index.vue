@@ -23,12 +23,12 @@
 /*
  * @Author: Etongfu
  * @Email: 13583254085@163.com
- * @Date: 2019-06-18 17:00:16
- * @Description: bbb
+ * @Date: 2019-06-18 17:00:38
+ * @Description: asd
  */
 import listMixins from '@/mixins/list'
 export default {
-  name: 'bbb',
+  name: 'ccc',
   mixins: [listMixins],
   data() {
     return {

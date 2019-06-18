@@ -4,7 +4,7 @@
  * @Version: V2.0
  * @Date: 2019-06-03 17:35:48
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-17 17:59:15
+ * @LastEditTime: 2019-06-18 17:33:28
  * @Description: 快速创建新模块/页面2.0 版本 基于问答模式的创建模块
  * 新建模块流程
  *  ==> 请输入模块所属目录名称(英文 如果检测不到已输入目录将会默认新建，跳过此步骤将在Views文件夹下创建新模块)：
@@ -18,7 +18,9 @@ const inquirer = require('inquirer')
 const path = require('path')
 const { Log, FileUtil, LOCAL , ROOTPATH} = require('./util')
 const { buildVueFile, buildRouteFile, buildApiFile, RouteHelper } = require('./template')
-const EventEmitter = require('events');
+const EventEmitter = require('events')
+// 任务列表
+let buildTasks = []
 // file options
 const questions = [
   {
@@ -33,11 +35,15 @@ const questions = [
     // 格式验证
     validate: str => ( str !== '' && /^[A-Za-z0-9_-]+$/.test(str))
   },
-  // TODO: need write
+  // TODO: need test
+  // 暂时有bug
   {
     type: 'confirm',
     message: `您是否需要新增和信息页面(我们将为你创建增加和详情页面)?`,
-    name: 'needInfo'
+    name: 'buildExtra',
+    when: function(answers) { 
+      return !FileUtil.isPathInDir(answers.folder, ROOTPATH.viewsPath)
+    }
   },
   // TODO: need test
   {
@@ -89,36 +95,79 @@ inquirer.prompt(questions).then(answers => {
   }
   // 3: 进入文件和目录创建流程
   const {
-    folder, // 目录
-    module, // 模块
-    comment // 注释
+    folder,    // 目录
+    module,    // 模块
+    comment,   // 注释
+    buildExtra // 创建额外模块
   } = answers
-  buildDirAndFiles(folder, module, comment)
+  buildDirAndFiles(folder, module, comment, buildExtra)
 })
+
+/**
+ * 执行任务 新增/详情
+ * @param {*} folder 目录名称
+ * @param {*} module 模块名称
+ * @param {*} comment 注释
+ */
+const _runExtraTask = (folder, module, comment = "", page) => {
+  // 新增add页面 add 页面包括路由和.vue文件
+  // 新增info页面 info 页面包括路由和.vue文件
+  // 创建视图文件
+  generates.get("view")(folder, module, false, comment, page)
+  // 这里我们使用 add/info 作为模块名称
+  generates.get("router")(folder, module, false, comment, page)
+}
 // 事件处理中心
 class RouteEmitter extends EventEmitter {}
 // 注册事件处理中心
+// 为什么要用事件中心， 因为路由的注入是异步的所以一定要使用任务池的方式进行处理，防止多个任务抢占同一个文件操作
 const routeEmitter = new RouteEmitter() 
-routeEmitter.on('success', value => {
-  // 创建成功后正确退出程序
-  if (value) {
-    process.exit(0)
-  }
-})
+/**
+ * 激活事件中心 也可以不用
+ * @param {*} folder 
+ * @param {*} module 
+ * @param {*} comment 
+ */
+const initEvent = (folder, module, comment = "") => {
+  routeEmitter.on('success', value => {
+    // 创建成功后正确退出程序
+    if (value) {
+      if (buildTasks.length === 0) {
+        Log.success(`已清空tasks`)
+        // 操作成功
+        process.exit(0)
+      } else {
+        Log.logger("执行task中任务")
+        // 执行任务
+        _runExtraTask(folder, module, comment, buildTasks[0])
+        buildTasks.shift()
+      }
+    }
+  })
+  // 开始任务轮询
+  routeEmitter.on('check-task', () => {
+    Log.logger("开始检查task中任务")
+    // 创建成功后正确退出程序
+    if (buildTasks.length > 0 ) {
+      _runExtraTask(folder, module, comment, buildTasks[0])
+      buildTasks.shift()
+    }
+  })
+}
 // module-method map
 // create module methods
 let generates = new Map([
   // views部分
   // 2019年6月12日17:39:29 完成
-  ['view', (folder, module, isNewDir , comment) => {
+  ['view', (folder, module, isNewDir , comment, filename="index") => {
     // 目录和文件的生成路径
     const folderPath = path.join(ROOTPATH.viewsPath,folder,module)
-    const vuePath = path.join(folderPath, '/index.vue')
+    const vuePath = path.join(folderPath, `/${filename}.vue`)
     // vue文件生成
-    FileUtil.createDirAndFile(vuePath, buildVueFile(module, comment), folderPath)
+    FileUtil.createDirAndFile(vuePath, buildVueFile(module, comment, filename), folderPath)
   }],
   // router is not need new folder
-  ['router', (folder, module, isNewDir, comment) => {
+  ['router', (folder, module, isNewDir, comment, filename="index") => {
     /**
      * @des 路由文件和其他的文件生成都不一样， 如果是新的目录那么生成新的文件。
      * 但是如果module所在的folder 已经存在了那么就对路由文件进行注入。
@@ -131,7 +180,7 @@ let generates = new Map([
       FileUtil.createDirAndFile(routerPath, buildRouteFile(folder, module, comment))
     } else {
       // 新建路由helper 进行路由注入
-      const route = new RouteHelper(folder, module, routeEmitter)
+      const route = new RouteHelper(folder, module, routeEmitter, filename)
       route.injectRoute()
     }
   }],
@@ -147,11 +196,12 @@ let generates = new Map([
 ])
 /**
  * 通过我们询问的答案来创建文件/文件夹
- * @param {*} folder 目录名称
- * @param {*} module 模块名称
- * @param {*} comment 注释
+ * @param {*String} folder 目录名称
+ * @param {*String} module 模块名称
+ * @param {*String} comment 注释
+ * @param {*Boolean} buildExtra 生成额外模块
  */
-function buildDirAndFiles (folder, module, comment) {
+function buildDirAndFiles (folder, module, comment, buildExtra) {
   let _tempFloder = folder || module // 临时文件夹 如果目录名称未输入， 那么选择模块名称作为顶层路径
   let isNewDir
   // 如果没有这个目录那么就新建这个目录
@@ -164,15 +214,22 @@ function buildDirAndFiles (folder, module, comment) {
   } else {
     isNewDir = false
   }
-
-  // 生成主要模块
+  // 核心模块生成后生成额外页面
+  // TODO: 需要开发
+  if (buildExtra) {
+    // 把新增和info页面任务推入任务池中
+    buildTasks = ["add", "info"]
+  }
+  // 初始化事件中心
+  initEvent(folder,module,comment)
+  // 生成核心模块
   let _arrays = [...generates]
   _arrays.forEach((el, i) => {
-    if (i < _arrays.length) {
-      el[1](folder, module, isNewDir, comment)
-    } else {
-      Log.success("模块创建成功!")
-      process.exit(1)
+    el[1](folder, module, isNewDir, comment)
+    if (i === _arrays.length -1) {
+      Log.success("核心模块创建成功!")
+      // 创建完毕
+      routeEmitter.emit('check-task')
     }
   })
 }

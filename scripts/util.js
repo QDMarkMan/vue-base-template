@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-06-03 17:39:27
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-17 16:11:36
+ * @LastEditTime: 2019-06-18 15:59:09
  * @Description: 脚本工具文件
  * @youWant: add you want info here
  */
@@ -160,6 +160,7 @@ module.exports.FileUtil = class {
    * @param {*} dirPath 文件夹目录
    */
   static createDirAndFile (filePath, content, dirPath = '') {
+    let fd
     try {
       // create dic if file not exit
       if (dirPath !== '' && ! fs.existsSync(dirPath)) {
@@ -169,11 +170,12 @@ module.exports.FileUtil = class {
       }
       if (!fs.existsSync(filePath)) {
         // create a open file
-        fs.openSync(filePath, 'w')
+        fd = fs.openSync(filePath, 'w')
         Log.success(`created ${filePath}`)
       }
       // write content to file
       fs.writeFileSync(filePath, content, 'utf8')
+      fs.closeSync(fd)
     } catch (error) {
       Log.error(error)
     }

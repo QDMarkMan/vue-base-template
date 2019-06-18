@@ -4,7 +4,7 @@
  * @Version: 2.0
  * @Date: 2019-05-25 15:13:51
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-17 14:45:13
+ * @LastEditTime: 2019-06-18 17:03:22
  * @Description: 文件模板管理模块
  * @youWant: add you want info here
  */
@@ -36,10 +36,11 @@ const _replaceCommonContent = (content, comment) => {
 /**
  * 生成Vue template文件
  * @param {*} moduleName 模块名称
+ * @param {*string} filename 文件名称 根据不同的文件名称选取不同的模板
  * @returns {*string}
  */
-module.exports.buildVueFile = (moduleName, comment) => {
-  const VueTemplate = fs.readFileSync(path.resolve(__dirname, './template.vue'))
+module.exports.buildVueFile = (moduleName, comment, filename="index") => {
+  const VueTemplate = fs.readFileSync(path.resolve(__dirname, `./${filename}.template.vue`))
   const builtTemplate = StringUtil.replaceAll(VueTemplate.toString(), "_module_", moduleName)
   return _replaceCommonContent(builtTemplate, comment)
 }
@@ -79,10 +80,11 @@ module.exports.buildApiFile = comment => {
  * @param {string}  dirName
  * @param {string}  moduleName
  * @param {event}  event
+ * @param {string}  filename 文件名称
  * @returns:  {*}
  */
 module.exports.RouteHelper = class {
-  constructor (dirName, moduleName, event) {
+  constructor (dirName, moduleName, event, filename = "index") {
     // the dir path for router file
     this.dirName = dirName
     // the path for router file
@@ -91,6 +93,8 @@ module.exports.RouteHelper = class {
     this.event = event
     // route absolute path
     this.modulePath = path.join(ROOTPATH.routerPath, `${dirName}.js`)
+    // 文件名称
+    this.filename = filename
   }
   /**
    * Generate a router for module
@@ -100,12 +104,13 @@ module.exports.RouteHelper = class {
    * @param {*string} filePath vue file path default is ${this.dirName}/${this.moduleName}/index
    * @returns {*Array} A string array for write line
    */
-  generateRouter (routeName = this.moduleName, filePath = `${this.dirName}/${this.moduleName}/index`) {
+  generateRouter (routeName = this.moduleName, filePath = `${this.dirName}/${this.moduleName}/${this.filename}`) {
+    const _suffix = this.filename === "index" ? "" : `/${this.filename}` // 在使用index的时候移除掉文件名
     let temp = [
       `      // @Author: ${LOCAL.config.AUTHOR}`,
       `      // @Date: ${DateUtil.getCurrentDate()}`,
       `      {`,
-      `        path: "/${this.dirName}/${routeName}",`,
+      `        path: "/${this.dirName}/${routeName}${_suffix}",`,
       `        component: () => import("@/views/${filePath}"),`,
       `        name: "${routeName}"`,
       `      },`
@@ -136,7 +141,7 @@ module.exports.RouteHelper = class {
         temp.push(line)
       })
       // After read file and we begin write new router to this file
-      readInterface.on('close', async () => {
+      readInterface.on('close', () => {
         let _index
         temp.forEach((line, index) => {
           if (line.indexOf('children') !== -1) {
@@ -145,18 +150,22 @@ module.exports.RouteHelper = class {
         })
         temp = temp.slice(0, _index).concat(this.generateRouter(), temp.slice(_index))
         // write file
-        temp.forEach((el, index) => {
+        temp.forEach(el => {
           //os.EOL 一个字符串常量,定义操作系统相关的行末标志:
           writeStream.write(el + os.EOL)
         })
         writeStream.end('\n')
-        // 流文件读写完毕
+        // 流文件读写完毕 
         writeStream.on('finish', () => {
           fs.unlinkSync(root) // delete old file
           fs.renameSync(_root, root) // exchange file 
           Log.success(`路由/${this.dirName}/${this.moduleName}注入成功`)
-          //emit 成功事件
-          this.event.emit('success', true)
+          // 如果是默认任务就抛出检查任务事件check-task
+          if (this.filename !== 'index') {
+            this.event.emit('success', true)
+          } else {
+            this.event.emit('check-task')
+          }
         })
       })
     } catch (error) {
