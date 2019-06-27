@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-05-24 17:46:04
  * @LastEditors: etongfu
- * @LastEditTime: 2019-05-25 15:33:06
+ * @LastEditTime: 2019-06-27 15:41:05
  * @Description: 开始执行打包
  * @youWant: add you want info here
  */
@@ -12,17 +12,15 @@
 
 process.env.NODE_ENV = process.env.NODE_ENV == 'beta' ? 'beta' : 'production'
 const ora = require('ora')
-const path = require('path')
+// const path = require('path')
 const { sh } = require('tasksfile')
-const chalk = require('chalk')
 
 const rawArgv = process.argv.slice(2)
 const args = rawArgv.join(' ')
 console.log(args)
 
-const spinner = ora(`building for ${process.env.NODE_ENV}...`)
+const spinner = ora(`building for ${process.env.NODE_ENV}...\n`)
 spinner.start()
 
 sh("vue-cli-service build --mode production", {silent: false})
 spinner.succeed("打包完成")
-

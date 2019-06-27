@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-06-03 17:39:27
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-18 15:59:09
+ * @LastEditTime: 2019-06-27 15:34:49
  * @Description: 脚本工具文件
  * @youWant: add you want info here
  */
@@ -116,7 +116,13 @@ module.exports.StringUtil = class {
     default:
       return str;
     }
-  };
+  }
+  /**
+   * 字符串转Boolena
+   */
+  static toBoolean (str) {
+    return (/^true$/i).test(str)
+  }
 }
 /**
  * 文件操作Util
