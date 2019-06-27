@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-05-25 13:43:58
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-17 15:31:06
+ * @LastEditTime: 2019-06-27 15:10:22
  * @Description: SSH 执行发布脚本
  * 压缩文件 ==> 选择发布环境 ==> SSH脚本发布
  * @youWant: add you want info here
@@ -15,7 +15,7 @@ const ora = require('ora')
 const zipper = require('zip-local')
 const shell = require('shelljs')
 const chalk = require('chalk')
-const CONFIG = require('../config/release.confg')
+const CONFIG = require('../config/deploy.config')
 let config
 const inquirer = require('inquirer')
 const node_ssh = require('node-ssh')
@@ -126,13 +126,13 @@ const checkByConfig = (env, config = {}) => {
   ])
   if (Object.keys(config).length === 0) {
     errorLog('配置文件为空， 请检查配置文件')
-    process.exit(0)
+    process.exit(1)
   } else {
     Object.keys(config).forEach((key) => {
       let result = errors.get(key) ? errors.get(key)() : true
       if (!result) {
         errorLog(`配置文件中配置项${key}设置异常，请检查配置文件`)
-        process.exit(0)
+        process.exit(1)
       }
     })
   }
@@ -146,7 +146,7 @@ const runTask = async () => {
   successLog('发布完成!')
   SSH.dispose()
   // exit process
-  process.exit(1)
+  process.exit(0)
 }
 // ********* 执行交互 *********
 inquirer.prompt([

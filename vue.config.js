@@ -6,13 +6,15 @@
  * @Description: 当前项目配置文件
  * @youWant: add you want info here
  * @Date: 2019-04-24 17:45:34
- * @LastEditTime: 2019-06-14 15:46:45
+ * @LastEditTime: 2019-06-27 15:22:25
  */
 const path = require('path')
 const chalk = require('chalk')
+const { Log } = require('./scripts/util')
+const {compressionPlugin} = require('./config/plugins.config')
 const resolve = dir => path.join(__dirname, dir)
 const cdnResource = require('./config/cdn.config')
-console.log(chalk.blue(`当前运行环境：${process.env.NODE_ENV}`))
+Log.logger(chalk.blue(`当前运行环境：${process.env.NODE_ENV}`))
 /**
  * 全局less变量注入
  * @param {*} rule
@@ -27,6 +29,18 @@ const addStyleResource = rule => {
         resolve('src/styles/variable.less')
       ]
     })
+}
+/**
+ * 创建当前flutter plugin
+ */
+const buildPlugins = () => {
+  let plugins = []
+  // GZIP压缩
+  if (process.env.NODE_ENV !== "development" && process.env.VUE_APP_GZIP) {
+    Log.logger('Gzip Mode opened!')
+    plugins.push(compressionPlugin)
+  }
+  return plugins
 }
 // 配置文件抛出
 module.exports = {
@@ -91,11 +105,7 @@ module.exports = {
     },
     // webpack 插件
     plugins: [
-      // dll plugin
-      /* new webpack.DllReferencePlugin({
-        context: process.cwd(),
-        manifest: require('./public/vendor/vendor-manifest.json')
-      }) */
+      ...buildPlugins()
     ]
   },
   // webpack chain 配置
