@@ -6,7 +6,7 @@
  * @Description: 当前项目配置文件
  * @youWant: add you want info here
  * @Date: 2019-04-24 17:45:34
- * @LastEditTime: 2019-06-27 15:36:49
+ * @LastEditTime: 2019-06-27 15:52:05
  */
 const path = require('path')
 const chalk = require('chalk')
@@ -104,9 +104,7 @@ module.exports = {
       }
     },
     // webpack 插件
-    plugins: [
-      ...buildPlugins()
-    ]
+    plugins: buildPlugins()
   },
   // webpack chain 配置
   chainWebpack: config => {
