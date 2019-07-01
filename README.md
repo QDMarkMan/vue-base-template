@@ -32,9 +32,8 @@
 - `Vue-Router` 登录权限的验证
 - `Vue-Router` 自动化
 - `Webpack`打包速度以及体积方面的优化(`CDN,happypack,Dllplugin...`)
-- 新增欢迎页面
-- `cli-webpack4.0` 升级
 - 命令行快速增加模块
+- 包完成之后的`hook`，更加只能的开发体验
 - ...
 
 ## 目录结构
@@ -43,9 +42,13 @@ vue-base-template
 │   config                  // webpack配置config/q其他一些config文件
 │   scripts                 // 帮助脚本文件
 │   │   template            // 模块文件脚本
+│   │   .env.local          // 临时配置文件
 │   │   build-hooks.js      // 打包后hooks
+│   │   build-module.js     // 快速开发帮助脚本
 │   │   build.js            // build构建脚本
 │   │   deploy.js           // SSH发布脚本
+│   │   server.js           // 本地预览服务器
+│   │   util.js             // 通用工具
 │   │   
 └───src                     // 业务逻辑代码
 │   │   api                 // http api 层

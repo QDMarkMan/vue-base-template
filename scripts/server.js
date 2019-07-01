@@ -5,8 +5,7 @@ const { Log } = require('./util')
 const httpPort = 8088
 const filePath = path.resolve(__dirname, '../dist/index.html')
 const open = require('open')
-
-
+// create current http server
 http.createServer((req, res) => {
   Log.logger(req.url)
   try {
@@ -17,7 +16,7 @@ http.createServer((req, res) => {
       const data = fs.readFileSync(path.resolve(__dirname, `../dist${req.url}`))
       return res.end(data)
     }
-    // 
+    // index.html
     res.setHeader('Content-Type','text/html;charset=utf-8')
     res.writeHead(200, {
       'Content-Type': 'text/html; charset=utf-8'
