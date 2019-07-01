@@ -49,6 +49,7 @@
     "less-loader": "^4.1.0",
     "node-sass": "^4.12.0",
     "node-ssh": "^6.0.0",
+    "open": "^6.4.0",
     "ora": "^3.4.0",
     "sass-loader": "^7.1.0",
     "serve-static": "^1.14.1",

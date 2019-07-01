@@ -1,10 +1,10 @@
 /*
  * @Author: etongfu
  * @Email: 13583254085@163.com
- * @Version: 
+ * @Version: 1.0
  * @Date: 2019-06-03 17:39:27
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-27 15:34:49
+ * @LastEditTime: 2019-07-01 14:01:06
  * @Description: 脚本工具文件
  * @youWant: add you want info here
  */
@@ -12,8 +12,21 @@ const chalk = require('chalk')
 const path = require('path')
 const dotenv = require('dotenv')
 const fs = require('fs')
+const zipper = require('zip-local')
+// root path
+const reslove = (file = '.') => path.resolve(__dirname, '../src', file)
+const ROOTPATH = Object.freeze({
+  srcPath: reslove(),
+  routerPath: reslove('router/modules'),
+  apiPath: reslove('api'),
+  viewsPath: reslove('views'),
+  // 打包相关路径
+  distDir : path.resolve(__dirname, '../dist'),
+  distZipPath : path.resolve(__dirname, '../dist.zip')
+})
+module.exports.ROOTPATH = ROOTPATH
 // local配置
-module.exports.LOCAL = class  {
+module.exports.LOCAL = class {
   /**
    * env path
    */
@@ -194,6 +207,26 @@ module.exports.FileUtil = class {
     fs.mkdirSync(dirPath)
     // Log.success(`created ${dirPath}`)
   }
+  /**
+   * 压缩文件夹
+   * @param {*} dir 要压缩的文件夹 默认 ROOTPATH.distDir
+   * @param {*} zipedPath 压缩之后 的zip存放路径
+   */
+  static async zipDir (dir = ROOTPATH.distDir, zipedPath = ROOTPATH.distZipPath) {
+    try {
+      if(fs.existsSync(zipedPath)) {
+        Log.logger('zip已经存在, 即将删除压缩包')
+        fs.unlinkSync(zipedPath)
+      } else {
+        Log.logger('即将开始压缩zip文件')
+      }
+      await zipper.sync.zip(dir).compress().save(zipedPath);
+      Log.success('文件夹压缩成功')
+    } catch (error) {
+      Log.error(error)
+      Log.error('压缩dist文件夹失败')
+    }
+  }
 }
 const initDateStr = str => (str >= 0 && str <= 9) ? `0${str}` : str 
 module.exports.DateUtil = class {
@@ -251,12 +284,3 @@ module.exports.DateUtil = class {
     return currentdate
   }
 }
-// root path
-const reslove = (file = '.') => path.resolve(__dirname, '../src', file)
-const ROOTPATH = Object.freeze({
-  srcPath: reslove(),
-  routerPath: reslove('router/modules'),
-  apiPath: reslove('api'),
-  viewsPath: reslove('views')
-})
-module.exports.ROOTPATH = ROOTPATH

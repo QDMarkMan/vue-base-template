@@ -1,39 +1,62 @@
 /*
  * @Author: etongfu
  * @Email: 13583254085@163.com
- * @Version: 
+ * @Version: 1.0
  * @Date: 2019-05-24 17:46:15
  * @LastEditors: etongfu
- * @LastEditTime: 2019-05-25 13:26:07
+ * @LastEditTime: 2019-07-01 15:09:18
  * @Description: 打包hooks
  * @youWant: add you want info here
  */
 const inquirer = require('inquirer')
+const { Log, FileUtil } = require('./util')
+// next operate value
+const operates = new Map([
+  [0, () => {
+    Log.logger('即将推出程序')
+    process.exit(0)
+  }],
+  [1, () => {
+    Log.logger('即将进行发布')
+    require('./deploy')
+  }],
+  [2, () => {
+    Log.logger('开始本地预览')
+    require('./server')
+  }],
+  [3, async () => {
+    Log.logger('开始压缩zip文件')
+    await FileUtil.zipDir()
+  }]
+])
 // hooks after build
 const builtHooks = () => {
   inquirer.prompt([
     {
       type: 'list',
-      message: `检测到${config.dev.runDev || 'admin'}平台 production环境打包完成，是否马上进行发布？`,
-      name: 'doNext',
+      message: `检测到production环境打包完成，请选择下一步操作`,
+      name: 'next',
       choices: [
         {
-          name: 'Yes',
-          value: true
+          name: '退出脚本',
+          value: 0
         },
         {
-          name: 'NO',
-          value: false
+          name: '发布到服务器',
+          value: 1
+        },
+        {
+          name: '本地预览',
+          value: 2
+        },
+        {
+          name: '压缩Zip',
+          value: 3
         }
       ]
     }
   ]).then(answers => {
-    if(answers.doNext) {
-      // 选择YES 执行打包
-      // require('../scripts/release')
-    } else {
-      process.exit(0)
-    }
+    operates.get(answers.next)()
   })
 }
 module.exports = builtHooks
