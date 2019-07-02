@@ -1,3 +1,18 @@
+/*
+ * @Author: etongfu
+ * @Email: 13583254085@163.com
+ * @Version: 
+ * @Date: 2019-06-11 13:47:53
+ * @LastEditors: etongfu
+ * @LastEditTime: 2019-07-02 13:44:50
+ * @Description: 
+ * @Todo: 使用 is-online 判断当前网络情况，如果网络断开。不使用cdn, 使用本地资源
+ */
+/* const isOnline = require('is-online');
+(async () => {
+    console.log(await isOnline());
+    //=> true
+})(); */
 const pkg = require('../package.json')
 /**
  * 处理Version

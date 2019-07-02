@@ -11,7 +11,6 @@ http.createServer((req, res) => {
   try {
     const content = fs.readFileSync(filePath, 'utf-8')
     // deal resource
-    // if (req.url.startsWith('/static/css') || req.url.startsWith('/static/js') || req.url.startsWith('/static/img') || req.rl === '/favicon.ico') {
     if (req.url.indexOf('static') !== -1 || req.url.indexOf('vendor') !== -1 || req.url == "/favicon.ico") {
       const data = fs.readFileSync(path.resolve(__dirname, `../dist${req.url}`))
       return res.end(data)

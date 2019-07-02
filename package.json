@@ -45,6 +45,7 @@
     "eslint-plugin-vue": "^5.0.0",
     "happypack": "^5.0.1",
     "inquirer": "^6.3.1",
+    "is-online": "^8.2.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "node-sass": "^4.12.0",

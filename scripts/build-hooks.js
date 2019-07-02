@@ -4,7 +4,7 @@
  * @Version: 1.0
  * @Date: 2019-05-24 17:46:15
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-01 15:09:18
+ * @LastEditTime: 2019-07-02 09:43:31
  * @Description: 打包hooks
  * @youWant: add you want info here
  */
@@ -13,7 +13,7 @@ const { Log, FileUtil } = require('./util')
 // next operate value
 const operates = new Map([
   [0, () => {
-    Log.logger('即将推出程序')
+    Log.logger('即将退出程序')
     process.exit(0)
   }],
   [1, () => {
