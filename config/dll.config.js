@@ -3,10 +3,10 @@
  * @Email: 13583254085@163.com
  * @Version: 
  * @LastEditors: etongfu
- * @Description: webpack dll plugin 预编译配置
+ * @Description: webpack dll plugin 预编译配置, 如果需要就开启
  * @youWant: add you want info here
  * @Date: 2019-05-09 10:33:45
- * @LastEditTime: 2019-06-14 15:43:16
+ * @LastEditTime: 2019-07-04 14:18:55
  */
 const path = require('path')
 const webpack = require('webpack')

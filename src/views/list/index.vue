@@ -1,16 +1,24 @@
 <template>
   <box-content>
     <!-- 使用typemixin -->
-    <div class="search">
-      <el-select v-model="type" clearable placeholder="请选择类型">
-        <el-option
-          v-for="item in types"
-          :key="item.id"
-          :label="item.name"
-          :value="item.id"
-        ></el-option>
-      </el-select>
-    </div>
+    <search-form>
+
+      <search-item label="姓名">
+        <el-input clearable placeholder="请输入姓名" />
+      </search-item>
+
+      <search-item label="类型">
+        <el-select v-model="type" clearable placeholder="请选择类型">
+          <el-option
+            v-for="item in types"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </search-item>
+
+    </search-form>
     <base-table
       v-loading="loading"
       :columns="headers"

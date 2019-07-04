@@ -6,12 +6,12 @@
  * @Description: 当前项目配置文件
  * @youWant: add you want info here
  * @Date: 2019-04-24 17:45:34
- * @LastEditTime: 2019-06-27 15:52:05
+ * @LastEditTime: 2019-07-04 15:40:18
  */
 const path = require('path')
 const chalk = require('chalk')
 const { Log, StringUtil } = require('./scripts/util')
-const {compressionPlugin} = require('./config/plugins.config')
+const { compressionPlugin } = require('./config/plugins.config')
 const resolve = dir => path.join(__dirname, dir)
 const cdnResource = require('./config/cdn.config')
 Log.logger(chalk.blue(`当前运行环境：${process.env.NODE_ENV}`))
@@ -36,9 +36,9 @@ const addStyleResource = rule => {
 const buildPlugins = () => {
   let plugins = []
   // GZIP:  typeof(process.env.VUE_APP_GZIP) === string
-  if (process.env.NODE_ENV !== "development" && StringUtil.toBoolean(process.env.VUE_APP_GZIP)) {
+  if (compressionPlugin.use && process.env.NODE_ENV !== "development" && StringUtil.toBoolean(process.env.VUE_APP_GZIP)) {
     Log.logger('Gzip Mode opened!')
-    plugins.push(compressionPlugin)
+    plugins.push(compressionPlugin.plugin)
   }
   return plugins
 }

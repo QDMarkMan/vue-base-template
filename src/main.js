@@ -17,34 +17,33 @@ new Vue({
   components: { App },
   template: '<App/>',
   beforeCreate() {
-    /**
-     * TODO 这个后期肯定会重新做 现在实现的方式不是很优雅
-     */
+    // 为了优雅的过渡，我们要先把页面的Fade动画进行完再去删除skeleton
     const ieVersion = this.$util.getIeVersion()
-    // get skeleton dom
     const skeleton = document.querySelector('.skeleton')
     // app加载完成之后隐藏或者删除dom
     skeleton.style.opacity = '0'
     let flag = true
     if (ieVersion !== 0 && ieVersion <= 9) {
-      console.log('this is IE9')
-      setTimeout(() => {
-        document.body.removeChild(skeleton)
-      }, 0)
+      console.log('this is IE9');
+      skeleton.style.displpay = 'none'
+      document.body.removeChild(skeleton)
     } else {
-      this.$util.addEvent(skeleton, 'transitionend', e => {
-        if (e.target === skeleton && flag) {
-          flag = false
+      // 为什么有时候 addEvent 会不生效？
+      this.$util.addEvent(skeleton, 'transitionend', (e) => {
+        if (e.target === skeleton && flag ) {
           skeleton.style.displpay = 'none'
-          setTimeout(() => {
-            document.body.removeChild(skeleton)
-          }, 0)
+          flag = false
+          document.body.removeChild(skeleton)
         }
       })
     }
-    // 定时任务 确保删除
+    // fix addEvent 不生效
     setTimeout(() => {
-      if (skeleton) document.body.removeChild(skeleton)
-    }, 200)
+      if (skeleton && flag ) {
+        skeleton.style.displpay = 'none'
+        flag = false
+        document.body.removeChild(skeleton)
+      }
+    },500)
   }
 })

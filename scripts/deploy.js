@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-05-25 13:43:58
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-01 13:48:14
+ * @LastEditTime: 2019-07-04 16:02:22
  * @Description: SSH 执行发布脚本
  * 压缩文件 ==> 选择发布环境 ==> SSH脚本发布
  * @youWant: add you want info here
@@ -15,10 +15,12 @@ const ora = require('ora')
 const zipper = require('zip-local')
 const shell = require('shelljs')
 const chalk = require('chalk')
-const CONFIG = require('../config/deploy.config')
-let config
 const inquirer = require('inquirer')
 const node_ssh = require('node-ssh')
+const CONFIG = require('../config/deploy.config')
+const Backup = require('./backup')
+let config
+
 let SSH = new node_ssh()
 // loggs
 const errorLog = error => console.log(chalk.red(`*********${error}*********`))
@@ -51,7 +53,7 @@ const zipDist =  async () => {
   }
 }
 // ********* 连接ssh *********
-const connectSSh = async () =>{
+const connectSSh = async () => {
   defaultLog(`尝试连接服务： ${config.SERVER_PATH}`)
   let spinner = ora('正在连接')
   spinner.start()
@@ -139,7 +141,7 @@ const checkByConfig = (env, config = {}) => {
   
 }
 // ********* 发布程序 *********
-const runTask = async () => {
+const runDeployTask = async () => {
   // await compileDist()
   await zipDist()
   await uploadZipBySSH()
@@ -168,10 +170,20 @@ inquirer.prompt([
         value: 'production'
       }
     ]
-  }
+  },
+  {
+    type: 'confirm',
+    message: `是否需要在本地进行备份 ?`,
+    name: 'backup'
+  },
 ]).then(answers => {
   config = CONFIG[answers.env]
   // 检查配置文件
   checkByConfig(answers.env, config)
-  runTask()
+  // 执行备份
+  if (answers.backup) {
+    Backup.doBackup()
+  }
+  // 发布task
+  runDeployTask()
 })

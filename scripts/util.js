@@ -4,7 +4,7 @@
  * @Version: 1.0
  * @Date: 2019-06-03 17:39:27
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-01 14:01:06
+ * @LastEditTime: 2019-07-04 16:16:43
  * @Description: 脚本工具文件
  * @youWant: add you want info here
  */
@@ -108,9 +108,9 @@ module.exports.StringUtil = class {
    * @param {*} oldStr 
    * @param {*} newStr 
    */
-  static replaceAll (str, AFindText, ARepText) {
-    let raRegExp = new RegExp(AFindText, "g")
-    return str.replace(raRegExp, ARepText)
+  static replaceAll (str, oldStr, newStr) {
+    let raRegExp = new RegExp(oldStr, "g")
+    return str.replace(raRegExp, newStr)
   }
   /**
   * 去除空格(字符串,要去除空格的类型)
@@ -205,7 +205,13 @@ module.exports.FileUtil = class {
    */
   static createDir (dirPath) {
     fs.mkdirSync(dirPath)
-    // Log.success(`created ${dirPath}`)
+  }
+  /**
+   * 判断文件是否存在
+   * @param {*path} filePath 
+   */
+  static fileExist (filePath) {
+    return fs.existsSync(filePath)
   }
   /**
    * 压缩文件夹
@@ -225,6 +231,22 @@ module.exports.FileUtil = class {
     } catch (error) {
       Log.error(error)
       Log.error('压缩dist文件夹失败')
+    }
+  }
+  /**
+   * 复制文件
+   * @param {*} dirPath 源文件
+   * @param {*} targetPath 目标文件
+   */
+  static copyFile (dirPath, targetPath) {
+    try {
+      const readStream = fs.createReadStream(dirPath)
+      const writeStream = fs.createWriteStream(targetPath)
+      readStream.pipe(writeStream)
+      readStream.close()
+      writeStream.close()
+    } catch (error) {
+      Log.error(error)
     }
   }
 }

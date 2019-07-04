@@ -10,9 +10,6 @@
     <% for(var css of htmlWebpackPlugin.options.cdn.styles) { %>
       <link rel="stylesheet" href="<%=css%>">
     <% } %>
-    <style>
-    .skeleton{opacity: 1;position:absolute;z-index:10000;background-color:rgba(255,255,255,.9);margin:0;top:0;right:0;bottom:0;left:0;-webkit-transition:all ease-in-out .2s;transition:all ease-in-out .2s}.skeleton .skeleton-spinner{top:50%;margin-top:-21px;width:100%;text-align:center;position:absolute}.skeleton .skeleton-spinner .circular{height:42px;width:42px;-webkit-animation:loading-rotate 2s linear infinite;animation:loading-rotate 2s linear infinite}.skeleton-spinner .path{-webkit-animation:loading-dash 1s ease-in-out infinite;animation:loading-dash 1s ease-in-out infinite;stroke-dasharray:90,150;stroke-dashoffset:0;stroke-width:2;stroke:#2979ff;stroke-linecap:round}.skeleton-text{color:#2979ff;margin:3px 0;font-size:14px}@keyframes loading-rotate{0%{transform:rotate(0)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}@keyframes loading-dash{0%{stroke-dasharray:1,200;stroke-dashoffset:0}50%{stroke-dasharray:90,150;stroke-dashoffset:-40px}100%{stroke-dasharray:90,150;stroke-dashoffset:-120px}}
-    </style>
   </head>
   <body>
     <div id="app"></div>
@@ -25,6 +22,9 @@
         <p class="skeleton-text">页面正在加载中，请耐心等待</p>
       </div>
     </div>
+    <style id="skeleton-style">
+      .skeleton{opacity: 1;position:absolute;z-index:10000;background-color:rgba(255,255,255,.9);margin:0;top:0;right:0;bottom:0;left:0;-webkit-transition:all ease-in-out .2s;transition:all ease-in-out .2s}.skeleton .skeleton-spinner{top:50%;margin-top:-21px;width:100%;text-align:center;position:absolute}.skeleton .skeleton-spinner .circular{height:42px;width:42px;-webkit-animation:loading-rotate 2s linear infinite;animation:loading-rotate 2s linear infinite}.skeleton-spinner .path{-webkit-animation:loading-dash 1s ease-in-out infinite;animation:loading-dash 1s ease-in-out infinite;stroke-dasharray:90,150;stroke-dashoffset:0;stroke-width:2;stroke:#2979ff;stroke-linecap:round}.skeleton-text{color:#2979ff;margin:3px 0;font-size:14px}@keyframes loading-rotate{0%{transform:rotate(0)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}@keyframes loading-dash{0%{stroke-dasharray:1,200;stroke-dashoffset:0}50%{stroke-dasharray:90,150;stroke-dashoffset:-40px}100%{stroke-dasharray:90,150;stroke-dashoffset:-120px}}
+    </style>
     <!-- built files will be auto injected -->
     <!-- 直接加载webpack中的数据 -->
     <% for(var js of htmlWebpackPlugin.options.cdn.js) { %>
