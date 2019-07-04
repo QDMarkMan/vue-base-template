@@ -27,4 +27,4 @@ yarn-error.log*
 github.deploy.sh
 
 # 备份文件
-# backups/*
+backups/*
