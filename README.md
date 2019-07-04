@@ -23,6 +23,7 @@
 - 新增了`SSH远程发布`
 - 模块生成方式的重构(剩下一个注入未完成)
 - 新增打包完成之后的`hook`(完成)
+- 发布服务器之后的本地备份
 - 富文本编辑器的重构(进行中)
 
 我以为升级个脚手架会很快， 结果现实给我来了一记狠狠的巴掌，中间过程也是一把鼻涕一把泪。现在这个2.0版本的`vue-base-template`其实还不是很稳定，还是比较推荐使用[V1.0版本](https://github.com/QDMarkMan/vue-base-template/tree/vue-cli2.9base), 后续的组件开发中希望大家能多提意见交流。
@@ -39,6 +40,7 @@
 ## 目录结构
 ```js
 vue-base-template
+│   backups                 // 本地备份
 │   config                  // webpack配置config/q其他一些config文件
 │   scripts                 // 帮助脚本文件
 │   │   template            // 模块文件脚本
