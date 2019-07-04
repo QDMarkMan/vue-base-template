@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-06-12 18:06:24
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-02 09:45:24
+ * @LastEditTime: 2019-07-04 17:36:06
  * @Description: 进行打包相关操作
  * @youWant: add you want info here
  */
@@ -13,7 +13,7 @@
 process.env.NODE_ENV = process.env.NODE_ENV == 'beta' ? 'beta' : 'production'
 const ora = require('ora')
 const { sh } = require('tasksfile')
-// const shell = require('shelljs') 
+const { Notify } = require('./util') 
 const builtHooks = require('./build-hooks')
 const rawArgv = process.argv.slice(2)
 const args = rawArgv.join(' ')
@@ -25,7 +25,10 @@ sh(`vue-cli-service build ${args}`, {
   silent: false
 })
 // build success
-spinner.succeed("打包完成, 进行下一步操作")
+spinner.succeed("打包完成")
+
+Notify.showNotify("打包完成", "即将进行下一步操作")
+
 // delay 2s
 setTimeout(() =>{
   // run hooks

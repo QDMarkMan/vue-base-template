@@ -4,7 +4,7 @@
  * @Version: 1.0
  * @Date: 2019-06-03 17:39:27
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-04 16:16:43
+ * @LastEditTime: 2019-07-04 17:41:05
  * @Description: 脚本工具文件
  * @youWant: add you want info here
  */
@@ -13,6 +13,7 @@ const path = require('path')
 const dotenv = require('dotenv')
 const fs = require('fs')
 const zipper = require('zip-local')
+const notifier = require('node-notifier');
 // root path
 const reslove = (file = '.') => path.resolve(__dirname, '../src', file)
 const ROOTPATH = Object.freeze({
@@ -80,6 +81,7 @@ module.exports.LOCAL = class {
  * @description: 日志帮助文件
  */
 class Log {
+
   static logger (msg) {
     console.log(chalk.blue(`${msg}`))
   }
@@ -97,6 +99,25 @@ class Log {
   }
 }
 module.exports.Log = Log
+
+module.exports.Notify = class {
+  /**
+   * 开启客户端强提醒
+   * @param {*string} title 标题
+   * @param {*string} message 展示信息
+   * @param {*boolean} wait 等待回掉关闭
+   * @param {*function} cb 回掉
+   */
+  static showNotify (title, message, wait = false,  cb= () => {}) {
+    notifier.notify({
+      icon: path.join(__dirname, "../src/assets/logo.png"), // Absolute path (doesn't work on balloons)
+      title,
+      message,
+      wait,
+      sound: true // Only Notification Center or Windows Toasters
+    }, cb)
+  }
+}
 
 /**
  * 字符串Util

@@ -49,6 +49,7 @@
     "is-online": "^8.2.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
+    "node-notifier": "^5.4.0",
     "node-sass": "^4.12.0",
     "node-ssh": "^6.0.0",
     "open": "^6.4.0",
