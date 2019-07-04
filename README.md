@@ -11,7 +11,6 @@
 
 <font color=red>[点我查看V1.0版本](https://github.com/QDMarkMan/vue-base-template/tree/vue-cli2.9base)</font>
 
-
 ## 2019年5月25日更新内容
 
 最近比较忙肝了一段时间，把整个的底层开发重构了一遍， 目前采用的是`基于vue-cli3`的底层开发框架。这次主要做出了以下的改动
@@ -34,7 +33,9 @@
 - `Vue-Router` 自动化
 - `Webpack`打包速度以及体积方面的优化(`CDN,happypack,Dllplugin...`)
 - 命令行快速增加模块
-- 包完成之后的`hook`，更加只能的开发体验
+- `SSH`自动化发布
+- 包完成之后的`hook`，更加智能的开发体验
+- 每次发布的本地备份
 - ...
 
 ## 目录结构
