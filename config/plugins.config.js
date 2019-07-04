@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-06-27 11:56:43
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-04 14:28:04
+ * @LastEditTime: 2019-07-04 17:19:54
  * @Description: webpack plugins
  * @youWant: add you want info here
  */
@@ -26,6 +26,7 @@ const CompressionPlugin = require("compression-webpack-plugin")
  * @returns:  {*}
  */
 module.exports.compressionPlugin =  Object.freeze({
+  name: 'compression',
   use: true,
   plugin: new CompressionPlugin({
     test:/\.js$|\.html$|.\css/, //匹配文件名
@@ -39,6 +40,7 @@ module.exports.compressionPlugin =  Object.freeze({
  * @returns:  {*}
  */
 module.exports.dllPlugins = Object.freeze({
+  name: 'dll',
   use: false,
   plugin: new webpack.DllReferencePlugin({
     context: process.cwd(),

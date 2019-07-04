@@ -6,7 +6,7 @@
  * @Description: 当前项目配置文件
  * @youWant: add you want info here
  * @Date: 2019-04-24 17:45:34
- * @LastEditTime: 2019-07-04 15:40:18
+ * @LastEditTime: 2019-07-04 17:16:29
  */
 const path = require('path')
 const chalk = require('chalk')
@@ -26,7 +26,9 @@ const addStyleResource = rule => {
     .options({
       patterns: [
         // 公共变量
-        resolve('src/styles/variable.less')
+        resolve('src/styles/variable.less'),
+        // TODO: 把css框架换到scss
+        // resolve('src/styles/variable.scss')
       ]
     })
 }
@@ -121,11 +123,14 @@ module.exports = {
         return options
       })
       .end()
-    // 修改less全局注入loader
-    // const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
-    const types = ['vue-modules', 'vue']
+    // 全局样式
+    const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
     types.forEach(type =>
-      addStyleResource(config.module.rule('less').oneOf(type))
+      {
+        addStyleResource(config.module.rule('less').oneOf(type))
+        // TODO: 把CSS框架换到scss
+        // addStyleResource(config.module.rule('sass').oneOf(type))
+      }
     )
     // html cdn注入
     const cdn = {
