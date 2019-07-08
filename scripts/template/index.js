@@ -4,7 +4,7 @@
  * @Version: 2.0
  * @Date: 2019-05-25 15:13:51
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-08 09:30:59
+ * @LastEditTime: 2019-07-08 18:09:44
  * @Description: 文件模板管理模块
  * @youWant: add you want info here
  */
@@ -124,7 +124,7 @@ module.exports.RouteHelper = class {
     return temp
   }
   /**
-   * add router to file
+   * router new route to file
    */
   injectRoute () {
     try {
