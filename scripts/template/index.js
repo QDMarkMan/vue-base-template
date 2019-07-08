@@ -4,7 +4,7 @@
  * @Version: 2.0
  * @Date: 2019-05-25 15:13:51
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-18 17:03:22
+ * @LastEditTime: 2019-07-08 09:30:59
  * @Description: 文件模板管理模块
  * @youWant: add you want info here
  */
@@ -99,20 +99,26 @@ module.exports.RouteHelper = class {
   /**
    * Generate a router for module
    * The vue file path is @/name/name/index
-   * The default full url is http:xxxxx/name/name
+   * The default full url is http:xxxxx/dirName/routeName/_suffix
    * @param {*} routeName url default is router name
    * @param {*string} filePath vue file path default is ${this.dirName}/${this.moduleName}/index
    * @returns {*Array} A string array for write line
    */
   generateRouter (routeName = this.moduleName, filePath = `${this.dirName}/${this.moduleName}/${this.filename}`) {
-    const _suffix = this.filename === "index" ? "" : `/${this.filename}` // 在使用index的时候移除掉文件名
+    const _suffix = this.filename === "index" ? "" : `${this.filename}` // 在使用index的时候移除掉文件名
+    // name for route
+    let _name = 'index'
+    if (routeName !== 'index') {
+      _name = `${routeName}${_suffix.replace(this.filename[0],this.filename[0].toUpperCase())}`
+    }
+    // @time 2019年7月7日 name 相关需要优化
     let temp = [
       `      // @Author: ${LOCAL.config.AUTHOR}`,
       `      // @Date: ${DateUtil.getCurrentDate()}`,
       `      {`,
-      `        path: "/${this.dirName}/${routeName}${_suffix}",`,
+      `        path: "/${this.dirName}/${routeName}/${_suffix}",`,
       `        component: () => import("@/views/${filePath}"),`,
-      `        name: "${routeName}"`,
+      `        name: "${_name}"`,
       `      },`
     ]
     return temp
@@ -157,6 +163,7 @@ module.exports.RouteHelper = class {
         writeStream.end('\n')
         // 流文件读写完毕 
         writeStream.on('finish', () => {
+          writeStream.close() // close current stream
           fs.unlinkSync(root) // delete old file
           fs.renameSync(_root, root) // exchange file 
           Log.success(`路由/${this.dirName}/${this.moduleName}注入成功`)

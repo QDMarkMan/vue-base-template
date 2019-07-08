@@ -1,7 +1,7 @@
 <template>
   <box-content>
     <div class="search">
-      module
+      _module_
     </div>
     <base-table
       v-loading="loading"
