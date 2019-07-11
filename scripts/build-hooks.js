@@ -4,7 +4,7 @@
  * @Version: 1.0
  * @Date: 2019-05-24 17:46:15
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-02 09:43:31
+ * @LastEditTime: 2019-07-11 16:27:57
  * @Description: 打包hooks
  * @youWant: add you want info here
  */
@@ -29,6 +29,9 @@ const operates = new Map([
     await FileUtil.zipDir()
   }]
 ])
+const beforeHooks = () => {
+  
+}
 // hooks after build
 const builtHooks = () => {
   inquirer.prompt([
