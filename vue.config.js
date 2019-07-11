@@ -6,7 +6,7 @@
  * @Description: 当前项目配置文件
  * @youWant: add you want info here
  * @Date: 2019-04-24 17:45:34
- * @LastEditTime: 2019-07-04 17:16:29
+ * @LastEditTime: 2019-07-11 15:56:04
  */
 const path = require('path')
 const chalk = require('chalk')
@@ -141,30 +141,34 @@ module.exports = {
       return args
     })
     // 运行时/打包 模块拆分优化
-    config.optimization.splitChunks({
-      chunks: 'all',
-      cacheGroups: {
-        libs: {
-          name: 'chunk-modules',
-          test: /[\\/]node_modules[\\/]/,
-          priority: 10,
-          chunks: 'initial' // only package third parties that are initially dependent
-        },
-        elementUI: {
-          name: 'chunk-element', // split elementUI into a single package
-          priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
-          test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
-        },
-        // global components
-        commons: {
-          name: 'chunk-global',
-          test: resolve('src/components/global'), // can customize your rules
-          minChunks: 3, //  minimum common number
-          priority: 5,
-          reuseExistingChunk: true
+    if (process.NODE_ENV !== 'development') {
+      config.optimization.splitChunks({
+        chunks: 'all', // global components
+        cacheGroups: {
+          libs: {
+            name: 'chunk-modules',
+            test: /[\\/]node_modules[\\/]/,
+            priority: 10,
+            chunks: 'initial' // only package third parties that are initially dependent
+          },
+          elementUI: {
+            name: 'chunk-element', // split elementUI into a single package
+            priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
+            test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
+          },
+          // global components
+          commons: {
+            name: 'chunk-global',
+            test: resolve('src/components/global'), // can customize your rules
+            minChunks: 3, //  minimum common number
+            priority: 5,
+            reuseExistingChunk: true
+          }
         }
-      }
-    })
-    config.optimization.runtimeChunk('single')
+      })
+      config.optimization.runtimeChunk('single')
+      // 多线程压缩
+      config.optimization.minimizer.push(new TerserJSPlugin({}))
+    }
   }
 }

@@ -83,9 +83,10 @@ export default {
       this.loading = true
       setTimeout(() => {
         this.loading = false
+        let list = []
         // 这个已经在mixins中声明了
         for (let index = 0; index < 14; index++) {
-          this.list.push({
+          list.push({
             loginName: `admin${index}`,
             userName: `user${index}`,
             roleName: `role${index}`,
@@ -93,6 +94,7 @@ export default {
             id: index
           })
         }
+        this.list = list
       }, 2000)
     },
     // 监听事件
@@ -106,7 +108,8 @@ export default {
       this.$message.success(`delete  ${data.loginName}`)
     }
   },
-  created() {
+  activated() {
+    console.log('activated')
     this.load()
   }
 }

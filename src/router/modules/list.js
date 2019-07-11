@@ -11,7 +11,10 @@ export default [
     children: [
       {
         path: '',
-        component: () => import('@/views/list/index')
+        component: () => import('@/views/list/index'),
+        meta: {
+          keepAlive: true
+        }
       }
     ]
   }
