@@ -4,12 +4,12 @@
  * @Version: 
  * @Date: 2019-07-04 15:12:13
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-04 16:08:19
+ * @LastEditTime: 2019-07-12 10:41:30
  * @Description: 本地Dist文件备份
  * @youWant: add you want info here
  */
 const path = require('path')
-const { FileUtil, StringUtil, DateUtil, ROOTPATH, Log } = require('./util')
+const { FileUtil, StringUtil, DateUtil, ROOTPATH, Log, Notify } = require('./util')
 
 class Backup {
   /**
@@ -32,16 +32,16 @@ class Backup {
       date = StringUtil.replaceAll(date,"-", "")
       date = StringUtil.replaceAll(date,":", "")
       let targetPath = path.resolve(__dirname, `../backups/${date}.backup.zip`)
-      if(FileUtil.isPathInDir(path.resolve(__dirname, '../backups'), targetPath)) {
+      if(FileUtil.fileExist(targetPath)) {
         return Log.warning(`${targetPath}已存在，已放弃备份`)
       }
       // Zip File
       FileUtil.zipDir(ROOTPATH.distDir, targetPath)
       Log.success(`本地备份完成, 文件：${targetPath}`)
+      Notify.showNotify("本地备份", `本次备份完成, 文件地址：${targetPath}`)
     } catch (error) {
-      Log.error(error)
+      Log.error(`备份文件失败：${error}`)
     }
-
   }
 }
 module.exports = Backup

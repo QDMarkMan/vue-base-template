@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-05-25 13:43:58
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-04 16:02:22
+ * @LastEditTime: 2019-07-12 10:44:03
  * @Description: SSH 执行发布脚本
  * 压缩文件 ==> 选择发布环境 ==> SSH脚本发布
  * @youWant: add you want info here
@@ -19,6 +19,7 @@ const inquirer = require('inquirer')
 const node_ssh = require('node-ssh')
 const CONFIG = require('../config/deploy.config')
 const Backup = require('./backup')
+const { Notify } = require('./util')
 let config
 
 let SSH = new node_ssh()
@@ -146,6 +147,7 @@ const runDeployTask = async () => {
   await zipDist()
   await uploadZipBySSH()
   successLog('发布完成!')
+  Notify.showNotify("发布项目", '发布完成!')
   SSH.dispose()
   // exit process
   process.exit(0)
@@ -163,7 +165,7 @@ inquirer.prompt([
       },
       {
         name: 'stage正式环境',
-        value: 'production'
+        value: 'staging'
       },
       {
         name: '正式环境',

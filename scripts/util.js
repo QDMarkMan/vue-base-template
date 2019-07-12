@@ -4,7 +4,7 @@
  * @Version: 1.0
  * @Date: 2019-06-03 17:39:27
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-04 18:03:18
+ * @LastEditTime: 2019-07-12 10:30:47
  * @Description: 脚本工具文件
  * @youWant: add you want info here
  */
@@ -13,7 +13,7 @@ const path = require('path')
 const dotenv = require('dotenv')
 const fs = require('fs')
 const zipper = require('zip-local')
-const notifier = require('node-notifier');
+const notifier = require('node-notifier')
 // root path
 const reslove = (file = '.') => path.resolve(__dirname, '../src', file)
 const ROOTPATH = Object.freeze({

@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-05-25 13:46:29
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-27 15:20:03
+ * @LastEditTime: 2019-07-12 10:38:09
  * @Description: ssh 配置文件
  * @youWant: add you want info here
  */
@@ -16,8 +16,8 @@ module.exports = Object.freeze({
     SSH_KEY: "xxx", // ssh 密码 / private key文件地址
     PATH: '/usr/local' // 操作开始文件夹
   },
-  // stage
-  stage: {
+  // staging
+  staging: {
     SERVER_PATH: "",
     SSH_USER: "",
     SSH_KEY: "",
