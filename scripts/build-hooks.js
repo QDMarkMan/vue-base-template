@@ -4,31 +4,32 @@
  * @Version: 1.0
  * @Date: 2019-05-24 17:46:15
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-11 16:27:57
+ * @LastEditTime: 2019-07-12 09:02:04
  * @Description: 打包hooks
  * @youWant: add you want info here
  */
 const inquirer = require('inquirer')
 const { Log, FileUtil } = require('./util')
 // next operate value
-const operates = new Map([
+const afterHooks = new Map([
   [0, () => {
-    Log.logger('即将退出程序')
+    Log.logger('退出程序')
     process.exit(0)
   }],
   [1, () => {
-    Log.logger('即将进行发布')
+    Log.logger('即将进行发布🎈')
     require('./deploy')
   }],
   [2, () => {
-    Log.logger('开始本地预览')
+    Log.logger('开始本地预览💻')
     require('./server')
   }],
   [3, async () => {
-    Log.logger('开始压缩zip文件')
+    Log.logger('开始压缩zip文件👜')
     await FileUtil.zipDir()
   }]
 ])
+// hooks before build/dev
 const beforeHooks = () => {
   
 }
@@ -59,7 +60,7 @@ const builtHooks = () => {
       ]
     }
   ]).then(answers => {
-    operates.get(answers.next)()
+    afterHooks.get(answers.next)()
   })
 }
 module.exports = builtHooks

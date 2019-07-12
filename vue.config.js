@@ -6,14 +6,16 @@
  * @Description: 当前项目配置文件
  * @youWant: add you want info here
  * @Date: 2019-04-24 17:45:34
- * @LastEditTime: 2019-07-11 15:56:04
+ * @LastEditTime: 2019-07-12 09:11:39
  */
 const path = require('path')
 const chalk = require('chalk')
+const TerserPlugin = require('terser-webpack-plugin');
 const { Log, StringUtil } = require('./scripts/util')
 const { compressionPlugin } = require('./config/plugins.config')
 const resolve = dir => path.join(__dirname, dir)
 const cdnResource = require('./config/cdn.config')
+
 Log.logger(chalk.blue(`当前运行环境：${process.env.NODE_ENV}`))
 /**
  * 全局less变量注入
@@ -168,7 +170,7 @@ module.exports = {
       })
       config.optimization.runtimeChunk('single')
       // 多线程压缩
-      config.optimization.minimizer.push(new TerserJSPlugin({}))
+      config.optimization.minimizer = [new TerserPlugin({})]
     }
   }
 }
