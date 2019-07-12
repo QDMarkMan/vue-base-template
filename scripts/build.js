@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-06-12 18:06:24
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-12 09:12:25
+ * @LastEditTime: 2019-07-12 13:40:21
  * @Description: 进行打包相关操作
  * @youWant: add you want info here
  */
@@ -15,6 +15,10 @@ const ora = require('ora')
 const { sh } = require('tasksfile')
 const { Notify } = require('./util') 
 const builtHooks = require('./build-hooks')
+/* const { spawn } = require("child_process")
+const { promisify } = require("util")
+const path = require('path')
+const spawnAsync = promisify(spawn) */
 const rawArgv = process.argv.slice(2)
 const args = rawArgv.join(' ')
 
@@ -26,11 +30,29 @@ sh(`vue-cli-service build ${args}`, {
 })
 // build success
 spinner.succeed("打包完成")
-
+// notify
 Notify.showNotify("打包完成", "即将进行下一步操作")
-
 // delay 2s
 setTimeout(() =>{
   // run hooks
   builtHooks()
 },2000)
+// 执行脚本
+/* (async function(){
+  try {
+    await spawnAsync("vue-cli-service build", rawArgv, {
+      stdio: 'inherit',
+      // 仅在当前运行环境为 Windows 时，才使用 shell
+      shell: process.platform === 'win32'
+    })
+    Notify.showNotify("打包完成", "即将进行下一步操作")
+    // delay 2s
+    setTimeout(() =>{
+      // run hooks
+      builtHooks()
+    },2000)
+  } catch (error) {
+    console.log(error)
+  }
+})() */
+
