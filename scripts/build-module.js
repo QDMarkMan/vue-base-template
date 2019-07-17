@@ -4,7 +4,7 @@
  * @Version: V2.0
  * @Date: 2019-06-03 17:35:48
  * @LastEditors: etongfu
- * @LastEditTime: 2019-06-18 17:33:28
+ * @LastEditTime: 2019-07-17 09:40:50
  * @Description: 快速创建新模块/页面2.0 版本 基于问答模式的创建模块
  * 新建模块流程
  *  ==> 请输入模块所属目录名称(英文 如果检测不到已输入目录将会默认新建，跳过此步骤将在Views文件夹下创建新模块)：
@@ -215,7 +215,7 @@ function buildDirAndFiles (folder, module, comment, buildExtra) {
     isNewDir = false
   }
   // 核心模块生成后生成额外页面
-  // TODO: 需要开发
+  // TODO: 再生成单一模块的时候还有文件处理权限的bug没有解决
   if (buildExtra) {
     // 把新增和info页面任务推入任务池中
     buildTasks = ["add", "info"]

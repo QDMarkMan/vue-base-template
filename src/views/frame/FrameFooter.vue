@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  name: 'FrameFooter'
+  name: 'frame-footer'
 }
 </script>

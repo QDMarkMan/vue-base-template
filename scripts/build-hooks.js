@@ -4,7 +4,7 @@
  * @Version: 1.0
  * @Date: 2019-05-24 17:46:15
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-12 09:02:04
+ * @LastEditTime: 2019-07-17 09:26:42
  * @Description: 打包hooks
  * @youWant: add you want info here
  */
@@ -29,7 +29,7 @@ const afterHooks = new Map([
     await FileUtil.zipDir()
   }]
 ])
-// hooks before build/dev
+// hooks before build/dev 
 const beforeHooks = () => {
   
 }

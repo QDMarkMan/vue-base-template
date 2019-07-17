@@ -5,16 +5,15 @@
         enter-active-class="fadeIn"
         leave-active-class="fadeOut"
         mode="out-in"
-        class="animated"
-      >
-        
-        <div>
-            <!-- 最多缓存一个组件 你可以按照需求自己设置 -->
-            <keep-alive :max="1">
-              <router-view v-if="$route.meta.keepAlive"></router-view>
-            </keep-alive>
-            <router-view v-if="!$route.meta.keepAlive"></router-view>
-          </div>
+        class="animated">
+        <!-- target content -->
+        <template>
+          <!-- 最多缓存一个组件 你可以按照需求自己设置 -->
+          <keep-alive :max="1">
+            <router-view v-if="$route.meta.keepAlive"></router-view>
+          </keep-alive>
+          <router-view v-if="!$route.meta.keepAlive"></router-view>
+        </template>
       </transition>
     </section>
   </main>
@@ -22,7 +21,7 @@
 
 <script>
 export default {
-  name: 'FrameContent'
+  name: 'frame-content'
 }
 </script>
 

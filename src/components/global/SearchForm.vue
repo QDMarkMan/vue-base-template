@@ -16,7 +16,7 @@
  * @author: etongfu
  * @description: 通过查询表单
  * @prop {Boolean}  hasSearch 是否有查询按钮
- * @event search load事件
+ * @event search load
  * @returns:  {*}
  */
 export default {

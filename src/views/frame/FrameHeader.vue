@@ -23,7 +23,7 @@
 <script>
 import { mapActions } from 'vuex'
 export default {
-  name: 'FrameHeader',
+  name: 'frame-header',
   props: {
     // logo居中
     center: {

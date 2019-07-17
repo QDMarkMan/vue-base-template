@@ -1,10 +1,10 @@
 <template>
   <div class="frame">
-    <FrameHeader></FrameHeader>
+    <frame-header />
     <section class="frame-container">
-      <FrameSide></FrameSide>
-      <FrameContent id="content"></FrameContent>
-      <FrameFooter></FrameFooter>
+      <frame-side />
+      <frame-content id="content"></frame-content>
+      <frame-footer />
     </section>
   </div>
 </template>
@@ -12,12 +12,12 @@
 <script>
 import { FrameHeader, FrameSide, FrameContent, FrameFooter } from './index'
 export default {
-  name: 'Frame',
+  name: 'frame',
   components: {
-    FrameHeader,
-    FrameSide,
-    FrameContent,
-    FrameFooter
+    [FrameHeader.name]: FrameHeader,
+    [FrameSide.name]: FrameSide,
+    [FrameContent.name]: FrameContent,
+    [FrameFooter.name]: FrameFooter
   }
 }
 </script>

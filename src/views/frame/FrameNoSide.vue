@@ -1,21 +1,20 @@
 <template>
   <div class="frame">
-    <FrameHeader center></FrameHeader>
+    <frame-header center />
     <section class="frame-container">
-      <FrameContent id="content" class="content-noside"></FrameContent>
-      <FrameFooter></FrameFooter>
-    </section>
+      <frame-content id="content" class="content-noside"></frame-content>
+      <frame-footer />
   </div>
 </template>
 
 <script>
 import { FrameHeader, FrameContent, FrameFooter } from './index'
 export default {
-  name: 'Frame',
+  name: 'frame-noside',
   components: {
-    FrameHeader,
-    FrameContent,
-    FrameFooter
+    [FrameHeader.name]: FrameHeader,
+    [FrameContent.name]: FrameContent,
+    [FrameFooter.name]: FrameContent
   }
 }
 </script>

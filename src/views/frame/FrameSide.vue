@@ -49,7 +49,7 @@
 
 <script>
 export default {
-  name: 'FrameSide',
+  name: 'frame-side',
   data() {
     return {
       routers: this.$router.options.routes
