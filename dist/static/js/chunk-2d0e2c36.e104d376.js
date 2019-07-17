@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0e2c36"],{"7fa2":function(n,e,t){"use strict";t.r(e);var c=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("div",[n._v("\n  拒绝访问\n")])},s=[],u={name:"no-permission"},a=u,i=t("2877"),l=Object(i["a"])(a,c,s,!1,null,null,null);e["default"]=l.exports}}]);

@@ -4,12 +4,13 @@
  * @Version: 1.0
  * @Date: 2019-05-24 17:46:15
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-17 09:26:42
+ * @LastEditTime: 2019-07-17 16:05:33
  * @Description: 打包hooks
  * @youWant: add you want info here
  */
 const inquirer = require('inquirer')
 const { Log, FileUtil } = require('./util')
+const Backup = require('./backup')
 // next operate value
 const afterHooks = new Map([
   [0, () => {
@@ -27,6 +28,10 @@ const afterHooks = new Map([
   [3, async () => {
     Log.logger('开始压缩zip文件👜')
     await FileUtil.zipDir()
+  }],
+  [4, async () => {
+    Log.logger('开始备份Zip文件到本地📦')
+    await Backup.doBackup()
   }]
 ])
 // hooks before build/dev 
@@ -54,8 +59,12 @@ const builtHooks = () => {
           value: 2
         },
         {
-          name: '压缩Zip',
+          name: '生成Zip文件',
           value: 3
+        },
+        {
+          name: '备份Zip文件到本地',
+          value: 4
         }
       ]
     }
@@ -63,4 +72,5 @@ const builtHooks = () => {
     afterHooks.get(answers.next)()
   })
 }
+
 module.exports = builtHooks

@@ -4,11 +4,10 @@
  * @Version: 
  * @Date: 2019-06-12 18:06:24
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-12 13:40:21
+ * @LastEditTime: 2019-07-17 15:48:37
  * @Description: 进行打包相关操作
  * @youWant: add you want info here
  */
-
 'use strict'
 process.env.NODE_ENV = process.env.NODE_ENV == 'beta' ? 'beta' : 'production'
 const ora = require('ora')
@@ -19,8 +18,8 @@ const builtHooks = require('./build-hooks')
 const { promisify } = require("util")
 const path = require('path')
 const spawnAsync = promisify(spawn) */
-const rawArgv = process.argv.slice(2)
-const args = rawArgv.join(' ')
+const scriptArgv = process.argv.slice(2)
+const args = scriptArgv.join(' ')
 
 const spinner = ora(`building for ${process.env.NODE_ENV}...\n`)
 spinner.start()
@@ -40,7 +39,7 @@ setTimeout(() =>{
 // 执行脚本
 /* (async function(){
   try {
-    await spawnAsync("vue-cli-service build", rawArgv, {
+    await spawnAsync("vue-cli-service build", scriptArgv, {
       stdio: 'inherit',
       // 仅在当前运行环境为 Windows 时，才使用 shell
       shell: process.platform === 'win32'

@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-07-04 15:12:13
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-12 10:41:30
+ * @LastEditTime: 2019-07-17 15:57:38
  * @Description: 本地Dist文件备份
  * @youWant: add you want info here
  */
@@ -25,7 +25,7 @@ class Backup {
    * @param {type}  {*}
    * @returns:  {*}
    */
-  static doBackup () {
+  static async doBackup () {
     try {
       // 文件名是当前日期 精确到秒
       let date = StringUtil.trim(DateUtil.getCurrentDate("YYYY-MM-DD hh:mm:ss"), 1)
@@ -36,7 +36,7 @@ class Backup {
         return Log.warning(`${targetPath}已存在，已放弃备份`)
       }
       // Zip File
-      FileUtil.zipDir(ROOTPATH.distDir, targetPath)
+      await FileUtil.zipDir(ROOTPATH.distDir, targetPath)
       Log.success(`本地备份完成, 文件：${targetPath}`)
       Notify.showNotify("本地备份", `本次备份完成, 文件地址：${targetPath}`)
     } catch (error) {
