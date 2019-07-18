@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-07-04 15:12:13
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-17 15:57:38
+ * @LastEditTime: 2019-07-18 09:57:57
  * @Description: 本地Dist文件备份
  * @youWant: add you want info here
  */
@@ -17,7 +17,8 @@ class Backup {
    * @description: 清空所有备份
    */
   static clearBackups () {
-
+    const backupsDir = path.resolve(__dirname, '../backups')
+    FileUtil.clearDir(backupsDir)
   }
   /**
    * @author: etongfu

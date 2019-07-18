@@ -4,7 +4,7 @@
  * @Version: 1.0
  * @Date: 2019-06-03 17:39:27
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-12 10:30:47
+ * @LastEditTime: 2019-07-18 09:57:28
  * @Description: 脚本工具文件
  * @youWant: add you want info here
  */
@@ -270,7 +270,28 @@ module.exports.FileUtil = class {
       Log.error(error)
     }
   }
+  /**
+   * 清空指定文件目录
+   * @param {*} dir 
+   */
+  static clearDir (dir) {
+    if (!dir) {
+      Log.error('请输入合法文件夹路径')
+      process.exit(-1)
+    }
+    const files = fs.readdirSync(dir)
+    files.forEach(el => {
+      let _path = `${dir}/${el}`
+      if (fs.statSync(_path).isDirectory()) {
+        this.clearDir(_path)
+      } else {
+        fs.unlinkSync(_path)
+      }
+    })
+  }
 }
+
+// 日期相关
 const initDateStr = str => (str >= 0 && str <= 9) ? `0${str}` : str 
 module.exports.DateUtil = class {
   /**
