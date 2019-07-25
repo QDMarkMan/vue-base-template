@@ -6,7 +6,7 @@
  * @Description: 当前项目配置文件
  * @youWant: add you want info here
  * @Date: 2019-04-24 17:45:34
- * @LastEditTime: 2019-07-12 09:11:39
+ * @LastEditTime: 2019-07-25 14:11:51
  */
 const path = require('path')
 const chalk = require('chalk')
@@ -30,7 +30,7 @@ const addStyleResource = rule => {
         // 公共变量
         resolve('src/styles/variable.less'),
         // TODO: 把css框架换到scss
-        // resolve('src/styles/variable.scss')
+        resolve('src/styles/variable.scss')
       ]
     })
 }

@@ -37,7 +37,7 @@ new Vue({
         }
       })
     }
-    // fix addEvent 不生效
+    // fix: addEvent 不生效
     setTimeout(() => {
       if (skeleton && flag ) {
         skeleton.style.displpay = 'none'

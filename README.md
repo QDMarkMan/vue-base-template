@@ -6,37 +6,57 @@
 
 基于cli 而且对cli结构的修改并不大，都能看的懂。如果觉得适合你得业务得话 完全是可以拿过去直接用得。这也是这篇文章[加快Vue项目的开发速度](https://github.com/QDMarkMan/CodeBlog/blob/master/Vue/%E5%8A%A0%E5%BF%ABVue%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%BC%80%E5%8F%91%E9%80%9F%E5%BA%A6.md)的示例代码
 
+## 相关文章(原创)
+
+- [加快Vue项目的开发速度](https://juejin.im/post/5c106485e51d450e657571a6)
+- [让NodeJS在你的项目中发光发热](https://juejin.im/post/5d0751f7e51d455d88219efa)
+- [服务器发布Vue/Nuxt项目指南(多图)](https://juejin.im/post/5d09f10ef265da1b602907ab)
+- [NodeJS发光发热之打包hooks](https://juejin.im/post/5d2eed7cf265da1bbb0410bb)
 
 ## 上一版本(vue-cli2.9base)地址
 
-<font color=red>[点我查看V1.0版本](https://github.com/QDMarkMan/vue-base-template/tree/vue-cli2.9base)</font>
+<font color=red>[点我查看V1.0版本](https://github.com/QDMarkMan/vue-base-template/tree/vue-cli2.9base)</font>，或者是访问`vue-cli2.9base`分支
 
-## 2019年5月25日更新内容
-
-最近比较忙肝了一段时间，把整个的底层开发重构了一遍， 目前采用的是`基于vue-cli3`的底层开发框架。这次主要做出了以下的改动
-
-- `Vue-cli`升级到3.0
-- `webpack`中部分配置文件抽离，配合`vue.congig.js`进行组件式`webpack`配置
-- `less`变量全局注入
-- 配置文件采用`.env`环境替代
-- 新增了`SSH远程发布`
-- 模块生成方式的重构(剩下一个注入未完成)
-- 新增打包完成之后的`hook`(完成)
-- 发布服务器之后的本地备份
-- 富文本编辑器的重构(进行中)
-
-我以为升级个脚手架会很快， 结果现实给我来了一记狠狠的巴掌，中间过程也是一把鼻涕一把泪。现在这个2.0版本的`vue-base-template`其实还不是很稳定，还是比较推荐使用[V1.0版本](https://github.com/QDMarkMan/vue-base-template/tree/vue-cli2.9base), 后续的组件开发中希望大家能多提意见交流。
+## 预览地址
+[点我](https://qdmarkman.github.io/vue-base-template/dist/index.html)
 
 ## 包括什么(持续更新...)
+
+主要是分为**架构**和**组件**两大部分，架构主要是对开发层面进行的优化，组件更加偏向业务。组件目前还没开始开发。
+
+### 架构
+
+**已完成：**
+- 基于`Vue-cli3.0`的开发环境
+- `webpack`中部分配置文件抽离，配合`vue.congig.js`进行组件式`webpack`配置
+- `less`变量全局注入
+- 全局`.env`配置环境
+- `SSH远程发布`脚本以及自动化的本地备份
+- 模块生成方式的重构(剩下一个注入额外文件未完成)
+- 打包完成之后的`hook`，更加智能的开发体验
 - `Vuex`完整的真实项目组织结构，一级大型的`state`怎么组织
-- `Vue-Router` 登录权限的验证
+- `Vue-Router` 登录权限认证
 - `Vue-Router` 自动化
-- `Webpack`打包速度以及体积方面的优化(`CDN,happypack,Dllplugin...`)
-- 命令行快速增加模块
-- `SSH`自动化发布
-- 包完成之后的`hook`，更加智能的开发体验
-- 每次发布的本地备份
 - ...
+
+**Features**
+- `Less`改为`Scss`
+- `Webpack`正式包的分包策略优化
+
+### 组件
+
+**已完成：**
+- 页面`Frame`框架的分割
+- 配合`VueRouter`进行更加智能的组件缓存策略(具体可以源码)
+- 富文本编辑器的重构(进行中)
+- ...
+
+**Features**
+- 城区选择组件
+- 轻量级面包屑组件
+- 树形表格组件
+
+后续的开发中希望大家能多提意见交流。
 
 ## 目录结构
 ```js
@@ -76,8 +96,6 @@ vue-base-template
 │   │   main.js             // 入口文件
 ```
 
-## 预览地址
-[点我](https://qdmarkman.github.io/vue-base-template/dist/index.html)
 
 ## Build Setup
 
