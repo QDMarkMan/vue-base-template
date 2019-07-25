@@ -4,7 +4,7 @@
  * @Version: 2.0
  * @Date: 2019-05-25 15:13:51
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-08 18:09:44
+ * @LastEditTime: 2019-07-25 13:56:51
  * @Description: 文件模板管理模块
  * @youWant: add you want info here
  */
@@ -118,6 +118,7 @@ module.exports.RouteHelper = class {
       `      {`,
       `        path: "/${this.dirName}/${routeName}/${_suffix}",`,
       `        component: () => import("@/views/${filePath}"),`,
+      `        hidden: true,`,
       `        name: "${_name}"`,
       `      },`
     ]

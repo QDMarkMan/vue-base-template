@@ -4,7 +4,7 @@
  * @Version: 
  * @Date: 2019-06-27 11:56:43
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-04 17:19:54
+ * @LastEditTime: 2019-07-23 09:52:12
  * @Description: webpack plugins
  * @youWant: add you want info here
  */
@@ -15,11 +15,6 @@ const CompressionPlugin = require("compression-webpack-plugin")
  * @param {*} use 
  * @param {*} plugin 
  */
-/* const configPlugin = (use = false, condition = null , plugin) => Object.freeze({
-  use,
-  condition,
-  plugin
-}) */
 /**
  * @author: etongfu
  * @description: GZIP plugin
