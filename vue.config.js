@@ -6,7 +6,7 @@
  * @Description: 当前项目配置文件
  * @youWant: add you want info here
  * @Date: 2019-04-24 17:45:34
- * @LastEditTime: 2019-07-25 15:38:19
+ * @LastEditTime: 2019-07-26 16:02:21
  */
 const path = require('path')
 const chalk = require('chalk')
@@ -18,20 +18,16 @@ const cdnResource = require('./config/cdn.config')
 
 Log.logger(chalk.blue(`当前运行环境：${process.env.NODE_ENV}`))
 /**
- * 全局less变量注入
- * @param {*} rule
+ * 全局文件变量注入
+ * @param {*} rule 
+ * @param {*} filePath 
  */
-const addStyleResource = rule => {
+const addStyleResource = (rule, files) => {
   rule
     .use('style-resource')
     .loader('style-resources-loader')
     .options({
-      patterns: [
-        // 公共变量
-        resolve('src/styles/variable.less'),
-        // TODO: 把css框架换到scss
-        // resolve('src/styles/variable.scss')
-      ]
+      patterns: files
     })
 }
 /**
@@ -81,6 +77,8 @@ module.exports = {
       }
     }
   },
+  // 在生产环境下为 Babel 和 TypeScript 使用 `thread-loader`
+  parallel: require('os').cpus().length > 1,
   // webpack 配置
   configureWebpack: {
     // document.title
@@ -129,9 +127,10 @@ module.exports = {
     const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
     types.forEach(type =>
       {
-        addStyleResource(config.module.rule('less').oneOf(type))
-        // TODO: 把CSS框架换到scss
-        // addStyleResource(config.module.rule('sass').oneOf(type))
+        // less
+        addStyleResource(config.module.rule('less').oneOf(type), [resolve('src/styles/variable.less')])
+        // scss
+        // addStyleResource(config.module.rule('sass').oneOf(type), [resolve('src/styles/variable.scss')])
       }
     )
     // html cdn注入

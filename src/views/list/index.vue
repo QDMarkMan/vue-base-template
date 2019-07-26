@@ -1,12 +1,12 @@
 <template>
   <box-content>
-    <!-- 使用typemixin -->
+    <!-- 简易面包屑 -->
+    <breads :crumbs="[{name: 'XX管理', path: '', active: true, icon: ''}]"></breads>
+    <!-- 查询表单 -->
     <search-form>
-
       <search-item label="姓名">
         <el-input clearable placeholder="请输入姓名" />
       </search-item>
-
       <search-item label="类型">
         <el-select v-model="type" clearable placeholder="请选择类型">
           <el-option
@@ -17,7 +17,6 @@
           ></el-option>
         </el-select>
       </search-item>
-
     </search-form>
     <base-table
       v-loading="loading"
