@@ -6,16 +6,16 @@
  * @Description: 当前项目配置文件
  * @youWant: add you want info here
  * @Date: 2019-04-24 17:45:34
- * @LastEditTime: 2019-07-26 16:02:21
+ * @LastEditTime: 2019-07-30 10:23:29
  */
 const path = require('path')
 const chalk = require('chalk')
 const TerserPlugin = require('terser-webpack-plugin');
 const { Log, StringUtil } = require('./scripts/util')
 const { compressionPlugin } = require('./config/plugins.config')
+const { getAllAlias } = require('./config/util')
 const resolve = dir => path.join(__dirname, dir)
 const cdnResource = require('./config/cdn.config')
-
 Log.logger(chalk.blue(`当前运行环境：${process.env.NODE_ENV}`))
 /**
  * 全局文件变量注入
@@ -90,20 +90,10 @@ module.exports = {
       // 自动扫描文件
       extensions: ['.js', '.json', '.vue', '.less'],
       // 别名
-      alias: {
-        vue$: 'vue/dist/vue.esm.js',
-        '@': resolve('src'),
-        api: resolve('src/api'),
-        assets: resolve('src/assets'),
-        component: resolve('src'),
-        directives: resolve('src/directives'),
-        mixins: resolve('src/mixins'),
-        router: resolve('src/router'),
-        store: resolve('src/store'),
-        styles: resolve('src/styles'),
-        utils: resolve('src/utils'),
-        views: resolve('src/views')
-      }
+      alias: getAllAlias({
+        'vue$': 'vue/dist/vue.esm.js',
+        '@': resolve('src')
+      })
     },
     // webpack 插件
     plugins: buildPlugins()

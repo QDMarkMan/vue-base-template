@@ -4,17 +4,12 @@
  * @Version: 
  * @Date: 2019-06-27 11:56:43
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-23 09:52:12
+ * @LastEditTime: 2019-07-30 09:54:16
  * @Description: webpack plugins
  * @youWant: add you want info here
  */
 const webpack = require('webpack')
 const CompressionPlugin = require("compression-webpack-plugin")
-/**
- * @TODO 构建带配置的webpack Plugin
- * @param {*} use 
- * @param {*} plugin 
- */
 /**
  * @author: etongfu
  * @description: GZIP plugin
