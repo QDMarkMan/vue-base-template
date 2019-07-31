@@ -6,7 +6,7 @@
  * @Description: 当前项目配置文件
  * @youWant: add you want info here
  * @Date: 2019-04-24 17:45:34
- * @LastEditTime: 2019-07-30 10:23:29
+ * @LastEditTime: 2019-07-30 14:12:01
  */
 const path = require('path')
 const chalk = require('chalk')
