@@ -1,11 +1,10 @@
 /*
  * @Author: etongfu
  * @Email: 13583254085@163.com
- * @Version: 
  * @Date: 2019-06-12 18:06:24
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-17 15:48:37
- * @Description: 进行打包相关操作
+ * @LastEditTime: 2019-08-23 19:19:20
+ * @Description: run build and hooks
  * @youWant: add you want info here
  */
 'use strict'
@@ -32,7 +31,7 @@ spinner.succeed("打包完成")
 // notify
 Notify.showNotify("打包完成", "即将进行下一步操作")
 // delay 2s
-setTimeout(() =>{
+setTimeout(() => {
   // run hooks
   builtHooks()
 },2000)

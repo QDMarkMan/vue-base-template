@@ -2,10 +2,10 @@
  * @Author: etongfu
  * @Email: 13583254085@163.com
  * @LastEditors: etongfu
- * @Description: 列表页之间的骨架屏
+ * @Description: 列表页切换时的骨架屏
  * @youWant: add you want info here
  * @Date: 2019-03-20 16:49:02
- * @LastEditTime: 2019-05-17 18:09:26
+ * @LastEditTime: 2019-08-23 19:24:34
  -->
 <template>
   <div class="skeleton-component"></div>
