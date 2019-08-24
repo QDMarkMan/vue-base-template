@@ -1,12 +1,11 @@
 /*
  * @Author: etongfu
  * @Email: 13583254085@163.com
- * @Version:
  * @LastEditors: etongfu
  * @Description: 当前项目配置文件
  * @youWant: add you want info here
  * @Date: 2019-04-24 17:45:34
- * @LastEditTime: 2019-07-30 14:12:01
+ * @LastEditTime: 2019-08-21 17:45:05
  */
 const path = require('path')
 const chalk = require('chalk')
@@ -31,7 +30,7 @@ const addStyleResource = (rule, files) => {
     })
 }
 /**
- * 创建当前flutter plugin
+ * 构建Webpack plugins 数组
  */
 const buildPlugins = () => {
   let plugins = []
@@ -68,7 +67,6 @@ module.exports = {
   css: {
     loaderOptions: {
       css: {
-        //使用css-module 用来代替scoped
         module: true
       },
       less: {
@@ -77,7 +75,6 @@ module.exports = {
       }
     }
   },
-  // 在生产环境下为 Babel 和 TypeScript 使用 `thread-loader`
   parallel: require('os').cpus().length > 1,
   // webpack 配置
   configureWebpack: {
@@ -108,7 +105,7 @@ module.exports = {
       .use('vue-loader')
       .loader('vue-loader')
       .tap(options => {
-        // 渲染函数是否会保留所有 HTML 标签之间的空格 如果设置为 false，则标签之间的空格会被忽略。这能够略微提升一点性能但是可能会影响到内联元素的布局。
+        // Whether the render function preserves spaces between all HTML tags If set to false, spaces between tags are ignored. This can slightly improve performance but may affect the layout of inline elements.
         options.compilerOptions.preserveWhitespace = true
         return options
       })
@@ -131,7 +128,7 @@ module.exports = {
       args[0].cdn = cdn
       return args
     })
-    // 运行时/打包 模块拆分优化
+    // Runtime/packaging module split optimization
     if (process.NODE_ENV !== 'development') {
       config.optimization.splitChunks({
         chunks: 'all', // global components
@@ -158,7 +155,7 @@ module.exports = {
         }
       })
       config.optimization.runtimeChunk('single')
-      // 多线程压缩
+      // Multi-thread compression
       config.optimization.minimizer = [new TerserPlugin({})]
     }
   }

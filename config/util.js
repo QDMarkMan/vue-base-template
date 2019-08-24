@@ -3,14 +3,14 @@
  * @Email: 13583254085@163.com
  * @Date: 2019-07-30 09:53:20
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-30 10:21:27
+ * @LastEditTime: 2019-08-23 19:23:29
  * @Description: webpack util file
  * @YouWant: add you want info here
  */
 const path = require('path')
 const fs = require('fs')
 /**
- * 自动获取别名
+ * 自动获取src下目录并自动添加到webpack别名中
  * @param {*} extra 额外别名
  */
 module.exports.getAllAlias = (extra = {}) => {
