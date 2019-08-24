@@ -10,6 +10,9 @@
 </template>
 <script>
 import tinymce from 'tinymce'
+// ==============================
+// 暂时不能使用
+// ==============================
 // import 'tinymce/themes/modern/theme'
 // 这里采用大佬的CDN加载 tinymce的做法
 // const tinymceCDN = "https://cdn.bootcss.com/tinymce/4.9.3/tinymce.min.js"

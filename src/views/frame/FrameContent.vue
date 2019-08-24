@@ -9,8 +9,8 @@
         <!-- target content -->
         <template>
           <!-- 最多缓存一个组件 你可以按照需求自己设置 -->
-          <keep-alive :max="1">
-            <router-view v-if="$route.meta.keepAlive"></router-view>
+          <keep-alive :max="1" v-if="$route.meta.keepAlive">
+            <router-view></router-view>
           </keep-alive>
           <router-view v-if="!$route.meta.keepAlive"></router-view>
         </template>

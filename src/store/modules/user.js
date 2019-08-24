@@ -22,7 +22,7 @@ const user = {
       state.loginStatus = loginStatus
     }
   },
-  // 异步修改方式
+  // user about actions
   actions: {
     // 通过vuex登陆
     loginByStore({ commit }, loginPara) {

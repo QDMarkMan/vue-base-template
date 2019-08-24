@@ -3,11 +3,37 @@
  * @Email: 13583254085@163.com
  * @Date: 2019-07-04 17:12:48
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-26 15:53:57
+ * @LastEditTime: 2019-08-24 22:11:33
  * @youWant: add you want info here
+ * ==================================================
+ * warning: 这个文件暂时不使用
+ * ================================================== 
  */
+ /
+:root {
+  /* primary color */
+  --color-primary: #2979ff;
+  /* background color */
+  --background-color-primary: #313846;    /* for highlight or important part*/
+  --background-color: #222933;         /* regular part */
+  --background-color-secondary: transparent; /* for notice or not important part*/
+  /* border color */
+  --border-color-primary: #eee;           /* highlight or important part*/
+  --border-color: #121820;             /* for regular use to seperate different part */
+  --border-color-secondary: transparent;   /* for seperate different part in a same part*/
+  /* notice color */
+  --success-color: #67C23A;
+  --warning-color: #E6A23C;
+  --danger-color: #F56C6C;
+  --info-color: #909399;
+  /* text color*/
+  --text-color-primary:#303133;        /* text highlight */
+  --text-color:#eee;                   /* regular text use*/
+  --text-color-secondary: #909399;     /* notice or not important part*/
+  --text-color-placeholder: #C0C4CC;   /* components placeholder text color*/
+}
 // about color
-$theme-color: #2979ff;
+$theme-color: var(--background-color-primary);
 // height 
 $header-height: 54px;
 // side width

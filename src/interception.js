@@ -28,5 +28,6 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach(() => {
+  // Only close process bar
   NProgress.done()
 })

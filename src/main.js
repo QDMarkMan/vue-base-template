@@ -1,6 +1,6 @@
 /**
  * The entry file
- * 入口文件  主要整合router和store
+ * 整合router,store, UI等等公共组件
  */
 import Vue from 'vue'
 import App from './App'
@@ -28,7 +28,7 @@ new Vue({
       skeleton.style.displpay = 'none'
       document.body.removeChild(skeleton)
     } else {
-      // 为什么有时候 addEvent 会不生效？
+      // TODO: 为什么有时候 addEvent 会不生效？
       this.$util.addEvent(skeleton, 'transitionend', (e) => {
         if (e.target === skeleton && flag ) {
           skeleton.style.displpay = 'none'
@@ -44,6 +44,6 @@ new Vue({
         flag = false
         document.body.removeChild(skeleton)
       }
-    },500)
+    },0)
   }
 })
