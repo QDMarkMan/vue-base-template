@@ -66,8 +66,8 @@ vue-base-template
 │   scripts                 // 帮助脚本文件
 │   │   template            // 模块文件脚本
 │   │   .env.local          // 临时配置文件
-│   │   build-hooks.js      // 打包后hooks
-│   │   build-module.js     // 快速开发帮助脚本
+│   │   buildHooks.js      // 打包后hooks
+│   │   buildModule.js     // 快速开发帮助脚本
 │   │   build.js            // build构建脚本
 │   │   deploy.js           // SSH发布脚本
 │   │   server.js           // 本地预览服务器

@@ -13,7 +13,7 @@
     "analyze": "webpack -p --progress --config config/dll.config.js",
     "deploy": "node scripts/deploy.js",
     "dist:zip": "node scripts/zip.js",
-    "create": "node scripts/build-module.js",
+    "create": "node scripts/buildModule.js",
 
     "lint": "eslint --ext .js,.vue src",
     "lint:fix": "vue-cli-service lint"

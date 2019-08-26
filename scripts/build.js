@@ -3,7 +3,7 @@
  * @Email: 13583254085@163.com
  * @Date: 2019-06-12 18:06:24
  * @LastEditors: etongfu
- * @LastEditTime: 2019-08-23 19:19:20
+ * @LastEditTime: 2019-08-26 19:47:18
  * @Description: run build and hooks
  * @youWant: add you want info here
  */
@@ -12,7 +12,7 @@ process.env.NODE_ENV = process.env.NODE_ENV == 'beta' ? 'beta' : 'production'
 const ora = require('ora')
 const { sh } = require('tasksfile')
 const { Notify } = require('./util') 
-const builtHooks = require('./build-hooks')
+const builtHooks = require('./buildHooks')
 /* const { spawn } = require("child_process")
 const { promisify } = require("util")
 const path = require('path')

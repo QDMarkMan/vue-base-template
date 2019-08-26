@@ -11,7 +11,7 @@
 <script>
 import tinymce from 'tinymce'
 // ==============================
-// 暂时不能使用
+// !!!暂时不能使用!!!
 // ==============================
 // import 'tinymce/themes/modern/theme'
 // 这里采用大佬的CDN加载 tinymce的做法
@@ -141,7 +141,6 @@ export default {
   },
   destroyed() {
     if (tinymce.get(this.id)) {
-      console.log('remove tiny mce')
       tinymce.get(this.id).destroy()
     }
   }

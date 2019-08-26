@@ -4,7 +4,7 @@
  * @Version: V2.0
  * @Date: 2019-06-03 17:35:48
  * @LastEditors: etongfu
- * @LastEditTime: 2019-07-25 13:55:24
+ * @LastEditTime: 2019-08-26 19:49:37
  * @Description: 快速创建新模块/页面2.0 版本 基于问答模式的创建模块
  * 新建模块流程
  *  ==> 请输入模块所属目录名称(英文 如果检测不到已输入目录将会默认新建，跳过此步骤将在Views文件夹下创建新模块)：
@@ -83,7 +83,7 @@ if (!LOCAL.hasEnvFile()) {
 // 获取已经完成的答案
 inquirer.prompt(questions).then(answers => {
   // 1: 日志打印
-  Log.logger(answers.folder == '' ? '即将为您' : `即将为您在${answers.folder}文件夹下` + `创建${answers.module}模块`)
+  Log.logger((answers.folder == '' ? '即将为您' : `即将为您在${answers.folder}文件夹下`) + `创建${answers.module}模块`)
   // 根据答案进行是否进行下一步操作
   if (answers.folder == '' && FileUtil.isPathInDir(answers.module, ROOTPATH.viewsPath) && !answers.cover) return process.exit(0)
   // 2: 配置文件的相关设置
@@ -110,8 +110,6 @@ inquirer.prompt(questions).then(answers => {
  * @param {*} comment 注释
  */
 const _runExtraTask = (folder, module, comment = "", page) => {
-  // 新增add页面 add 页面包括路由和.vue文件
-  // 新增info页面 info 页面包括路由和.vue文件
   // 创建视图文件
   generates.get("view")(folder, module, false, comment, page)
   // 这里我们使用 add/info 作为模块名称
@@ -119,8 +117,7 @@ const _runExtraTask = (folder, module, comment = "", page) => {
 }
 // 事件处理中心
 class RouteEmitter extends EventEmitter {}
-// 注册事件处理中心
-// 为什么要用事件中心， 因为路由的注入是异步的所以一定要使用任务池的方式进行处理，防止多个任务抢占同一个文件操作
+// 为什么要用事件中心，因为路由的注入是异步的所以一定要使用任务池的方式进行处理，防止多个任务抢占同一个文件操作
 const routeEmitter = new RouteEmitter() 
 /**
  * 激活事件中心 也可以不用
@@ -217,7 +214,7 @@ function buildDirAndFiles (folder, module, comment, buildExtra) {
   // 核心模块生成后生成额外页面
   // TODO: 在生成单一模块的时候还有文件处理权限的bug没有解决，所以这种个情况下暂时不能创建额外页面
   if (buildExtra) {
-    // 把新增和info页面任务推入任务池中
+    // push task
     buildTasks = ["add", "info"]
   }
   // 初始化事件中心
