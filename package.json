@@ -14,7 +14,6 @@
     "deploy": "node scripts/deploy.js",
     "dist:zip": "node scripts/zip.js",
     "create": "node scripts/buildModule.js",
-
     "lint": "eslint --ext .js,.vue src",
     "lint:fix": "vue-cli-service lint"
   },
@@ -22,6 +21,8 @@
     "animate.css": "^3.7.0",
     "axios": "^0.18.0",
     "element-ui": "^2.8.2",
+    "gantt-elastic": "^1.0.10",
+    "gantt-elastic-header": "^0.1.11",
     "js-cookie": "^2.2.0",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
