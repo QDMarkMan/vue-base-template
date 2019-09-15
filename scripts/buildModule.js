@@ -4,7 +4,7 @@
  * @Version: V2.0
  * @Date: 2019-06-03 17:35:48
  * @LastEditors: etongfu
- * @LastEditTime: 2019-08-26 19:49:37
+ * @LastEditTime: 2019-09-15 16:31:04
  * @Description: 快速创建新模块/页面2.0 版本 基于问答模式的创建模块
  * 新建模块流程
  *  ==> 请输入模块所属目录名称(英文 如果检测不到已输入目录将会默认新建，跳过此步骤将在Views文件夹下创建新模块)：
@@ -104,20 +104,19 @@ inquirer.prompt(questions).then(answers => {
 })
 
 /**
- * 执行任务 新增/详情
+ * run add/info task
  * @param {*} folder 目录名称
  * @param {*} module 模块名称
  * @param {*} comment 注释
  */
 const _runExtraTask = (folder, module, comment = "", page) => {
-  // 创建视图文件
+  // view file
   generates.get("view")(folder, module, false, comment, page)
-  // 这里我们使用 add/info 作为模块名称
+  // route file
   generates.get("router")(folder, module, false, comment, page)
 }
 // 事件处理中心
 class RouteEmitter extends EventEmitter {}
-// 为什么要用事件中心，因为路由的注入是异步的所以一定要使用任务池的方式进行处理，防止多个任务抢占同一个文件操作
 const routeEmitter = new RouteEmitter() 
 /**
  * 激活事件中心 也可以不用
@@ -127,24 +126,23 @@ const routeEmitter = new RouteEmitter()
  */
 const initEvent = (folder, module, comment = "") => {
   routeEmitter.on('success', value => {
-    // 创建成功后正确退出程序
+    // exit process
     if (value) {
       if (buildTasks.length === 0) {
         Log.success(`已清空tasks`)
-        // 操作成功
         process.exit(0)
       } else {
         Log.logger("执行task中任务")
-        // 执行任务
+        // start task 
         _runExtraTask(folder, module, comment, buildTasks[0])
         buildTasks.shift()
       }
     }
   })
-  // 开始任务轮询
+  // task pool 
   routeEmitter.on('check-task', () => {
     Log.logger("开始检查task中任务")
-    // 创建成功后正确退出程序
+    // exit after success
     if (buildTasks.length > 0 ) {
       _runExtraTask(folder, module, comment, buildTasks[0])
       buildTasks.shift()

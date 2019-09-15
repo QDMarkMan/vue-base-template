@@ -28,7 +28,7 @@
               <template v-for="child in item.children">
                 <router-link
                   v-if="!child.hidden"
-                  :to="item.path + '/' + child.path"
+                  :to="child.path"
                   :key="child.path"
                 >
                   <el-menu-item
