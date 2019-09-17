@@ -2,8 +2,9 @@
   <box-content>
     <div class="search">
       Gantt
+      <el-button @click="toNow">Now</el-button>
     </div>
-    <gantt-elastic :tasks="tasks" :options="options"></gantt-elastic>    
+    <gantt-elastic ref="gantt" :tasks="tasks" :options="options"></gantt-elastic>    
   </box-content>
 </template>
 
@@ -15,7 +16,6 @@
  * @Description: demos/甘特图
  */
 import GanttElastic from "gantt-elastic"
-// import Header from "gantt-elastic-header"
 
 function getDate(hours) {
   const currentDate = new Date();
@@ -32,7 +32,14 @@ const tasks = [
     start: getDate(-24 * 5),
     duration: 5 * 24 * 60 * 60 * 1000,
     progress: 85,
-    type: 'task'
+    type: 'task', // project/task/milestone
+    // processbar 颜色修改
+    style: {
+      base: {
+        fill: '#1EBC61',
+        stroke: '#0EAC51'
+      }
+    }
   },
   {
     id: 2,
@@ -41,25 +48,13 @@ const tasks = [
     duration: 4 * 24 * 60 * 60 * 1000,
     progress: 50,
     type: 'task'
-    /* style: {
-      base: {
-        fill: '#1EBC61',
-        stroke: '#0EAC51'
-      },
-      'tree-row-bar': {
-        fill: '#1EBC61',
-        stroke: '#0EAC51'
-      },
-      'tree-row-bar-polygon': {
-        stroke: '#0EAC51'
-      }
-    } */
   },
   {
     id: 3,
     label: 'Courage',
     start: getDate(-24 * 3),
     duration: 2 * 24 * 60 * 60 * 1000,
+    parentId: 2,
     progress: 100,
     type: 'task'
   },
@@ -69,6 +64,7 @@ const tasks = [
     start: getDate(-24 * 2),
     duration: 2 * 24 * 60 * 60 * 1000,
     progress: 50,
+    parentId: 2,
     type: 'task'
   },
   {
@@ -77,7 +73,9 @@ const tasks = [
     start: getDate(0),
     duration: 2 * 24 * 60 * 60 * 1000,
     progress: 10,
-    type: 'task'
+    parentId: 1,
+    type: 'task',
+    dependentOn: [3]
   },
   {
     id: 6,
@@ -127,26 +125,69 @@ const tasks = [
     type: 'task'
   }
 ];
-console.log(tasks)
 const options = {
-  title: {
-    label: 'Your project title as html (link or whatever...)',
-    html: false
+  // 日期不显示小时
+  calendar: {
+    hour: {
+      display: false
+    },
+    day: {
+      height: 35,
+      format: {
+        long(date) {
+          return date.format('DD MMM');
+        },
+        medium(date) {
+          return date.format('DD MM');
+        },
+        short(date) {
+          return date.format('DD');
+        }
+      }
+    },
+    month: {
+      display: false
+    }
+  },
+  chart: {
+    progress: {
+      bar: false
+    },
+    expander: {
+      display: true
+    }
   },
   taskList: {
+    expander: {
+      straight: false
+    },
     columns: [
       {
         id: 1,
-        label: 'ID',
+        label: 'Task',
         value: 'id',
-        width: 40
+        width: 80,
+        html: true,
+        expander: true, // 是否作为展开项\
+        style: {
+          // 内容style
+          'task-list-item-value-container': {
+            'cursor': 'pointer'
+          }
+        },
+        events: {
+          click({ data, column }) {
+            console.log(data)
+            console.log(column)
+          }
+        }
       },
       {
         id: 2,
-        label: 'Description',
+        label: 'Work Flow Template',
         value: 'label',
-        width: 200,
-        expander: true
+        width: 150
+        // expander: true
       },
       // {
       //   id: 3,
@@ -155,23 +196,23 @@ const options = {
       //   width: 130,
       //   html: true
       // },
-      {
-        id: 3,
-        label: 'Start',
-        value: task => task.start,
-        width: 78
-      },
+      // {
+      //   id: 3,
+      //   label: 'Start',
+      //   value: task => task.start,
+      //   width: 78
+      // },
       {
         id: 4,
-        label: 'Type',
+        label: 'Status',
         value: 'type',
-        width: 68
+        width: 60
       },
       {
         id: 5,
-        label: '%',
+        label: 'Step Progress',
         value: 'progress',
-        width: 35,
+        width: 105,
         style: {
           'task-list-header-label': {
             'text-align': 'center',
@@ -203,12 +244,20 @@ export default {
     return {
       tasks,
       options,
-      dynamicStyle: {},
+      dynamicStyle: {
+        'task-list-header-label': {
+          'font-weight': 'bold'
+        }
+      },
       loading: false,
       type: ''
     }
   },
   methods: {
+    toNow () {
+      // back to current position
+      this.$refs.gantt.$emit("recenterPosition")
+    },
     load () {
 
     }
@@ -218,4 +267,11 @@ export default {
   }
 }
 </script>
-
+<style lang="less">
+.gantt-elastic__calendar-row-rect-child--day{
+  line-height: 35px;
+}
+.gantt-elastic__chart-calendar-container, .gantt-elastic__task-list-header{
+  margin-bottom: 0 !important;
+}
+</style>
