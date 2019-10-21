@@ -1,7 +1,5 @@
 #!/usr/bin/env sh
 
-# 还没有测试 建议先不要使用
-
 set -e
 
 git config user.name 'etongfu'

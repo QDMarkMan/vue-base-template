@@ -28,7 +28,6 @@ new Vue({
       skeleton.style.displpay = 'none'
       document.body.removeChild(skeleton)
     } else {
-      // TODO: 为什么有时候 addEvent 会不生效？
       this.$util.addEvent(skeleton, 'transitionend', (e) => {
         if (e.target === skeleton && flag ) {
           skeleton.style.displpay = 'none'
