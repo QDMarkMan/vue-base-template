@@ -8,7 +8,7 @@
  * @LastEditTime: 2019-08-23 19:24:34
  -->
 <template>
-  <div class="skeleton-component"></div>
+  <div class="skeleton-component">Welcome to Skeleton</div>
 </template>
 
 <script>

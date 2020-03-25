@@ -29,3 +29,6 @@ github.deploy.sh
 # 备份文件
 backups/*.zip
 *.zip
+
+# 测试报告
+tests/unit/coverage/**
