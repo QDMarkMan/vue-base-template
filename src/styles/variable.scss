@@ -1,15 +1,7 @@
 /*
  * @Author: etongfu
- * @Email: 13583254085@163.com
- * @Date: 2019-07-04 17:12:48
- * @LastEditors: etongfu
- * @LastEditTime: 2019-08-24 22:11:33
  * @youWant: add you want info here
- * ==================================================
- * warning: 这个文件暂时不使用
- * ================================================== 
  */
- /
 :root {
   /* primary color */
   --color-primary: #2979ff;
@@ -33,8 +25,8 @@
   --text-color-placeholder: #C0C4CC;   /* components placeholder text color*/
 }
 // about color
-$theme-color: var(--background-color-primary);
+$theme-color: var(--color-primary);
 // height 
 $header-height: 54px;
 // side width
-$side-width: 220px;
+$side-width: 200px;

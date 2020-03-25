@@ -24,7 +24,7 @@ export default {
   }
 }
 </script>
-<style lang="less">
+<style lang="scss">
 .search-item {
   display: inline-block;
   width: 23.5%;

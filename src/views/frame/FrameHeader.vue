@@ -52,10 +52,10 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 .frame-header {
-  height: @header-height;
-  background-color: @theme-color;
+  height: 54px;
+  background-color: #2979ff;
   position: fixed;
   top: 0;
   left: 0;
@@ -63,7 +63,7 @@ export default {
   z-index: 100;
   .header-logo {
     display: inline-block;
-    width: 220px;
+    width: $side-width;
     height: 100%;
     line-height: 53px;
     padding-left: 10px;
@@ -78,7 +78,7 @@ export default {
     li {
       display: inline-block;
       height: 100%;
-      line-height: @header-height;
+      line-height: 54px;
       .ivu-dropdown a {
         color: #ffffff;
       }

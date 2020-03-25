@@ -40,7 +40,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 .search-form {
   width: 100%;
   // 搜索button

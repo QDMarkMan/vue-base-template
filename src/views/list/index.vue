@@ -108,12 +108,11 @@ export default {
     }
   },
   activated() {
-    console.log('activated')
     this.load()
   }
 }
 </script>
-<style lang="less">
+<style lang="scss">
 .search {
   margin: 10px 0;
 }

@@ -19,7 +19,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 .frame {
   height: 100%;
   width: 100%;

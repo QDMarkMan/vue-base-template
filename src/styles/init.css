@@ -1,6 +1,3 @@
-// theme less
-
-// 1: reset style
 /* rebot */
 *, *::before, *::after {
   box-sizing: border-box; 
@@ -94,4 +91,3 @@ table {
 ul,li{
  list-style: none;
 }
-@import url('./color.less');

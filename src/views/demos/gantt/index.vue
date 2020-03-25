@@ -267,7 +267,7 @@ export default {
   }
 }
 </script>
-<style lang="less">
+<style lang="scss">
 .gantt-elastic__calendar-row-rect-child--day{
   line-height: 35px;
 }

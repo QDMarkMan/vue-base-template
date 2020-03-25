@@ -22,8 +22,7 @@ Log.logger(chalk.blue(`当前运行环境：${process.env.NODE_ENV}`))
  * @param {*} filePath 
  */
 const addStyleResource = (rule, files) => {
-  rule
-    .use('style-resource')
+  rule.use('style-resource')
     .loader('style-resources-loader')
     .options({
       patterns: files
@@ -68,11 +67,10 @@ module.exports = {
     loaderOptions: {
       css: {
         module: true
-      },
-      less: {
-        // 这里的选项会传递给 less-loader
-        javascriptEnabled: true
       }
+      // scss: {
+      //   prependData: `@import "@/styles/variable.scss";`
+      // }
     }
   },
   parallel: require('os').cpus().length > 1,
@@ -110,17 +108,10 @@ module.exports = {
         return options
       })
       .end()
-    // 全局样式
+    // Auto Inject scss
     const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
-    types.forEach(type =>
-      {
-        // less
-        addStyleResource(config.module.rule('less').oneOf(type), [resolve('src/styles/variable.less')])
-        // scss
-        // addStyleResource(config.module.rule('sass').oneOf(type), [resolve('src/styles/variable.scss')])
-      }
-    )
-    // html cdn注入
+    types.forEach(type => addStyleResource(config.module.rule('scss').oneOf(type), [resolve('./src/styles/variable.scss')]))
+    // Inject cdn for cdn
     const cdn = {
       ...cdnResource.cdn
     }

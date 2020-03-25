@@ -33,7 +33,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 .editor {
   height: 100%;
   width: 50%;

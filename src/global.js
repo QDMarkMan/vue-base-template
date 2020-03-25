@@ -4,7 +4,7 @@
 import Util from './utils'
 import Vue from 'vue'
 import Element from 'element-ui'
-import '@/styles/index.less'
+import '@/styles/index.scss'
 import '@/styles/element.var.scss'
 import '@/components/global'
 // Element 引入

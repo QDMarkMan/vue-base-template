@@ -49,7 +49,7 @@ export default {
   }
 }
 </script>
-<style lang="less">
+<style lang="scss">
 .breadcrumbs{
   display: flex;
   height: 100%;
@@ -77,7 +77,7 @@ export default {
   }
   .crumb-active{
     a {
-      color:@theme-color;
+      color: #2979ff;
     }
   }
 }

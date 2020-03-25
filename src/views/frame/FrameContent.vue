@@ -25,12 +25,12 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 .frame-content {
   height: 100%;
   width: 100%;
-  padding-top: @header-height;
-  padding-left: @side-width !important; // 覆盖之前的样式
+  padding-top: $header-height;
+  padding-left: $side-width // 覆盖之前的样式
 }
 .content-fluid {
   width: 100%;

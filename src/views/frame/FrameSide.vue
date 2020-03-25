@@ -63,12 +63,12 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 .frame-side {
-  width: @side-width;
+  width: $side-width;
   background-color: #f2f2f2;
   position: fixed;
-  top: @header-height;
+  top: 54px;
   bottom: 0;
   .frame-side-inner {
     position: relative;
@@ -90,7 +90,7 @@ export default {
   border-bottom-left-radius: 10px;
   transition: all ease-in 0.2s;
   &:hover {
-    background-color: @theme-color;
+    background-color: #2979ff;
     color: #fff;
     width: 33px;
   }

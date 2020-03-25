@@ -94,7 +94,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 .login-layer {
   height: 100%;
   display: flex;
