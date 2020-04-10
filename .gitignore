@@ -23,6 +23,7 @@ yarn-error.log*
 *.sln
 *.sw?
 yarn.lock
+package-lock.json
 
 github.deploy.sh
 
