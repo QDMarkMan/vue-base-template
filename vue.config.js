@@ -110,7 +110,7 @@ module.exports = {
       .end()
     // Auto Inject scss
     const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
-    types.forEach(type => addStyleResource(config.module.rule('scss').oneOf(type), [resolve('./src/styles/variable.scss')]))
+    types.forEach(type => addStyleResource(config.module.rule('scss').oneOf(type), [resolve('./src/styles/variable.scss'), resolve('./src/styles/mixins.scss')]))
     // Inject cdn for cdn
     const cdn = {
       ...cdnResource.cdn
